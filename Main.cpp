@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
-#include <set>
 
 using namespace std;
 
@@ -14,14 +13,6 @@ public:
         {
             root[i] = i;
             heigth[i] = 1;
-        }
-    }
-    ~DisjoinSet()
-    {
-        for(int i = 0; i < root.size(); i++)
-        {
-            cout<<"Root "<<i<<" is: "<<root[i]<<endl;
-            cout<<"Heigth "<<i<<" is: "<<heigth[i]<<endl;
         }
     }
 

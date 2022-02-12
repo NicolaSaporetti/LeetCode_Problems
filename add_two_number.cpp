@@ -57,8 +57,6 @@ public:
 
 int main()
 {
-    vector<vector<int>> isConnected;
     Solution solution;
-    cout<<solution.findCircleNum(isConnected)<<endl;
     return 0;
 }

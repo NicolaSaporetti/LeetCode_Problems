@@ -1,69 +1,53 @@
 #include <iostream>
 #include <stdlib.h>
-#include <vector>
+#include <array>
 #include <string>
 
 using namespace std;
 
 class Solution {
+private:
+    void resetDuplicated(bool duplicated[]) {
+        for(int i=0; i<256;i++)
+        {
+            duplicated[i] = false;
+        }
+    }
 public:
-    string longestPalindrome(string s) {
-        int maxLength = 1;
-        string result = {s[0]};
-        for(int i=1; i<s.size();i++)
+    int lengthOfLongestSubstring(string s) {
+        int maxLength = 0;
+        bool duplicated[256];
+        //cout<<"Size: "<<s.size()<<endl;
+        for(int i=0; i<s.size();i++)
         {
-            int length = 1;
-            bool Palindrom = true;
-            while(Palindrom==true && (i-length>=0) && (i+length<s.size()))
+            int length = 0;
+            resetDuplicated(duplicated);
+            if((int)s[i+length]>256 || (int)s[i+length]<0)
             {
-                if(s[i-length]==s[i+length])
-                {
-                    length++;
-                }
-                else
-                    Palindrom = false;
-
+                return 0;
             }
-            length--;
-            if(length>(maxLength-1)/2)
+            do {
+                duplicated[(int)s[i+length]] = true;
+                length++;
+                if((int)s[i+length]>256 || (int)s[i+length]<0)
+                {
+                    return 0;
+                }
+            } while((i+length<s.size()) && duplicated[(int)s[i+length]]==false);
+            
+            if(length>maxLength)
             {
-                maxLength = length*2+1;
-                result = s.substr(i-length,maxLength); 
+                maxLength = length;
             }
         }
-        if(s.size()>=2)
-        {
-            for(int i=0; i<s.size();i++)
-            {
-                int length = 0;
-                bool Palindrom = true;
-                while(Palindrom==true && (i-length>=0) && (i+1+length<s.size()))
-                {
-                    if(s[i-length]==s[i+length+1])
-                    {
-                        length++;
-                    }
-                    else
-                        Palindrom = false;
-
-                }
-                cout<<maxLength<<endl;
-                cout<<length*2<<endl;
-                if(length*2>maxLength)
-                {
-                    maxLength = length*2;
-                    result = s.substr(i-length+1,maxLength);
-                }
-            }
-        }
-        return result;
+        return maxLength;
     }
 };
 
 int main()
 {
     Solution solution;
-    string result = "bb";
-    cout<<solution.longestPalindrome(result)<<endl;
+    string result = "au";
+    cout<<solution.lengthOfLongestSubstring(result)<<endl;
     return 0;
 }

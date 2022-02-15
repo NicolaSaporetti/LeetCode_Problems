@@ -1,6 +1,5 @@
 #include <iostream>
 #include <stdlib.h>
-#include <array>
 #include <string>
 
 using namespace std;

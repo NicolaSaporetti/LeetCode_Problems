@@ -3,7 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "C:\\Users\\nicol\\OneDrive\\Documents\\GitHub\\Challenge"
             ],
             "defines": [
                 "_DEBUG",

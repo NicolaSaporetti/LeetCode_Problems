@@ -48,42 +48,43 @@ private:
         return SimplifiedGraph;
     }
 
+    vector<int> translateValuesToRelative(vector<int>& prices)
+    {
+        vector<int> SimplifiedGraph;
+        SimplifiedGraph.resize(prices.size());
+        for(int i=prices.size()-2;i>=0;i--)
+        {
+            SimplifiedGraph[i+1] = prices[i+1]-prices[i];
+        }
+        SimplifiedGraph[0] = 0;
+        return SimplifiedGraph;
+    }
+
     int computeProfit(vector<int>& graph, int startPos, int endPos)
     {
-        int min = graph[startPos];
-        int max = 0;
+        int maxProfit = 0;
         int profit = 0;
-        int localmin = graph[startPos];
-        int i = startPos;
-        do
+        for(int i=startPos; i<=endPos; i++)
         {
-            bool exit = false;
-            for(int j=i+1; j<=endPos; j++)
+            profit+=graph[i];
+            if(maxProfit<profit) maxProfit=profit;
+            if(profit<=0)
             {
-                if(graph[j]-graph[i]>profit)profit = graph[j]-graph[i];
+                profit=0;
             }
-            while (i<endPos && exit == false)
-            {
-                if(graph[i]>=localmin) i++;
-                else
-                {
-                    localmin = graph[i];
-                    exit = true;
-                }
-            }
-            
-        } while (i<endPos);
-        return profit;
+        }
+        return maxProfit;
     }
 public:
     int maxProfit(vector<int>& prices) {
         vector<int> SimplifiedGraph = simplifyBear(prices);
         vector<int> SimplifiedGraph2 = simplifyBull(SimplifiedGraph);
+        vector<int> SimplifiedGraph3 = translateValuesToRelative(SimplifiedGraph2);
         int maxprofit = 0;
-        for(int i=0;i<SimplifiedGraph2.size()-1;i+=2)
+        for(int i=0;i<SimplifiedGraph3.size()-1;i+=2)
         {
-            int profit = computeProfit(SimplifiedGraph2,0,i+1);
-            if(i+2<SimplifiedGraph2.size()-1) profit+= computeProfit(SimplifiedGraph2,i+2,SimplifiedGraph2.size()-1);
+            int profit = computeProfit(SimplifiedGraph3,0,i+1);
+            if(i+2<SimplifiedGraph3.size()-1) profit+= computeProfit(SimplifiedGraph3,i+2,SimplifiedGraph3.size()-1);
             if(profit>maxprofit) maxprofit = profit;
         }
         return maxprofit;
@@ -92,7 +93,7 @@ public:
 
 int main()
 {
-    vector<int> prices = {3,3,5,0,0,3,1,4};
+    vector<int> prices = {7,1,5,3,6,4};
     Solution solution;
     cout<<solution.maxProfit(prices);
     return 0;

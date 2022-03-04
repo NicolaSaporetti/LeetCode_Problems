@@ -46,40 +46,41 @@ private:
         SimplifiedGraph.push_back(prices[prices.size()-1]);
         return SimplifiedGraph;
     }
+    vector<int> translateValuesToRelative(vector<int>& prices)
+    {
+        vector<int> SimplifiedGraph;
+        SimplifiedGraph.resize(prices.size());
+        for(int i=prices.size()-2;i>=0;i--)
+        {
+            SimplifiedGraph[i+1] = prices[i+1]-prices[i];
+        }
+        SimplifiedGraph[0] = 0;
+        return SimplifiedGraph;
+    }
 public:
     int maxProfit(vector<int>& prices) {
         vector<int> SimplifiedGraph = simplifyBear(prices);
         vector<int> SimplifiedGraph2 = simplifyBull(SimplifiedGraph);
-        int min = SimplifiedGraph2[0];
-        int max = 0;
+        vector<int> SimplifiedGraph3 = translateValuesToRelative(SimplifiedGraph2);
+        
+        int maxProfit = 0;
         int profit = 0;
-        int localmin = SimplifiedGraph2[0];
-        int i = 0;
-        do
+        for(int i=1; i<SimplifiedGraph3.size(); i++)
         {
-            bool exit = false;
-            for(int j=i; j<SimplifiedGraph2.size(); j++)
+            profit+=SimplifiedGraph3[i];
+            if(maxProfit<profit) maxProfit=profit;
+            if(profit<=0)
             {
-                if(SimplifiedGraph2[j]-SimplifiedGraph2[i]>profit)profit = SimplifiedGraph2[j]-SimplifiedGraph2[i];
+                profit=0;
             }
-            while (i<SimplifiedGraph2.size()-1 && exit == false)
-            {
-                if(SimplifiedGraph2[i]>=localmin) i++;
-                else
-                {
-                    localmin = SimplifiedGraph2[i];
-                    exit = true;
-                }
-            }
-            
-        } while (i<SimplifiedGraph2.size()-1);
-        return profit;
+        }
+        return maxProfit;
     }
 };
 
 int main()
 {
-    vector<int> prices = {2,1};
+    vector<int> prices = {7,1,5,3,6,4};
     Solution solution;
     cout<<solution.maxProfit(prices);
     return 0;

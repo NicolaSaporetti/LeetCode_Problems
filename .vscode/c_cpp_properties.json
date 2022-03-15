@@ -3,7 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "C:\\Users\\nicol\\OneDrive\\Documents\\GitHub\\Challenge"
+                "C:\\Users\\nicol\\OneDrive\\Documents\\GitHub\\Challenge\\**",
+                "C:\\Users\\nicol\\OneDrive\\Documents\\GitHub\\Challenge\\Headers\\**"
             ],
             "defines": [
                 "_DEBUG",

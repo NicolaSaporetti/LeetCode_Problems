@@ -1,73 +1,46 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
+#include "Financial.cpp"
 using namespace std;
 
 class Solution {
 private:
-    vector<int> simplifyBear(vector<int>& prices)
+    void translateValuesToRelative(vector<int>& prices)
     {
-        vector<int> SimplifiedGraph;
-        bool maxFound = false;
-        for(int i=0;i<prices.size()-1;i++)
+        for(int i=prices.size()-1;i>0;i--)
         {
-            if(prices[i+1]>prices[i])
-            {
-                SimplifiedGraph.push_back(prices[i]);
-                maxFound = true;
-            }
-            else if(maxFound == true)
-            {
-                SimplifiedGraph.push_back(prices[i]);
-                maxFound = false;
-            }
+            prices[i] = prices[i]-prices[i-1];
         }
-        SimplifiedGraph.push_back(prices[prices.size()-1]);
-        return SimplifiedGraph;
-    }
-    vector<int> simplifyBull(vector<int>& prices)
-    {
-        vector<int> SimplifiedGraph;
-        bool maxFound = false;
-        SimplifiedGraph.push_back(prices[0]);
-        for(int i=1;i<prices.size();i++)
+        prices[0] = 0;
+        for(int i=0;i<prices.size();i++)
         {
-            if(prices[i]<prices[i-1])
-            {
-                SimplifiedGraph.push_back(prices[i-1]);
-                maxFound = true;
-            }
-            else if(maxFound == true)
-            {
-                SimplifiedGraph.push_back(prices[i-1]);
-                maxFound = false;
-            }
+            cout<<prices[i]<<" ";
         }
-        SimplifiedGraph.push_back(prices[prices.size()-1]);
-        return SimplifiedGraph;
-    }
-    vector<int> translateValuesToRelative(vector<int>& prices)
-    {
-        vector<int> SimplifiedGraph;
-        SimplifiedGraph.resize(prices.size());
-        for(int i=prices.size()-2;i>=0;i--)
-        {
-            SimplifiedGraph[i+1] = prices[i+1]-prices[i];
-        }
-        SimplifiedGraph[0] = 0;
-        return SimplifiedGraph;
+        cout<<endl;
     }
 public:
     int maxProfit(vector<int>& prices) {
-        vector<int> SimplifiedGraph = simplifyBear(prices);
-        vector<int> SimplifiedGraph2 = simplifyBull(SimplifiedGraph);
-        vector<int> SimplifiedGraph3 = translateValuesToRelative(SimplifiedGraph2);
+        Financial financial;
+        financial.simplifyBear(prices);
+        for(int i=0;i<prices.size();i++)
+        {
+            cout<<prices[i]<<" ";
+        }
+        cout<<endl;
+        financial.simplifyBull(prices);
+        for(int i=0;i<prices.size();i++)
+        {
+            cout<<prices[i]<<" ";
+        }
+        cout<<endl;
+        translateValuesToRelative(prices);
         
         int maxProfit = 0;
         int profit = 0;
-        for(int i=1; i<SimplifiedGraph3.size(); i++)
+        for(int i=1; i<prices.size(); i++)
         {
-            profit+=SimplifiedGraph3[i];
+            profit+=prices[i];
             if(maxProfit<profit) maxProfit=profit;
             if(profit<=0)
             {
@@ -80,7 +53,7 @@ public:
 
 int main()
 {
-    vector<int> prices = {7,1,5,3,6,4};
+    vector<int> prices = {};
     Solution solution;
     cout<<solution.maxProfit(prices);
     return 0;

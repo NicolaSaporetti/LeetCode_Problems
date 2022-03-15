@@ -1,45 +1,58 @@
-#include <./Headers/Financial.hpp>
+#include "Financial.hpp"
 #include <vector>
 
 using namespace std;
 
-vector<int> Financial::simplifyBear(vector<int>& prices)
+void Financial::simplifyBear(vector<int>& prices)
 {
-    vector<int> SimplifiedGraph;
-    bool maxFound = false;
+    int newElementPos = 0;
+    bool curveIsDescending = false;
     for(int i=0;i<prices.size()-1;i++)
     {
-        if(prices[i+1]>prices[i])
+        if(prices[i]<prices[i+1])
         {
-            SimplifiedGraph.push_back(prices[i]);
-            maxFound = true;
+            prices[newElementPos++]=prices[i];
+            curveIsDescending = false;
         }
-        else if(maxFound == true)
+        else
         {
-            SimplifiedGraph.push_back(prices[i]);
-            maxFound = false;
+            if(!curveIsDescending)
+            {
+                prices[newElementPos++]=prices[i];
+                curveIsDescending = true;
+            }
         }
+        
     }
+    if(!curveIsDescending)
+    {
+        prices[newElementPos]=prices[prices.size()-1];
+        newElementPos++;
+    }
+    prices.resize(newElementPos);
 }
 
-vector<int> Financial::simplifyBull(vector<int>& prices)
+void Financial::simplifyBull(vector<int>& prices)
 {
-    vector<int> SimplifiedGraph;
-    bool maxFound = false;
-    SimplifiedGraph.push_back(prices[0]);
-    for(int i=1;i<prices.size();i++)
+    int newElementPos = 0;
+    bool curveIsDescending = true;
+    for(int i=0;i<prices.size()-1;i++)
     {
-        if(prices[i]<prices[i-1])
+        if(prices[i]>prices[i+1])
         {
-            SimplifiedGraph.push_back(prices[i-1]);
-            maxFound = true;
+            prices[newElementPos++]=prices[i];
+            curveIsDescending = true;
         }
-        else if(maxFound == true)
+        else
         {
-            SimplifiedGraph.push_back(prices[i-1]);
-            maxFound = false;
+            if(curveIsDescending)
+            {
+                prices[newElementPos++]=prices[i];
+                curveIsDescending = false;
+            }
         }
+        
     }
-    SimplifiedGraph.push_back(prices[prices.size()-1]);
-    return SimplifiedGraph;
+    prices[newElementPos++]=prices[prices.size()-1];
+    prices.resize(newElementPos);
 }

@@ -13,24 +13,38 @@ private:
             return size * computeSize(size-1);
     }
 
+    void order()
+    {
+        for(int i=0; i< local.size(); i++)
+        {
+            for(int j=i+1; j< local.size(); j++)
+            {
+                if(local[i]>local[j])
+                {
+                    int temp = local[j];
+                    local[j] = local[i];
+                    local[i] = temp;
+                }
+            }
+        }
+    }
+
     void initialize(int sz, vector<int>& nums)
     {
-        solutions.resize(computeSize(sz));
-        for(int i=0; i<solutions.size(); i++)
-        {
-            solutions[i].resize(sz);
-        }
         local.resize(nums.size());
         for(int j=0; j<sz; j++)
         {
             local[j] = nums[j];
         }
+        order();
         index = 0;
     }
 
-    void fillMissingIndexes(vector<int>& missingIndexes, vector<int>& temp)
+    vector<int> fillMissingIndexes(vector<int>& temp,int positionToFill)
     {
+        vector<int> missingIndexes;
         vector<int> localTemp;
+        missingIndexes.resize(local.size()-positionToFill);
         localTemp.resize(local.size());
         for(int i=0;i<local.size();i++)
         {
@@ -42,27 +56,31 @@ private:
             cout<<"Index "<<i<<" used"<<endl;
         }
         int j=0;
-        cout<<"missingIndexes ("<<missingIndexes.size()<<"): ";
+        int previousNum = -100;
+        cout<<"missingIndexes ("<<missingIndexes.size()<<"): "<<endl;
         for(int i=0;i<local.size();i++)
         {
-            if(localTemp[i]!=-1)
+            cout<<"Previous: "<<previousNum<<endl;
+            cout<<"Current: "<<local[i]<<endl;
+            if(localTemp[i]!=-1 && local[i]!=previousNum)
             {
+                cout<<"Adding missing"<<endl;
+                previousNum = local[i];
                 missingIndexes[j++]=localTemp[i];
-                cout<<missingIndexes[j-1]<<" ";
+                cout<<missingIndexes[j-1]<<" "<<endl;
             }
         }
-        cout<<endl;
+        missingIndexes.resize(j);
+        return missingIndexes;
     }
 
     void fillCell(int positionToFill, vector<int>& temp)
     {
-        vector<int> missingIndexes;
-        missingIndexes.resize(local.size()-positionToFill);
         if(positionToFill<local.size())
         {
-            fillMissingIndexes(missingIndexes, temp);
+            vector<int> missingIndexes = fillMissingIndexes(temp,positionToFill);
         
-            for(int i=0;i<local.size()-positionToFill;i++)
+            for(int i=0;i<missingIndexes.size();i++)
             {
                 temp[positionToFill]=missingIndexes[i];
                 fillCell(positionToFill+1, temp);
@@ -70,18 +88,21 @@ private:
         }
         else{
             cout<<"Adding solution "<<index<<": ";
+            vector<int> tempVec;
             for(int i=0;i<local.size();i++)
             {
-                solutions[index][i]=local[temp[i]];
-                cout<<solutions[index][i]<<" ";
+                tempVec.push_back(local[temp[i]]);
+                cout<<local[temp[i]]<<" ";
             }
             cout<<endl;
+            solutions.push_back(tempVec);
             index++;
         }
         return;
     }
+
 public:
-    vector<vector<int>> permute(vector<int>& nums) {
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
         int sz = nums.size();
         initialize(sz, nums);
         vector<int> temp;
@@ -97,9 +118,9 @@ public:
 
 int main()
 {
-    vector<int> numbers = {1,1,3,4};
+    vector<int> numbers = {1,1,2,2};
     Solution solution;
-    vector<vector<int>> permutations = solution.permute(numbers);
+    vector<vector<int>> permutations = solution.permuteUnique(numbers);
     for(int i=0;i<permutations.size(); i++)
     {
         cout<<"\nCombination: "<<i<<endl;

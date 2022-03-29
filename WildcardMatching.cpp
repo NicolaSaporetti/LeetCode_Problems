@@ -21,12 +21,33 @@ private:
         }
         return p.substr(index,p.size()-index);
     }
+    bool checkFinalPart(string s, string p)
+    {
+        int pureLetterNum = 0;
+        bool loopStay = true;
+        for(int i=p.size()-1; i>=0 && loopStay==true; i--)
+        {
+            if(p[i]!='*' && p[i]!='?')
+            {
+                pureLetterNum++;
+            }
+            else{
+                loopStay=false;
+            }
+        }
+        loopStay= true;
+        for(int i=0;i<pureLetterNum && i<s.size() && loopStay==true;i++)
+        {
+            if(p[p.size()-1-i] != s[s.size()-1-i]) loopStay = false;
+        }
+        return loopStay;
+    }
 public:
     bool isMatch(string s, string p) {
         p = simplifyP(p);
         int szS = 0;
         int szP = 0;
-        bool matchIsCorrect = true;
+        bool matchIsCorrect = checkFinalPart(s,p);
         while(szS<s.size() && szP<p.size() && matchIsCorrect==true)
         {
             if(p[szP]=='*')
@@ -74,7 +95,7 @@ int main()
     bool testResult = true;
     string s ="ab";
     string p ="?*";
-    testResult &= solution.isMatch(s,p);
+    /*testResult &= solution.isMatch(s,p);
     s ="ab";
     p ="?*c";
     testResult &= !solution.isMatch(s,p);
@@ -92,6 +113,12 @@ int main()
     testResult &= !solution.isMatch(s,p);
     s ="aaaaaaaaaaaaab";
     p ="a*a*a*a*a*a*a*a*a*a*c";
+    testResult &= solution.isMatch(s,p);
+    s="bbbbbbbabbaabbabbbbaaabbabbabaaabbababbbabbbabaaabaab";
+    p="b*b*ab**ba*b**b***bba";
+    testResult &= solution.isMatch(s,p);*/
+    s ="aa";
+    p ="*";
     testResult &= solution.isMatch(s,p);
     cout<<testResult<<endl;
     return 0;

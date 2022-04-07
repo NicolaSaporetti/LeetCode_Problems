@@ -1,12 +1,6 @@
 #include "Boat.hpp"
-#include <iostream>
-#include <stdlib.h>
+#include "Transport.hpp"
 using namespace std;
 
-Boat::Boat() : cost(3.5), time(8.4)
+Boat::Boat(double cost, double time) : Transport(cost,time)
 {}
-
-void Boat::get_description()
-{
-    cout<<"Boat\nCost: "<<cost<<"\nTime: "<<time<<endl;
-}

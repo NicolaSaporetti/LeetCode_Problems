@@ -1,8 +1,10 @@
+#ifndef Truck_HPP
+#define Truck_HPP
 #include "Transport.hpp"
 
 class Truck : public Transport
 {
     public:
-    Truck();
-    void get_description() override;
+    Truck(double cost, double time);
 };
+#endif

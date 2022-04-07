@@ -1,3 +1,5 @@
+#ifndef LogisticsFactory_HPP
+#define LogisticsFactory_HPP
 #include "Transport.hpp"
 
 class LogisticsFactory
@@ -7,3 +9,4 @@ class LogisticsFactory
     virtual Transport* createTransport() = 0;
     Transport* planDelivery();
 };
+#endif

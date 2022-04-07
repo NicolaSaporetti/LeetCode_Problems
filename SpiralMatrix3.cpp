@@ -8,8 +8,8 @@ class Solution {
 private:
     int calculateIterations(int rows, int cols, int rStart, int cStart)
     {
-        int maxRow = max(rows-rStart,rStart);
-        int maxColumn = max(cols-cStart,cStart);
+        int maxRow = max(rows-rStart,rStart+1);
+        int maxColumn = max(cols-cStart,cStart+1);
         return max(maxRow,maxColumn);
     }
 public:
@@ -27,46 +27,48 @@ public:
         tempCol++;
         for(int i=1;i<iteration;i++)
         {
-            for(int j=0;j<i+1;j++)
+            for(int j=0;j<2*i;j++)
             {
                 tempRow++;
-                if(tempCol>=0 && tempCol<cols && tempRow+j>=0 && tempRow+j<rows)
+                if(tempCol>=0 && tempCol<cols && tempRow>=0 && tempRow<rows)
                 {
-                    element.push_back(tempRow);
-                    element.push_back(tempCol);
+                    element[0]=tempRow;
+                    element[1]=tempCol;
                     solution.push_back(element);
                 }
             }
-            for(int j=0;j<i+1;j++)
+            for(int j=0;j<2*i;j++)
             {
                 tempCol--;
-                if(tempCol-j>=0 && tempCol-j<cols && tempRow>=0 && tempRow<rows)
+                if(tempCol>=0 && tempCol<cols && tempRow>=0 && tempRow<rows)
                 {
-                    element.push_back(tempRow);
-                    element.push_back(tempCol);
+                    element[0]=tempRow;
+                    element[1]=tempCol;
                     solution.push_back(element);
                 }
             }
-            for(int j=0;j<i+1;j++)
+            for(int j=0;j<2*i;j++)
             {
                 tempRow--;
-                if(tempCol>=0 && tempCol<cols && tempRow-j>=0 && tempRow-j<rows)
+                if(tempCol>=0 && tempCol<cols && tempRow>=0 && tempRow<rows)
                 {
-                    element.push_back(tempRow);
-                    element.push_back(tempCol);
+                    element[0]=tempRow;
+                    element[1]=tempCol;
                     solution.push_back(element);
                 }
             }
-            for(int j=0;j<i+1;j++)
+            for(int j=0;j<2*i;j++)
             {
                 tempCol++;
-                if(tempCol+j>=0 && tempCol+j<cols && tempRow>=0 && tempRow<rows)
+                if(tempCol>=0 && tempCol<cols && tempRow>=0 && tempRow<rows)
                 {
-                    element.push_back(tempRow);
-                    element.push_back(tempCol);
+                    element[0]=tempRow;
+                    element[1]=tempCol;
                     solution.push_back(element);
                 }
             }
+            tempRow--;
+            tempCol++;
         }
         return solution;
     }
@@ -75,7 +77,7 @@ public:
 int main()
 {
     Solution solution;
-    vector<vector<int>> matrix = solution.spiralMatrixIII(5,5,2,2);
+    vector<vector<int>> matrix = solution.spiralMatrixIII(5,6,1,4);
     for(int i=0; i< matrix.size(); i++)
     {
         for(int j=0;j<matrix[i].size();j++)

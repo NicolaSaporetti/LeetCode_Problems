@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <memory>
 #include "Transport.cpp"
 #include "Boat.cpp"
 #include "Truck.cpp"
@@ -10,10 +11,10 @@ using namespace std;
 
 int main()
 {
-    LogisticsFactory* factory = new TruckFactory();
-    Transport* transport = factory->createTransport();
+    unique_ptr<LogisticsFactory> factory = unique_ptr<LogisticsFactory>(new TruckFactory());
+    unique_ptr<Transport> transport = factory->createTransport();
     transport->get_description();
-    factory = new BoatFactory();
+    factory = unique_ptr<LogisticsFactory>(new BoatFactory());
     transport = factory->createTransport();
     transport->get_description();
 

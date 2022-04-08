@@ -4,7 +4,7 @@
 
 BoatFactory::~BoatFactory() {}
 
-Transport* BoatFactory::createTransport()
+unique_ptr<Transport> BoatFactory::createTransport()
 {
-    return new Boat(3.5, 10.2);
+    return unique_ptr<Boat>(new Boat(3.5, 10.2));
 }

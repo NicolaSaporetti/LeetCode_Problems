@@ -4,7 +4,7 @@
 
 TruckFactory::~TruckFactory() {}
 
-Transport* TruckFactory::createTransport()
+unique_ptr<Transport> TruckFactory::createTransport()
 {
-    return new Truck(6.8, 3.2);
+    return unique_ptr<Truck>(new Truck(6.8, 3.2));
 }

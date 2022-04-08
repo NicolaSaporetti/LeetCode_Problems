@@ -6,5 +6,6 @@ class Boat : public Transport
 {
     public:
     Boat(double cost, double time);
+    void get_description();
 };
 #endif

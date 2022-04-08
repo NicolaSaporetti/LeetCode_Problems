@@ -6,7 +6,7 @@ class Transport
     public:
     Transport(double cost, double time);
     virtual ~Transport();
-    void get_description();
+    virtual void get_description();
 
     protected:
     double cost;

@@ -1,6 +1,7 @@
 #include "AviationUnit.hpp"
+#include "MilitaryUnit.hpp"
 #include <iostream>
-#include <stdlib>
+using namespace std;
 
 AviationUnit::AviationUnit(double cost, double damage) : MilitaryUnit(cost,damage)
 {}
@@ -8,4 +9,5 @@ AviationUnit::AviationUnit(double cost, double damage) : MilitaryUnit(cost,damag
 void AviationUnit::getDescription()
 {
     cout<<"Aviation Unit"<<endl;
+    MilitaryUnit::getDescription();
 }

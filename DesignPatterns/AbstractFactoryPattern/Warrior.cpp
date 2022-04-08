@@ -1,7 +1,7 @@
 #include "Warrior.hpp"
 #include "MeleeUnit.hpp"
 #include <iostream>
-#include <stdlib>
+using namespace std;
 
 Warrior::Warrior(double cost, double damage) : MeleeUnit(cost,damage)
 {}
@@ -9,4 +9,5 @@ Warrior::Warrior(double cost, double damage) : MeleeUnit(cost,damage)
 void Warrior::getDescription()
 {
     cout<<"I am a Warrior"<<endl;
+    MeleeUnit::getDescription();
 }

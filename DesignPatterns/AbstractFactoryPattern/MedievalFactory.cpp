@@ -2,27 +2,28 @@
 #include "Swordmen.hpp"
 #include "Knights.hpp"
 #include <iostream>
-#include <stdlib>
+#include <memory>
+using namespace std;
 
 MedievalFactory::~MedievalFactory() {}
 
-MeleeUnit* MedievalFactory::makeInfantry()
+unique_ptr<MeleeUnit> MedievalFactory::makeInfantry()
 {
-    return new Swordmen(3,2);
+    return unique_ptr<MeleeUnit>(new Swordmen(3,2));
 }
 
-CavalryUnit* MedievalFactory::makeCavalry()
+unique_ptr<CavalryUnit> MedievalFactory::makeCavalry()
 {
-    return new Knights(3,2);
+    return unique_ptr<CavalryUnit>(new Knights(3,2));
 }
 
-ArtilleryUnit* MedievalFactory::makeArtillery()
+unique_ptr<ArtilleryUnit> MedievalFactory::makeArtillery()
 {
     cout<<"Error, you cannot create artillery in the medieval age!"<<endl;
     return nullptr;
 }
 
-AviationUnit* MedievalFactory::makeAviation()
+unique_ptr<AviationUnit> MedievalFactory::makeAviation()
 {
     cout<<"Error, you cannot create airplanes in the medieval age!!"<<endl;
     return nullptr;

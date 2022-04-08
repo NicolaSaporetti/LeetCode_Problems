@@ -4,7 +4,7 @@
 #include "Transport.cpp"
 #include "Boat.cpp"
 #include "Truck.cpp"
-#include "LogisticsFactory.cpp"
+#include "LogisticsFactory.hpp"
 #include "BoatFactory.cpp"
 #include "TruckFactory.cpp"
 using namespace std;

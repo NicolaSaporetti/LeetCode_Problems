@@ -1,28 +1,29 @@
 #include "StoneAgeFactory.hpp"
 #include "Warrior.hpp"
 #include <iostream>
-#include <stdlib>
+#include <memory>
+using namespace std;
 
 StoneAgeFactory::~StoneAgeFactory() {}
 
-MeleeUnit* StoneAgeFactory::makeInfantry()
+unique_ptr<MeleeUnit> StoneAgeFactory::makeInfantry()
 {
-    return new Warrior(2,1);
+    return unique_ptr<MeleeUnit>(new Warrior(2,1));
 }
 
-CavalryUnit* StoneAgeFactory::makeCavalry()
+unique_ptr<CavalryUnit> StoneAgeFactory::makeCavalry()
 {
     cout<<"Error, you cannot create cavalry in the stone age!"<<endl;
     return nullptr;
 }
 
-ArtilleryUnit* StoneAgeFactory::makeArtillery()
+unique_ptr<ArtilleryUnit> StoneAgeFactory::makeArtillery()
 {
     cout<<"Error, you cannot create artillery in the stone age!!"<<endl;
     return nullptr;
 }
 
-AviationUnit* StoneAgeFactory::makeAviation()
+unique_ptr<AviationUnit> StoneAgeFactory::makeAviation()
 {
     cout<<"Error, you cannot create airplanes in the stone age!!!"<<endl;
     return nullptr;

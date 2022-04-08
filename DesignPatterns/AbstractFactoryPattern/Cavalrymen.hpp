@@ -1,9 +1,11 @@
+#ifndef Cavalrymen_HPP
+#define Cavalrymen_HPP
 #include "CavalryUnit.hpp"
 
 class Cavalrymen : public CavalryUnit
 {
     public:
     Cavalrymen(double cost, double damage);
-    protected:
-    void getDescription() override;
+    void getDescription();
 };
+#endif

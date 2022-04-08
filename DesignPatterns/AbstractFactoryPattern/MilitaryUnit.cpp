@@ -1,6 +1,6 @@
 #include "MilitaryUnit.hpp"
 #include <iostream>
-#include <stdlib>
+using namespace std;
 
 MilitaryUnit::MilitaryUnit(double cost, double damage) : cost(cost), damage(damage)
 {}

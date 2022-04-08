@@ -1,9 +1,11 @@
-#include <MilitaryUnit.hpp>
+#ifndef AviationUnit_HPP
+#define AviationUnit_HPP
+#include "MilitaryUnit.hpp"
 
-class AviationUnit
+class AviationUnit : public MilitaryUnit
 {
     public:
     AviationUnit(double cost, double damage);
-    protected:
-    void getDescription() override;
+    virtual void getDescription();
 };
+#endif

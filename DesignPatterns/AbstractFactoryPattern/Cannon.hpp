@@ -1,9 +1,11 @@
+#ifndef Cannon_HPP
+#define Cannon_HPP
 #include "ArtilleryUnit.hpp"
 
 class Cannon : public ArtilleryUnit
 {
     public:
     Cannon(double cost, double damage);
-    protected:
-    void getDescription() override;
+    void getDescription();
 };
+#endif

@@ -3,25 +3,27 @@
 #include "Tanks.hpp"
 #include "Rockets.hpp"
 #include "AirForces.hpp"
+#include <memory>
+using namespace std;
 
 ModernFactory::~ModernFactory() {}
 
-MeleeUnit* ModernFactory::makeInfantry()
+unique_ptr<MeleeUnit> ModernFactory::makeInfantry()
 {
-    return new ModernInfantry(7,5);
+    return unique_ptr<MeleeUnit>(new ModernInfantry(7,5));
 }
 
-CavalryUnit* ModernFactory::makeCavalry()
+unique_ptr<CavalryUnit> ModernFactory::makeCavalry()
 {
-    return new Tanks(7,5);
+    return unique_ptr<CavalryUnit>(new Tanks(7,5));
 }
 
-ArtilleryUnit* ModernFactory::makeArtillery()
+unique_ptr<ArtilleryUnit> ModernFactory::makeArtillery()
 {
-    return new Rockets(7,5);
+    return unique_ptr<ArtilleryUnit>(new Rockets(7,5));
 }
 
-AviationUnit* ModernFactory::makeAviation()
+unique_ptr<AviationUnit> ModernFactory::makeAviation()
 {
-    return new AirForces(7,5);
+    return unique_ptr<AviationUnit>(new AirForces(7,5));
 }

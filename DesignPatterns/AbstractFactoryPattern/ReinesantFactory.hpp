@@ -1,11 +1,16 @@
-#include <MilitaryFactory.hpp>
+#ifndef ReinesantFactory_HPP
+#define ReinesantFactory_HPP
+#include "MilitaryFactory.hpp"
+#include <memory>
+using namespace std;
 
-class ReinesantFactory
+class ReinesantFactory : public MilitaryFactory
 {
     public:
     ~ReinesantFactory() override;
-    MeleeUnit* makeInfantry() override;
-    CavalryUnit* makeCavalry() override;
-    ArtilleryUnit* makeArtillery() override;
-    AviationUnit* makeAviation() override;
+    unique_ptr<MeleeUnit> makeInfantry() override;
+    unique_ptr<CavalryUnit> makeCavalry() override;
+    unique_ptr<ArtilleryUnit> makeArtillery() override;
+    unique_ptr<AviationUnit> makeAviation() override;
 };
+#endif

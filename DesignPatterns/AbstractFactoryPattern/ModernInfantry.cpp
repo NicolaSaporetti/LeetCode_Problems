@@ -1,7 +1,7 @@
-#include "Riflemen.hpp"
+#include "ModernInfantry.hpp"
 #include "MeleeUnit.hpp"
 #include <iostream>
-#include <stdlib>
+using namespace std;
 
 ModernInfantry::ModernInfantry(double cost, double damage) : MeleeUnit(cost,damage)
 {}
@@ -9,4 +9,5 @@ ModernInfantry::ModernInfantry(double cost, double damage) : MeleeUnit(cost,dama
 void ModernInfantry::getDescription()
 {
     cout<<"I am a Modern Infantry"<<endl;
+    MeleeUnit::getDescription();
 }

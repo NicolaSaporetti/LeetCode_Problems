@@ -1,9 +1,11 @@
+#ifndef Tanks_HPP
+#define Tanks_HPP
 #include "CavalryUnit.hpp"
 
 class Tanks : public CavalryUnit
 {
     public:
     Tanks(double cost, double damage);
-    protected:
-    void getDescription() override;
+    void getDescription();
 };
+#endif

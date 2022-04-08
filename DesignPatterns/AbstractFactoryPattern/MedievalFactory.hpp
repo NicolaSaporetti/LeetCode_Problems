@@ -1,11 +1,15 @@
-#include <MilitaryFactory.hpp>
+#ifndef MedievalFactory_HPP
+#define MedievalFactory_HPP
+#include "MilitaryFactory.hpp"
+#include <memory>
 
-class MedievalFactory
+class MedievalFactory : public MilitaryFactory
 {
     public:
     ~MedievalFactory() override;
-    MeleeUnit* makeInfantry() override;
-    CavalryUnit* makeCavalry() override;
-    ArtilleryUnit* makeArtillery() override;
-    AviationUnit* makeAviation() override;
+    unique_ptr<MeleeUnit> makeInfantry() override;
+    unique_ptr<CavalryUnit> makeCavalry() override;
+    unique_ptr<ArtilleryUnit> makeArtillery() override;
+    unique_ptr<AviationUnit> makeAviation() override;
 };
+#endif

@@ -1,7 +1,7 @@
-#include "Rockets.hpp"
+#include "AirForces.hpp"
 #include "AviationUnit.hpp"
 #include <iostream>
-#include <stdlib>
+using namespace std;
 
 AirForces::AirForces(double cost, double damage) : AviationUnit(cost,damage)
 {}
@@ -9,4 +9,5 @@ AirForces::AirForces(double cost, double damage) : AviationUnit(cost,damage)
 void AirForces::getDescription()
 {
     cout<<"I am an Air Forces"<<endl;
+    AviationUnit::getDescription();
 }

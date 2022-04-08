@@ -1,7 +1,7 @@
 #include "Swordmen.hpp"
 #include "MeleeUnit.hpp"
 #include <iostream>
-#include <stdlib>
+using namespace std;
 
 Swordmen::Swordmen(double cost, double damage) : MeleeUnit(cost,damage)
 {}
@@ -9,4 +9,5 @@ Swordmen::Swordmen(double cost, double damage) : MeleeUnit(cost,damage)
 void Swordmen::getDescription()
 {
     cout<<"I am a Swordmen"<<endl;
+    MeleeUnit::getDescription();
 }

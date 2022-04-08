@@ -3,26 +3,27 @@
 #include "Cavalrymen.hpp"
 #include "Cannon.hpp"
 #include <iostream>
-#include <stdlib>
+#include <memory>
+using namespace std;
 
 ReinesantFactory::~ReinesantFactory() {}
 
-MeleeUnit* ReinesantFactory::makeInfantry()
+unique_ptr<MeleeUnit> ReinesantFactory::makeInfantry()
 {
-    return new Riflemen(5,3);
+    return unique_ptr<MeleeUnit>(new Riflemen(5,3));
 }
 
-CavalryUnit* ReinesantFactory::makeCavalry()
+unique_ptr<CavalryUnit> ReinesantFactory::makeCavalry()
 {
-    return new Cavalrymen(5,3);
+    return unique_ptr<CavalryUnit>(new Cavalrymen(5,3));
 }
 
-ArtilleryUnit* ReinesantFactory::makeArtillery()
+unique_ptr<ArtilleryUnit> ReinesantFactory::makeArtillery()
 {
-    return new Cannon(5,3);
+    return unique_ptr<ArtilleryUnit>(new Cannon(5,3));
 }
 
-AviationUnit* ReinesantFactory::makeAviation()
+unique_ptr<AviationUnit> ReinesantFactory::makeAviation()
 {
     cout<<"Error, you cannot create airplanes in the reinesant age!"<<endl;
     return nullptr;

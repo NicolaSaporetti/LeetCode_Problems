@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include <stdlib.h>
 
 using namespace std;
@@ -6,46 +7,65 @@ using namespace std;
 class Solution {
 public:
     int longestValidParentheses(string s) {
-        string temp;
-        int tempSize = 0;
-        temp.clear();
+        vector<int> temp;
         int maxsize = 0;
-        int size = 0;
         for(int i=0;i<s.size();i++)
         {
             if(s[i] == ')')
             {
                 if(temp.size()>=1)
                 {
-                    temp = temp.substr(0,temp.size()-1);
-                    if(temp.size()==0)
+                    if(temp[temp.size()-1]==-1)
                     {
-                        size=size+2+tempSize;
-                        cout<<"Ext: "<<2+tempSize<<endl;
-                        tempSize = 0;
+                        if(temp.size()>=2 && temp[temp.size()-2]!=-1) // 2(
+                        {
+                            temp.pop_back();
+                            temp[temp.size()-1]+=2;
+                            if(temp.size()>=2 && temp[temp.size()-2]!=-1)
+                            {
+                                temp[temp.size()-2]+=temp[temp.size()-1];
+                                temp.pop_back();
+                            }
+                        }
+                        else // (
+                        {
+                            temp[temp.size()-1]=2;
+                        }
                     }
-                    else
+                    else if(temp.size()>=2)  // (2
                     {
-                        tempSize+=2;
-                        cout<<"Int"<<endl;
+                        temp[temp.size()-2]=temp[temp.size()-1]+2;
+                        temp.pop_back();
+                        if(temp.size()>=2 && temp[temp.size()-2]!=-1)
+                        {
+                            temp[temp.size()-2]+=temp[temp.size()-1];
+                            temp.pop_back();
+                        }
                     }
-                }
-                else
-                {
-                    temp.clear();
-                    if(size>maxsize) maxsize= size;
-                    tempSize = 0;
-                    size = 0;
-                    cout<<"Reset"<<endl;
+                    else{
+                        if(maxsize<temp[temp.size()-1])
+                        {
+                            maxsize=temp[temp.size()-1];
+                        }
+                        temp.clear();
+                    }
                 }
             }
             if(s[i] == '(')
             {
-                temp+='(';
+                temp.push_back(-1);
             }
+            for(int i=0;i<temp.size();i++)
+            {
+                cout<<temp[i]<<" ";
+            }
+            cout<<endl;
+            for(int i=0;i<temp.size();i++)
+            {
+                if(temp[i]>maxsize) maxsize=temp[i];
+            }
+            cout<<endl;
         }
-        size = 0;
-        if(size>maxsize)maxsize= size;
         return maxsize;
     }
 };
@@ -53,7 +73,8 @@ public:
 int main()
 {
     Solution solution;
-    string s = ")(())()())()()()()()";((()(
+    string s = ")(())()())()()()()()";
+    //string s = "()(())";
     cout<<solution.longestValidParentheses(s)<<endl;
     return 0;
 }

@@ -44,6 +44,8 @@ private:
     }
 public:
     bool isMatch(string s, string p) {
+        cout<<s<<endl;
+        cout<<p<<endl;
         p = simplifyP(p);
         int szS = 0;
         int szP = 0;
@@ -53,11 +55,11 @@ public:
             if(p[szP]=='*')
             {
                 bool oneMatchFound = false;
-                int i=0;
+                int i=s.size()-1-szS;
                 do
                 {
                     oneMatchFound |= isMatch(s.substr(szS+i,s.size()-szS-i),p.substr(szP+1,p.size()-szP-1));
-                } while (oneMatchFound == false && szS+i++<s.size());
+                } while (oneMatchFound == false && i-->0);
                 if(oneMatchFound == true) return true;
                 else return false;
                 szP++;
@@ -92,11 +94,10 @@ public:
 int main()
 {
     Solution solution;
-    bool testResult = true;
     string s ="ab";
     string p ="?*";
-    /*testResult &= solution.isMatch(s,p);
-    s ="ab";
+    cout<<solution.isMatch(s,p)<<endl;
+    /*s ="ab";
     p ="?*c";
     testResult &= !solution.isMatch(s,p);
     s ="aa";
@@ -113,13 +114,12 @@ int main()
     testResult &= !solution.isMatch(s,p);
     s ="aaaaaaaaaaaaab";
     p ="a*a*a*a*a*a*a*a*a*a*c";
-    testResult &= solution.isMatch(s,p);
+    testResult &= solution.isMatch(s,p);*/
     s="bbbbbbbabbaabbabbbbaaabbabbabaaabbababbbabbbabaaabaab";
     p="b*b*ab**ba*b**b***bba";
-    testResult &= solution.isMatch(s,p);*/
+    cout<<solution.isMatch(s,p)<<endl;
     s ="aa";
     p ="*";
-    testResult &= solution.isMatch(s,p);
-    cout<<testResult<<endl;
+    cout<<solution.isMatch(s,p)<<endl;
     return 0;
 }

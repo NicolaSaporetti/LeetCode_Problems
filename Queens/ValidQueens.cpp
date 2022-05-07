@@ -1,39 +1,47 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
-#include "Sudoku_checker.cpp"
+#include "Queens_checker.cpp"
 
 using namespace std;
 
 int main()
 {
-    vector<vector<char>> board={{'5', '3', '4', '6', '7', '8', '9', '1', '2'},
-                                  {'6', '7', '2', '1', '9', '5', '3', '4', '8'},
-                                  {'1', '9', '8', '3', '4', '2', '5', '6', '7'},
-                                  {'8', '5', '9', '7', '6', '1', '4', '2', '3'},
-                                  {'4', '2', '6', '8', '5', '3', '7', '9', '1'},
-                                  {'7', '1', '3', '9', '2', '4', '8', '5', '6'},
-                                  {'9', '6', '1', '5', '3', '7', '2', '8', '4'},
-                                  {'2', '8', '7', '4', '1', '9', '6', '3', '5'},
-                                  {'3', '4', '5', '2', '8', '6', '1', '7', '9'}};
-    /*vector<vector<char>> board= {{'.','.','4','.','.','.','6','3','.'},
-                                 {'.','.','.','.','.','.','.','.','.'},
-                                 {'5','.','.','.','.','.','.','9','.'},
-                                 {'.','.','.','5','6','.','.','.','.'},
-                                 {'4','.','3','.','.','.','.','.','1'},
-                                 {'.','.','.','7','.','.','.','.','.'},
-                                 {'.','.','.','5','.','.','.','.','.'},
-                                 {'.','.','.','.','.','.','.','.','.'},
-                                 {'.','.','.','.','.','.','.','.','.'}};*/
-    for(int i=0;i<board.size();i++)
+    int n=3;
+    vector<vector<bool>> board;
+    vector<vector<int>> positions;
+    for(int i=0;i<n;i++)
     {
-        for(int j=0;j<board[i].size();j++)
+        vector<bool> temp;
+        for(int j=0;j<n;j++)
+        {
+            temp.push_back(false);
+        }
+        board.push_back(temp);
+    }
+    vector<int> a = {0,0};
+    positions.push_back(a);
+    board[a[0]][a[1]]= true;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
         {
             cout<<board[i][j]<<" ";
         }
         cout<<endl;
     }
-    Sudoku_checker sudoku;
-    cout<<sudoku.isValidSudoku(board)<<endl;
+    Queens_checker queens(n,&board, &positions);
+    a[0] = 1;
+    a[1] = 2;
+    cout<<"Valid: "<<queens.addValidNewQueens(a)<<endl;
+    cout<<"Size: "<<queens.get_positions_size()<<endl;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            cout<<board[i][j]<<" ";
+        }
+        cout<<endl;
+    }
     return 0;
 }

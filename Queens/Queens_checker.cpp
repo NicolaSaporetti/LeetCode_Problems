@@ -1,116 +1,161 @@
-#include "Sudoku_checker.hpp"
+#include "Queens_checker.hpp"
 #include <vector>
 using namespace std;
 
-Sudoku_checker::Sudoku_checker()
+Queens_checker::Queens_checker(): sz(0), board(nullptr), positions(nullptr)
+{}
+
+Queens_checker::Queens_checker(int sz, vector<vector<bool>>* board, vector<vector<int>>* positions): sz(sz), board(board), positions(positions)
+{}
+
+void Queens_checker::set(int sz, vector<vector<bool>>* board)
 {
-    sz=9;
+    this->sz=sz;
+    this->board=board;
+    this->positions=new vector<vector<int>>();
 }
 
-void Sudoku_checker::resetChecker()
+int Queens_checker::get_positions_size()
 {
-    for(int i=0;i<sz;i++)
-    {
-        checker[i]=0;
-    }
+    return positions->size();
 }
 
-bool Sudoku_checker::validateRow(vector<vector<char>>& board, int row)
+bool Queens_checker::validateRow(int row)
 {
+    int number=0;
     bool isRowsValid = true;
-    resetChecker();
+    cout<<"Row"<<endl;
     for(int j=0;j<sz;j++)
     {
-        if(board[row][j]>=49 && board[row][j]<=57)
-        {
-            checker[board[row][j]-49]++;
-        }
+        if((*board)[row][j]) number++;
     }
-    for(int j=0;j<sz && isRowsValid;j++)
-    {
-        if(checker[j]>1) isRowsValid = false;
-    }
+    if(number>=2) isRowsValid = false;
     return isRowsValid;
 }
 
-bool Sudoku_checker::validateRows(vector<vector<char>>& board)
+bool Queens_checker::validateRows()
 {
+    cout<<"Rows"<<endl;
     bool isRowsValid = true;
-    for(int i=0;i<sz && isRowsValid;i++)
+    for(int i=0;i<(*positions).size() && isRowsValid;i++)
     {
-        resetChecker();
-        isRowsValid=validateRow(board,i);
+        isRowsValid=validateRow((*positions)[i][0]);
     }
+    cout<<"isRowsValid: "<<isRowsValid<<endl;
     return isRowsValid;
 }
 
-bool Sudoku_checker::validateColumn(vector<vector<char>>& board, int column)
+bool Queens_checker::validateColumn(int column)
 {
-    bool isColumnsValid = true;
-    resetChecker();
+    int number=0;
+    bool isRowsValid = true;
+    cout<<"Column"<<endl;
     for(int j=0;j<sz;j++)
     {
-        if(board[j][column]>=49 && board[j][column]<=57)
-        {
-            checker[board[j][column]-49]++;
-        }
+        if((*board)[j][column]) number++;
     }
-    for(int j=0;j<sz && isColumnsValid;j++)
-    {
-        if(checker[j]>1) isColumnsValid = false;
-    }
-    return isColumnsValid;
+    if(number>=2) isRowsValid = false;
+    return isRowsValid;
 }
 
-bool Sudoku_checker::validateColumns(vector<vector<char>>& board)
+bool Queens_checker::validateColumns()
 {
+    cout<<"Column"<<endl;
     bool isColumnsValid = true;
-    for(int i=0;i<sz && isColumnsValid;i++)
+    for(int i=0;i<(*positions).size() && isColumnsValid;i++)
     {
-        resetChecker();
-        isColumnsValid = validateColumn(board,i);
+        isColumnsValid = validateColumn((*positions)[i][1]);
     }
+    cout<<"isColumnsValid: "<<isColumnsValid<<endl;
     return isColumnsValid;
 }
 
-bool Sudoku_checker::validateBoxe(vector<vector<char>>& board, int boxRow, int boxColumn)
+bool Queens_checker::validateDiagonal45(int row, int column)
 {
-    bool isBoxesValid = true;
-    resetChecker();
-    for(int j=0;j<3;j++)
+    cout<<"Diagonal45"<<endl;
+    int number=0;
+    bool isDiagonalValid = true;
+    for(int i=0;row-i>=0 && column+i<sz && isDiagonalValid;i++)
     {
-        for(int w=0;w<3;w++)
+        if((*board)[row-i][column+i]) number++;
+    }
+    if(number>=2) isDiagonalValid = false;
+    return isDiagonalValid;
+}
+
+bool Queens_checker::validateDiagonal135(int row, int column)
+{
+    cout<<"Diagonal135"<<endl;
+    int number=0;
+    bool isDiagonalValid = true;
+    for(int i=0;row-i>=0 && column-i>=0 && isDiagonalValid;i++)
+    {
+        if((*board)[row-i][column-i]) number++;
+    }
+    if(number>=2) isDiagonalValid = false;
+    return isDiagonalValid;
+}
+
+bool Queens_checker::validateDiagonals()
+{
+    cout<<"Diagonal"<<endl;
+    bool isDiagonalsValid = true;
+    for(int i=0;i<(*positions).size() && isDiagonalsValid;i++)
+    {
+        isDiagonalsValid=validateDiagonal45((*positions)[i][0], (*positions)[i][1]);
+    }
+    cout<<"isDiagonalsValid: "<<isDiagonalsValid<<endl;
+    for(int i=0;i<(*positions).size() && isDiagonalsValid;i++)
+    {
+        isDiagonalsValid=validateDiagonal135((*positions)[i][0], (*positions)[i][1]);
+    }
+    cout<<"isDiagonalsValid: "<<isDiagonalsValid<<endl;
+    return isDiagonalsValid;
+}
+
+bool Queens_checker::isValidQueens() {
+    return validateRows() && validateColumns() && validateDiagonals();
+}
+
+bool Queens_checker::addValidNewQueens(vector<int>& newPos) {
+    bool newQueenValid = false;
+    cout<<"Checking new queen position is valid: "<<newPos[0]<<" "<<newPos[1]<<endl;
+    if(!(*board)[newPos[0]][newPos[1]])
+    {
+        (*board)[newPos[0]][newPos[1]]=true;
+        newQueenValid = validateRow(newPos[0]) && validateColumn(newPos[1]) && validateDiagonal45(newPos[0],newPos[1]) && validateDiagonal135(newPos[0],newPos[1]);
+        
+        if(newQueenValid)
         {
-            if(board[boxRow*3+j][boxColumn*3+w]>=49 && board[boxRow*3+j][boxColumn*3+w]<=57)
+            cout<<"updating boards"<<endl;
+            (*board)[newPos[0]][newPos[1]] = true;
+            for(int i=0;i<sz;i++)
             {
-                checker[board[boxRow*3+j][boxColumn*3+w]-49]++;
+                for(int j=0;j<sz;j++)
+                {
+                    cout<<(*board)[i][j]<<" ";
+                }
+                cout<<endl;
             }
+            cout<<"updating pos"<<endl;
+            (*positions).push_back(newPos);
+            cout<<"New size: "<<get_positions_size()<<endl;
+        }
+        else{
+            cout<<"Position invalid"<<endl;
+            (*board)[newPos[0]][newPos[1]]=false;
         }
     }
-    for(int j=0;j<sz && isBoxesValid;j++)
+    return newQueenValid;
+}
+
+void Queens_checker::removeLastValidQueen() {
+    if(get_positions_size()>=0)
     {
-        if(checker[j]>1) isBoxesValid = false;
+        int row = (*positions)[get_positions_size()-1][0];
+        int column = (*positions)[get_positions_size()-1][1];
+        if(!(*board)[row][column]) cout<<"ERROR, cell was supposed to be full"<<endl;
+        (*board)[row][column]=false;
+        positions->resize(get_positions_size()-1);
     }
-    return isBoxesValid;
-}
-
-bool Sudoku_checker::validateBoxes(vector<vector<char>>& board)
-{
-    bool isBoxesValid = true;
-    for(int i=0;i<3 && isBoxesValid;i++)
-    {
-        for(int t=0;t<3;t++)
-        {
-            isBoxesValid = validateBoxe(board,i,t);
-        }
-    }
-    return isBoxesValid;
-}
-
-bool Sudoku_checker::isValidSudoku(vector<vector<char>>& board) {
-    return validateRows(board) && validateColumns(board) && validateBoxes(board);
-}
-
-bool Sudoku_checker::isValidSudoku(vector<vector<char>>& board, int row, int column) {
-    return validateRow(board, row) && validateColumn(board, column) && validateBoxe(board, row/3, column/3);
 }

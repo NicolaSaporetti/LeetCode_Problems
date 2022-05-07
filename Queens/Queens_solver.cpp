@@ -1,73 +1,79 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
-#include "Sudoku_checker.cpp"
+#include "Queens_checker.cpp"
 
 using namespace std;
 
 class Solution {
 private:
-    Sudoku_checker sudoku;
-    bool complete_board(vector<vector<char>>& board, int row, int column)
+    Queens_checker queens_checker;
+    vector<vector<bool>> board;
+    vector<vector<int>> positions;
+    int n;
+    int total;
+    int localTotal;
+    void complete_board(vector<int>& newPos)
     {
-        if(sudoku.isValidSudoku(board,row,column))
+        cout<<"New pos to try: "<<newPos[0]<<" "<<newPos[1]<<endl;
+        if(queens_checker.addValidNewQueens(newPos))
         {
-            if(column==board.size()-1)
+            if(queens_checker.get_positions_size()==n)
             {
-                row++;
-                column=0;
+                total++;
+                return;
+            }
+            if(newPos[1]==n-1)
+            {
+                newPos[0]++;
+                newPos[1]=0;
             }
             else{
-                column++;
+                newPos[1]++;
             }
-            for(int i=row;i<board.size();i++)
+            int j=newPos[1];
+            for(int i=newPos[0];i<n;i++)
             {
-                for(int j=column;j<board[i].size();j++)
+                cout<<"i: "<<i<<endl;
+                for(;j<n;j++)
                 {
-                    if(board[i][j]<49 || board[i][j]>57)
-                    {
-                        bool table_correct = false;
-                        char k=49;
-                        while(k<58 && !table_correct)
-                        {
-                            board[i][j] = k;
-                            table_correct = complete_board(board,i,j);
-                            k++;
-                        }
-                        if(!table_correct)
-                        {
-                            board[i][j] = '.';
-                            return false;
-                        }
-                    }
+                    cout<<"j: "<<j<<endl;
+                    newPos[0] = i;
+                    newPos[1] = j;
+                    complete_board(newPos);
                 }
+                j=0;
             }
-            return true;
-        }
-        else
-        {
-            return false;
+            if(localTotal<queens_checker.get_positions_size()) localTotal = queens_checker.get_positions_size();
+            queens_checker.removeLastValidQueen();
         }
     }
 
 public:
-    void solveSudoku(vector<vector<char>>& board) {
-        complete_board(board,0,0);
-        for(int i=0;i<board.size();i++)
+    int totalNQueens(int n) {
+        vector<int> newPos = {0,0};
+        this->n=n;
+        total = 0;
+        localTotal = 0;
+        for(int i=0;i<n;i++)
         {
-            for(int j=0;j<board[i].size();j++)
+            vector<bool> temp;
+            for(int j=0;j<n;j++)
             {
-                cout<<board[i][j]<<" ";
+                temp.push_back(false);
             }
-            cout<<endl;
+            board.push_back(temp);
         }
+        queens_checker.set(n,&board);
+        complete_board(newPos);
+        return localTotal;
     }
 };
 
 int main()
 {
-    vector<vector<char>> board={{'5','3','.','.','7','.','.','.','.'},{'6','.','.','1','9','5','.','.','.'},{'.','9','8','.','.','.','.','6','.'},{'8','.','.','.','6','.','.','.','3'},{'4','.','.','8','.','3','.','.','1'},{'7','.','.','.','2','.','.','.','6'},{'.','6','.','.','.','.','2','8','.'},{'.','.','.','4','1','9','.','.','5'},{'.','.','.','.','8','.','.','7','9'}};
     Solution sol;
-    sol.solveSudoku(board);
+    int value = sol.totalNQueens(9);
+    cout<<"Solution: "<<value<<endl;
     return 0;
 }

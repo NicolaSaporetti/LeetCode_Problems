@@ -1,21 +1,28 @@
+#ifndef Queens_checker_HPP
+#define Queens_checker_HPP
 #include <vector>
-#include <array>
 
 using namespace std;
 
-class Sudoku_checker {
+class Queens_checker {
 private:
     int sz;
-    array<int, 9> checker;
-    void resetChecker();
-    bool validateRow(vector<vector<char>>& board, int row);
-    bool validateRows(vector<vector<char>>& board);
-    bool validateColumn(vector<vector<char>>& board, int column);
-    bool validateColumns(vector<vector<char>>& board);
-    bool validateBoxe(vector<vector<char>>& board, int boxRow, int boxColumn);
-    bool validateBoxes(vector<vector<char>>& board);
+    vector<vector<bool>>* board;
+    vector<vector<int>>* positions;
+    bool validateRow(int row);
+    bool validateRows();
+    bool validateColumn(int column);
+    bool validateColumns();
+    bool validateDiagonal45(int row, int column);
+    bool validateDiagonal135(int row, int column);
+    bool validateDiagonals();
 public:
-    Sudoku_checker();
-    bool isValidSudoku(vector<vector<char>>& board);
-    bool isValidSudoku(vector<vector<char>>& board, int row, int column);
+    Queens_checker();
+    Queens_checker(int sz, vector<vector<bool>>* board, vector<vector<int>>* positions);
+    bool isValidQueens();
+    bool addValidNewQueens(vector<int>& newPos);
+    void removeLastValidQueen();
+    void set(int sz, vector<vector<bool>>* board);
+    int get_positions_size();
 };
+#endif

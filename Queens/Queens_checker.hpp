@@ -8,21 +8,22 @@ class Queens_checker {
 private:
     int sz;
     vector<vector<bool>>* board;
-    vector<vector<int>>* positions;
+    bool rowIsEmpty(int row);
     bool validateRow(int row);
     bool validateRows();
+    bool columnIsEmpty(int column);
     bool validateColumn(int column);
     bool validateColumns();
+    bool IsDiagonal45Empty(int row, int column);
     bool validateDiagonal45(int row, int column);
+    bool IsDiagonal135Empty(int row, int column);
     bool validateDiagonal135(int row, int column);
     bool validateDiagonals();
 public:
     Queens_checker();
-    Queens_checker(int sz, vector<vector<bool>>* board, vector<vector<int>>* positions);
+    Queens_checker(int sz, vector<vector<bool>>* board);
     bool isValidQueens();
-    bool addValidNewQueens(vector<int>& newPos);
-    void removeLastValidQueen();
+    bool isNewQueensValid(int row, int column);
     void set(int sz, vector<vector<bool>>* board);
-    int get_positions_size();
 };
 #endif

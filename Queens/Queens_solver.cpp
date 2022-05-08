@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <vector>
+#include <array>
 #include "Queens_checker.cpp"
 
 using namespace std;
@@ -9,52 +10,46 @@ class Solution {
 private:
     Queens_checker queens_checker;
     vector<vector<bool>> board;
-    vector<vector<int>> positions;
+    vector<vector<string>> solutions;
     int n;
     int total;
-    int localTotal;
-    void complete_board(vector<int>& newPos)
+    void convertBoardToSolution()
     {
-        cout<<"New pos to try: "<<newPos[0]<<" "<<newPos[1]<<endl;
-        if(queens_checker.addValidNewQueens(newPos))
+        vector<string> currentSol;
+        for(int i=0;i<n;i++)
         {
-            if(queens_checker.get_positions_size()==n)
+            string temp;
+            for(int j=0;j<n;j++)
             {
-                total++;
-                return;
+                if(!board[i][j]) temp.push_back('.');
+                else temp.push_back('Q');
+
             }
-            if(newPos[1]==n-1)
-            {
-                newPos[0]++;
-                newPos[1]=0;
+            currentSol.push_back(temp);
+        }
+        solutions.push_back(currentSol);
+    }
+    void complete_board(int x)
+    {
+        if(x==n){
+            total++;
+            convertBoardToSolution();
+            return;
+        }
+        
+        for(int i=0;i<n;i++){
+            if(queens_checker.isNewQueensValid(x,i)){
+                board[x][i]=true;
+                complete_board(x+1);
+                board[x][i]=false;
             }
-            else{
-                newPos[1]++;
-            }
-            int j=newPos[1];
-            for(int i=newPos[0];i<n;i++)
-            {
-                cout<<"i: "<<i<<endl;
-                for(;j<n;j++)
-                {
-                    cout<<"j: "<<j<<endl;
-                    newPos[0] = i;
-                    newPos[1] = j;
-                    complete_board(newPos);
-                }
-                j=0;
-            }
-            if(localTotal<queens_checker.get_positions_size()) localTotal = queens_checker.get_positions_size();
-            queens_checker.removeLastValidQueen();
         }
     }
 
 public:
     int totalNQueens(int n) {
-        vector<int> newPos = {0,0};
         this->n=n;
         total = 0;
-        localTotal = 0;
         for(int i=0;i<n;i++)
         {
             vector<bool> temp;
@@ -65,15 +60,23 @@ public:
             board.push_back(temp);
         }
         queens_checker.set(n,&board);
-        complete_board(newPos);
-        return localTotal;
+        complete_board(0);
+        for(int k=0;k<solutions.size();k++)
+        {
+            for(int i=0;i<n;i++)
+            {
+                cout<<solutions[k][i]<<endl;
+            }
+            cout<<endl;
+        }
+        return total;
     }
 };
 
 int main()
 {
     Solution sol;
-    int value = sol.totalNQueens(9);
+    int value = sol.totalNQueens(6);
     cout<<"Solution: "<<value<<endl;
     return 0;
 }

@@ -1,38 +1,63 @@
 #include <iostream>
-#include <stdlib.h>
 #include <string>
 #include <vector>
-#include "MyAtoi.cpp"
 using namespace std;
 
 class Solution {
+    vector<int> number1;
+    vector<int> number2;
+    vector<int> intResult;
+    string result;
+
+    void convertStringToIntVector(string& num, vector<int>& result)
+    {
+        for(int i=0;i<num.size();i++)
+        {
+            result.push_back(num[i]-48);
+        }
+    }
+    void convertIntResultToString()
+    {
+        int zeroToSkip = 0;
+        for(;zeroToSkip<intResult.size() ;zeroToSkip++)
+        {
+            if(intResult[zeroToSkip]!=0) break;
+        }
+        for(;zeroToSkip<intResult.size();zeroToSkip++)
+        {
+            result.push_back(intResult[zeroToSkip]+48);
+        }
+        if(result.empty()) result.push_back('0');
+    }
 public:
     string multiply(string num1, string num2) {
-        MyAtoi atoi;
-        long long int n1 = static_cast<long long int>(atoi.convert(num1));
-        long long int n2 = static_cast<long long int>(atoi.convert(num2));
-        long long int sol = n1*n2;
-        string solution;
-        vector<char> solvect;
-        for(int i=0;sol>0;i++)
+        convertStringToIntVector(num1, number1);
+        convertStringToIntVector(num2, number2);
+        intResult.resize(number1.size()+number2.size());
+        for(int i=number1.size()-1;i>=0;i--)
         {
-            solvect.push_back(sol%10+48);
-            sol/=10;
-            cout<<solvect[i]<<endl;
+            int carry = 0;
+            int j = 0;
+            for(j=number2.size()-1;j>=0;j--)
+            {
+                int value = (number1[i]*number2[j]+carry+intResult[i+j+1])%10;
+                carry = (number1[i]*number2[j]+carry+intResult[i+j+1])/10;
+                intResult[i+j+1] = value;
+            }
+            if(carry>0)
+            {
+                intResult[i+j+1] = carry;
+            }
         }
-        cout<<"Size: "<<solvect.size()<<endl;
-        for(int i=solvect.size()-1;i>=0;i--)
-        {
-            solution.push_back(solvect[i]);
-        }
-        return solution;
+        convertIntResultToString();
+        return result;
     }
 };
 
 int main()
 {
-    string s1 = "12";
-    string s2 = "12";
+    string s1 = "123";
+    string s2 = "123";
     Solution solution;
     cout<<solution.multiply(s1,s2)<<endl;
     return 0;

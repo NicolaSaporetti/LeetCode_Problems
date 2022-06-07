@@ -1,58 +1,42 @@
-#include <iostream>
-#include <vector>
-#include <unordered_set>
-using namespace std;
-
 typedef struct
 {
-    int weight;
     int i;
     int j;
+    int weight;
     bool evaluated;
 } Node;
 
+typedef pair<int, Node*> pi;
+
+struct myComp {
+  bool operator() (pair<int, Node*> const& a,
+                   pair<int, Node*> const& b)
+  { return a.first > b.first;}
+};
+
 class Solution {
 private:
-    int row_sz;
-    int col_sz;
+    int sz;
     vector<vector<Node>> graph;
-    unordered_set<Node*> elementsToEvaluate;
+    priority_queue<pi, vector<pi>, myComp> pQ;
     void initializeNodes()
     {
         Node node;
-        graph.resize(row_sz);
-        for(int i=0;i<row_sz;i++)
+        node.evaluated = false;
+        node.weight = 10000;
+        graph.resize(sz);
+        for(int i=0;i<sz;i++)
         {
-            graph[i].resize(col_sz);
-            for(int j=0;j<col_sz;j++)
+            graph[i].resize(sz);
+            for(int j=0;j<sz;j++)
             {
                 node.i=i;
                 node.j=j;
-                node.weight=10000;
                 graph[i][j]= node;
             }
         }
-        graph[0][0].weight=1;
-        elementsToEvaluate.insert(&graph[0][0]);
-    }
-	
-    Node* findElementToEvaluate() {
-        Node* chosenNode = nullptr;
-        unordered_set<Node*>::iterator current;
-        int tempweight = 1000000;
-        for(auto it=elementsToEvaluate.begin();it!=elementsToEvaluate.end();it++)
-        {
-			//cout<<"Node i: "<<(*it)->i<<", j: "<<(*it)->j<<", Weight: "<<(*it)->weight<<endl;
-            if(graph[(*it)->i][(*it)->j].weight<tempweight)
-            {
-                tempweight = graph[(*it)->i][(*it)->j].weight;
-                current = it;
-            }
-        }
-        chosenNode = *current;
-		//cout<<"Selected Node i: "<<chosenNode->i<<", j: "<<chosenNode->j<<", Weight: "<<chosenNode->weight<<endl;
-        elementsToEvaluate.erase(current);
-        return chosenNode;
+        graph[0][0].weight = 1;
+        pQ.push(make_pair(1,&graph[0][0]));
     }
     
     int computeshortestPathBinaryMatrix(vector<vector<int>>& grid) {
@@ -60,28 +44,25 @@ private:
         int current_weight = 0;
         do
         {
-            elem = findElementToEvaluate();
+            elem = pQ.top().second;
             current_weight = elem->weight;
-			if(elem->i == row_sz-1 && elem->j==col_sz-1) return current_weight;
-			else
-			{
+            pQ.pop();
+            if(!elem->evaluated)
+            {
+                if(elem->i == sz-1 && elem->j==sz-1) return current_weight;
                 for(int i=1;i>-2;i--)
                 {
-                    //cout<<"I: "<<i<<endl;
                     for(int j=1;j>-2;j--)
                     {
-                        //cout<<"J: "<<j<<endl;
                         int newRow = elem->i+i;
                         int newCol = elem->j+j;
-                        if(newRow<row_sz && newRow>=0 && newCol<col_sz && newCol>=0 &&
-                           !grid[newRow][newCol] && !graph[newRow][newCol].evaluated && !(i==0 && j==0))
+                        if(newRow<sz && newRow>=0 && newCol<sz && newCol>=0 &&
+                           !grid[newRow][newCol] && !graph[newRow][newCol].evaluated)
                         {
-							//cout<<"This node is valid i: "<<newRow<<", j: "<<newCol<<endl;
                             if(graph[newRow][newCol].weight>current_weight+1)
                             {
-								//cout<<"Weight updated: "<<current_weight+1<<endl;
                                 graph[newRow][newCol].weight=current_weight+1;
-                                elementsToEvaluate.insert(&graph[newRow][newCol]);
+                                pQ.push(make_pair(current_weight+1, &graph[newRow][newCol]));
                             }
                         }
                     }
@@ -89,21 +70,14 @@ private:
                 elem->evaluated = true;
             }
         }
-        while(elementsToEvaluate.size()>0);
+        while(pQ.size()>0);
         return -1;
     }
 public:
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
-        row_sz = grid.size();
-        col_sz = grid[0].size();
-        if(grid[0][0] || grid[row_sz-1][col_sz-1]) return -1;
+        sz = grid.size();
+        if(grid[0][0] || grid[sz-1][sz-1]) return -1;
         initializeNodes();
 		return computeshortestPathBinaryMatrix(grid);
     }
 };
-
-int main()
-{
-    Solution sol;
-    return 0;
-}

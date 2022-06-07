@@ -6,55 +6,42 @@ using namespace std;
 
 class Solution {
 private:
-    void order(string& s)
+    map<array<int,26>,int> myM;
+    vector<vector<string>> results;
+    
+    void resetBase(array<int,26>& base)
     {
-        for(int i=0; i< s.size(); i++)
-        {
-            for(int j=i+1; j< s.size(); j++)
-            {
-                cout<<"Here1"<<endl;
-                if(s[i]>s[j])
-                {
-                    char temp = s[j];
-                    s[j] = s[i];
-                    s[i] = temp;
-                }
-            }
-        }
-    }
-
-    int findSameLetterComposition(vector<string>& identifier, string& temp)
-    {
-        for(int i=0;i<identifier.size();i++)
-        {
-            if(identifier[i].compare(temp) == 0)
-            {
-                return i;
-            }
-        }
-        return -1;
+        for(int i=0;i<26;i++) base[i]=0;
     }
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        vector<vector<string>> sol;
-        vector<string> identifier;
+        array<int,26> base;
         for(int i=0;i<strs.size();i++)
         {
-            string temp = strs[i];
-            order(temp);
-            int cellNumber = findSameLetterComposition(identifier,temp);
-            if(cellNumber==-1)
+            resetBase(base);
+            for(int j=0;j<strs[i].size();j++)
             {
-                identifier.push_back(temp);
-                vector<string> newWordComp;
-                newWordComp.push_back(strs[i]);
-                sol.push_back(newWordComp);
+                base[strs[i][j]-'a']++;
             }
-            else{
-                sol[cellNumber].push_back(strs[i]);
+            auto it=myM.find(base);
+            if(it!=myM.end())
+            {
+                results[it->second].push_back(strs[i]);
+            }
+            else
+            {
+                vector<string> a;
+                a.push_back(strs[i]);
+                results.push_back(a);
+                myM.insert(pair<array<int,26>,int>(base,results.size()-1));
             }
         }
-        return sol;    
+        if(results.empty())
+        {
+            vector<string> b;
+            results.push_back(b);
+        }
+        return results;
     }
 };
 

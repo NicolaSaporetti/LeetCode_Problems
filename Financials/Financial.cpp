@@ -1,6 +1,5 @@
 #include "Financial.hpp"
 #include <vector>
-
 using namespace std;
 
 void Financial::simplifyBear(vector<int>& prices)

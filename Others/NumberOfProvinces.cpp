@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 using namespace std;
 
@@ -80,11 +79,3 @@ public:
         return set.get_sets();
     }
 };
-
-int main()
-{
-    vector<vector<int>> isConnected = {{1,0,0},{0,1,0},{0,0,1}};
-    Solution solution;
-    cout<<solution.findCircleNum(isConnected)<<endl;
-    return 0;
-}

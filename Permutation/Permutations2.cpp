@@ -1,7 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
-
 using namespace std;
 
 class Solution {
@@ -53,18 +51,13 @@ private:
         for(int i=0;i<local.size()-missingIndexes.size();i++)
         {
             localTemp[temp[i]]=-1;
-            cout<<"Index "<<i<<" used"<<endl;
         }
         int j=0;
         int previousNum = -100;
-        cout<<"missingIndexes ("<<missingIndexes.size()<<"): "<<endl;
         for(int i=0;i<local.size();i++)
         {
-            cout<<"Previous: "<<previousNum<<endl;
-            cout<<"Current: "<<local[i]<<endl;
             if(localTemp[i]!=-1 && local[i]!=previousNum)
             {
-                cout<<"Adding missing"<<endl;
                 previousNum = local[i];
                 missingIndexes[j++]=localTemp[i];
                 cout<<missingIndexes[j-1]<<" "<<endl;
@@ -87,14 +80,12 @@ private:
             }
         }
         else{
-            cout<<"Adding solution "<<index<<": ";
             vector<int> tempVec;
             for(int i=0;i<local.size();i++)
             {
                 tempVec.push_back(local[temp[i]]);
                 cout<<local[temp[i]]<<" ";
             }
-            cout<<endl;
             solutions.push_back(tempVec);
             index++;
         }
@@ -115,19 +106,3 @@ public:
     vector<vector<int>> solutions;
     vector<int> local;
 };
-
-int main()
-{
-    vector<int> numbers = {1,1,2,2};
-    Solution solution;
-    vector<vector<int>> permutations = solution.permuteUnique(numbers);
-    for(int i=0;i<permutations.size(); i++)
-    {
-        cout<<"\nCombination: "<<i<<endl;
-        for (int j=0;j<permutations[i].size();j++)
-        {
-            cout<<permutations[i][j]<<" ";
-        }
-    }
-    return 0;
-}

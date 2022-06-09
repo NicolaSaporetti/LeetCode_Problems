@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 #include "Queens_checker.cpp"
 
@@ -29,6 +28,5 @@ int main()
         cout<<endl;
     }
     Queens_checker queens(n,&board);
-    cout<<"Board valid: "<<queens.isValidQueens();
     return 0;
 }

@@ -21,9 +21,3 @@ public:
         return sol;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

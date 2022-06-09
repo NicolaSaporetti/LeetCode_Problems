@@ -1,7 +1,6 @@
 #ifndef Queens_checker_HPP
 #define Queens_checker_HPP
 #include <vector>
-
 using namespace std;
 
 class Queens_checker {

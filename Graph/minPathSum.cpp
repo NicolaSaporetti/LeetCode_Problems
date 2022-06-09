@@ -50,7 +50,6 @@ public:
             int tempweight = 10000;
             for(auto it=elementsToEvaluate.begin();it!=elementsToEvaluate.end();it++)
             {
-                //cout<<"Element i("<<(*it)->i<<"), j("<<(*it)->j<<"). Weight: "<<(*it)->weight<<endl;
                 if((*it)->weight<tempweight)
                 {
                     tempweight = (*it)->weight;
@@ -69,23 +68,19 @@ public:
             }
             if(i+1<m && !weight[i+1][j].evaluated)
             {
-                //cout<<"i: "<<i+1<<",j: "<<j<<endl;
                 int newWeight=temp->weight+grid[i+1][j];
                 if(newWeight<weight[i+1][j].weight)
                 {
                     weight[i+1][j].weight=newWeight;
-                    //cout<<"Update weight: "<<weight[i+1][j].weight<<endl;
                 }
                 elementsToEvaluate.insert(&weight[i+1][j]);
             }
             if(j+1<n && !weight[i][j+1].evaluated)
             {
-                //cout<<"i: "<<i<<",j: "<<j+1<<endl;
                 int newWeight=temp->weight+grid[i][j+1];
                 if(newWeight<weight[i][j+1].weight)
                 {
                     weight[i][j+1].weight=newWeight;
-                    //cout<<"Update weight: "<<weight[i][j+1].weight<<endl;
                 }
                 elementsToEvaluate.insert(&weight[i][j+1]);
             }
@@ -94,9 +89,3 @@ public:
         return length;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

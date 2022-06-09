@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 #include "Financial.cpp"
 using namespace std;

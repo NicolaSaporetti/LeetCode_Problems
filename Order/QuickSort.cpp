@@ -1,3 +1,7 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
 int partition(vector<vector<int>>& a, int start, int end)
 {
     int piviot = a[end];

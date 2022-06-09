@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 #include <list>
 using namespace std;
@@ -14,7 +13,6 @@ private:
         bool intervalIsIncluded = true;
         while(it != mylist.end() && *it<interval[0])
         {
-            cout<<"Interval open: "<<intervalIsIncluded<<endl;
             ++it;
             intervalIsIncluded = !intervalIsIncluded;
         }
@@ -29,14 +27,10 @@ private:
             {
                 if(intervalIsIncluded)
                 {
-                    cout<<"Interval open: "<<intervalIsIncluded<<endl;
-                    cout<<"Same entry point"<<endl;
                     ++it;
                     intervalIsIncluded = !intervalIsIncluded;
                 }
                 else{
-                    cout<<"Interval open: "<<intervalIsIncluded<<endl;
-                    cout<<"initial stop the boundar, expand it"<<endl;
                     it=mylist.erase(it);
                     intervalIsIncluded = !intervalIsIncluded;
                 }
@@ -45,29 +39,18 @@ private:
             {
                 if(intervalIsIncluded)
                 {
-                    cout<<"Interval open: "<<intervalIsIncluded<<endl;
-                    cout<<"new set to create"<<endl;
                     mylist.insert(it,interval[0]);
-                }
-                else{
-                    cout<<"Interval open: "<<intervalIsIncluded<<endl;
-                    cout<<"inside a set skip"<<endl;
                 }
             }
 
-            cout<<"Second part"<<endl;
             //try set the second part
             while(it != mylist.end() && *it<interval[1])
             {
-                cout<<"Interval open: "<<intervalIsIncluded<<endl;
-                cout<<"Remove element"<<endl;
                 it=mylist.erase(it);
                 intervalIsIncluded = !intervalIsIncluded;
             }
             if(it == mylist.end())
             {
-                    cout<<"Interval open: "<<intervalIsIncluded<<endl;
-                cout<<"end list"<<endl;
                 mylist.insert(it,interval[1]);
                 intervalIsIncluded = !intervalIsIncluded;
             }
@@ -76,28 +59,16 @@ private:
                 {
                     if(intervalIsIncluded)
                     {
-                        cout<<"Interval open: "<<intervalIsIncluded<<endl;
-                        cout<<"initial start new set"<<endl;
                         it=mylist.erase(it);
                         intervalIsIncluded = !intervalIsIncluded;
-                    }
-                    else{
-                        cout<<"Interval open: "<<intervalIsIncluded<<endl;
-                        cout<<"exit is the same do nothing"<<endl;
                     }
                 }
                 else
                 {
                     if(intervalIsIncluded)
                     {
-                    cout<<"Interval open: "<<intervalIsIncluded<<endl;
-                        cout<<"create a new ending"<<endl;
                         mylist.insert(it,interval[1]);
                         intervalIsIncluded = !intervalIsIncluded;
-                    }
-                    else{
-                    cout<<"Interval open: "<<intervalIsIncluded<<endl;
-                        cout<<"initial inside the boundaries, do nothing"<<endl;
                     }
                 }
             }
@@ -111,7 +82,6 @@ public:
         {
             vector<int>& interval=intervals[i];
             mergeElement(interval);
-            cout<<"List"<<endl;
             for(auto it = mylist.begin(); it != mylist.end(); ++it) cout<<*it<<endl;
         }
         bool intervalIsIncluded = true;
@@ -121,12 +91,10 @@ public:
         {
             if(intervalIsIncluded)
             {
-                cout<<"Addint starting item: "<<*it<<endl;
                 set[0]=*it;
                 intervalIsIncluded = !intervalIsIncluded;
             }
             else{
-                cout<<"Addint ending item: "<<*it<<endl;
                 set[1]=*it;
                 sol.push_back(set);
                 intervalIsIncluded = !intervalIsIncluded;
@@ -135,19 +103,3 @@ public:
         return sol;
     }
 };
-
-int main()
-{
-    //vector<vector<int>> now = {{1,4},{1,4}};
-    //vector<vector<int>> now = {{1,4},{0,4}};
-    //vector<vector<int>> now = {{2,3},{1,4}};
-    vector<vector<int>> now = {{1,4},{0,2}};
-    //vector<vector<int>> now = {{5,6},{1,4}};
-    Solution solution;
-    vector<vector<int>> sol = solution.merge(now);
-    for(vector<int> i: sol)
-    {
-        cout<<i[0]<<" "<<i[1]<<endl;
-    }
-    return 0;
-}

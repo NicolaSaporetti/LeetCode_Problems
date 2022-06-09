@@ -54,14 +54,12 @@ private:
                 element = temp;
             }
         }
-        cout<<"Row: "<<element->row <<", Column: "<<element->column<<", Effort: "<<element->effort<<endl;
         return element;
     }
     void addDown(Node* element, vector<vector<int>>& heights, int row, int column)
     {
         if(row+1<row_sz)
         {
-            cout<<"Adding down"<<endl;
             addElement(element, heights, row+1, column, row, column);
         }
     }
@@ -69,7 +67,6 @@ private:
     {
         if(column+1<column_sz)
         {
-            cout<<"Adding right"<<endl;
             addElement(element, heights, row, column+1, row, column);
         }
     }
@@ -77,7 +74,6 @@ private:
     {
         if(row-1>=0)
         {
-            cout<<"Adding up"<<endl;
             addElement(element, heights, row-1, column, row, column);
         }
     }
@@ -85,7 +81,6 @@ private:
     {
         if(column-1>=0)
         {
-            cout<<"Adding left"<<endl;
             addElement(element, heights, row, column-1, row, column);
         }
     }
@@ -93,7 +88,6 @@ private:
     {
         if(!nodes[row][column].evaluated)
         {
-            cout<<"Adding"<<endl;
             int difference = max(abs(heights[row][column]-heights[current_row][current_column]),element->effort);
             if(nodes[row][column].effort>difference)
             {
@@ -124,10 +118,3 @@ public:
         return element->effort;
     }
 };
-
-int main()
-{
-    Solution sol;
-    vector<vector<int>> heights = {{1,2,2},{3,8,2},{5,3,5}};
-    cout<<sol.minimumEffortPath(heights)<<endl;
-}

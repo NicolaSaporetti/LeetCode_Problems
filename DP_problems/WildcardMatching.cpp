@@ -1,8 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
-#include <string>
-
 using namespace std;
 
 class Solution {
@@ -109,12 +106,3 @@ public:
         return matchIsCorrect;
     }
 };
-
-int main()
-{
-    Solution solution;
-    string s ="ab";
-    string p ="?*";
-    cout<<solution.isMatch(s,p)<<endl;
-    return 0;
-}

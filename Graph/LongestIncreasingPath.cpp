@@ -144,9 +144,3 @@ public:
         return maxLenght;
     }
 };
-
-int main()
-{
-    Solution sol;
-    return 0;
-}

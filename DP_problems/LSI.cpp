@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+using namespace std;
 
 class Solution {
 public:
@@ -11,15 +12,6 @@ public:
             if (left == dp.size()) dp.push_back(height);
             dp[left] = height;
         }
-        for (int i=0;i<dp.size();i++) {
-            cout<<dp[i]<<endl;
-        }
         return dp.size();
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

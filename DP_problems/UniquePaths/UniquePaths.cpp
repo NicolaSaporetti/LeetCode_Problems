@@ -1,7 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
-
 using namespace std;
 
 class Solution {
@@ -41,10 +39,3 @@ public:
     }
     vector<vector<int>> matrix;
 };
-
-int main()
-{
-    Solution solution;
-    cout<<solution.uniquePaths(10,10)<<endl;
-    return 0;
-}

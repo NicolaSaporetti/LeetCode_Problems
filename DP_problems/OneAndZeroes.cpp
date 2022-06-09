@@ -21,9 +21,3 @@ public:
         return dp[m][n];
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

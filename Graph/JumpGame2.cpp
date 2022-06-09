@@ -31,10 +31,8 @@ private:
         Node* chosenNode = nullptr;
         unordered_set<Node*>::iterator current;
         int tempweight = 10000;
-        //cout<<"Searching elements"<<endl;
         for(auto it=elementsToEvaluate.begin();it!=elementsToEvaluate.end();it++)
         {
-            //cout<<"Element i("<<(*it)->number<<"). Weight: "<<(*it)->weight<<endl;
             if((*it)->weight<tempweight)
             {
                 tempweight = (*it)->weight;
@@ -42,7 +40,6 @@ private:
             }
         }
         chosenNode = *current;
-        //cout<<"Selected element: "<<chosenNode->number<<endl;
         elementsToEvaluate.erase(current);
         return chosenNode;
     }
@@ -63,8 +60,6 @@ public:
                     if(graph[num+i].weight>current_weight+1)
                     {
                         graph[num+i].weight=current_weight+1;
-                        //cout<<"Updating weight: "<<graph[num+i].weight<<endl;
-                        //cout<<"Adding element: "<<num+i<<endl;
                         elementsToEvaluate.insert(&graph[num+i]);
                     }
                 }
@@ -74,10 +69,4 @@ public:
         while(elementsToEvaluate.size()>0);
         return 0;
     }
-};
-
-int main()
-{
-    Solution solution;
-    return 0;
-}
+};S

@@ -17,9 +17,3 @@ public:
         return vowelsNumber[0]+vowelsNumber[1]+vowelsNumber[2]+vowelsNumber[3]+vowelsNumber[4];
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

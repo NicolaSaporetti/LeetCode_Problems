@@ -32,11 +32,3 @@ int minimumLines(vector<vector<int>>& stockPrices) {
         return totalSeg;
     }
 };
-
-int main()
-{
-    vector<vector<int>> stock = {{1,1},{499999999,2},{999999998,3},{1000000000,5}};
-    Solution solution;
-    cout<<solution.minimumLines(stock)<<endl;
-    return 0;
-}

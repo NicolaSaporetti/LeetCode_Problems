@@ -35,10 +35,6 @@ private:
                 break;
             }
         }
-        for(int i=0;i<coins.size();i++)
-        {
-            cout<<"Coin ("<<i<<"): "<<coins[i]<<endl;
-        }
     }
     
     void compute_min_coin_amount(vector<int>& coins)
@@ -69,9 +65,3 @@ public:
         else return -1;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

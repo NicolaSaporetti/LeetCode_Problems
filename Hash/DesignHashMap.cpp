@@ -25,11 +25,3 @@ public:
     }
     vector<int> table;
 };
-
-int main()
-{
-    MyHashMap obj;
-    obj.put(3,3);
-    obj.remove(3);
-    bool param_3 = obj.get(2);
-}

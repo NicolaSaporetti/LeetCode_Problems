@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
 class Solution {
@@ -34,9 +33,3 @@ public:
         return solutions;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

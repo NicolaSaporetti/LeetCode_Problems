@@ -1,6 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
-
 using namespace std;
 
 class Solution {
@@ -24,10 +22,3 @@ public:
         else return false;
     }
 };
-
-int main()
-{
-    Solution solution;
-    cout<<solution.reverseBits(123)<<endl;
-    return 0;
-}

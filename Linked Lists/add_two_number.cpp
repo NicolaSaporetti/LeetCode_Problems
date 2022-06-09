@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 using namespace std;
 
@@ -29,10 +28,6 @@ public:
             {
                 current->next = new ListNode();
                 current = current->next;
-                if(current!=nullptr)
-                {
-                    cout<<"Here"<<endl;
-                }
             }
             if(l1!=nullptr)
             {
@@ -46,17 +41,8 @@ public:
             }
             current->val = value % 10;
             additional = value/10;
-            cout<<"l1: "<<l1<<endl;
-            cout<<"l2: "<<l2<<endl;
-            cout<<"additional: "<<additional<<endl;
             
         }
         return solution;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

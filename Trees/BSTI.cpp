@@ -79,11 +79,3 @@ public:
     }
     vector<TreeNode*> heigthMap;
 };
-
-int main()
-{
-    TreeNode* tree = new TreeNode();
-    BSTIterator* obj = new BSTIterator(tree);
-    int param_1 = obj->next();
-    bool param_2 = obj->hasNext();
-}

@@ -1,7 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
 #include <string>
-
 using namespace std;
 
 class Solution {
@@ -51,13 +49,3 @@ public:
         return result;
     }
 };
-
-int main()
-{
-    Solution solution;
-    string result = "PAYPALISHIRING";
-    int numRows = 4;
-// output: "PINALSIGYAHRPI
-    cout<<solution.convert(result, numRows)<<endl;
-    return 0;
-}

@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 using namespace std;
 
@@ -48,19 +47,3 @@ public:
         return head;
     }
 };
-
-int main()
-{
-    Solution solution;
-    ListNode* current = new ListNode(1);
-    current->next = new ListNode(2);
-    current->next->next = new ListNode(3);
-    current->next->next->next = new ListNode(4);
-    solution.reverseKGroup(current,4);
-    while(current!=nullptr)
-    {
-        cout<<current->val<<endl;
-        current = current->next;
-    }
-    return 0;
-}

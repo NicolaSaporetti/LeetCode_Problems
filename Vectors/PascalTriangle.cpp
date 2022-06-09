@@ -28,9 +28,3 @@ public:
         return results;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

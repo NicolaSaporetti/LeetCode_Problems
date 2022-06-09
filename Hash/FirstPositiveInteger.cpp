@@ -18,10 +18,3 @@ public:
         return *(Myset.begin());     
     }
 };
-
-int main()
-{
-    vector<int> nums = {1,2,4};
-    Solution sol;
-    cout<<sol.firstMissingPositive(nums)<<endl;
-}

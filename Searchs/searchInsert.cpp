@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 #include "BinarySearch.cpp"
 using namespace std;
@@ -14,12 +13,3 @@ public:
         else return index+1;
     }
 };
-
-int main()
-{
-    vector<int> nums = {0,1,3};
-    int target = 4; 
-    Solution solution;
-    cout<<solution.searchInsert(nums,target)<<endl;
-    return 0;
-}

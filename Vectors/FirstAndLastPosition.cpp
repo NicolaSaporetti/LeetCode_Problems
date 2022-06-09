@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 #include "BinarySearch.cpp"
 using namespace std;
@@ -34,13 +33,3 @@ public:
         return result;
     }
 };
-
-int main()
-{
-    vector<int> nums = {2,2};
-    int target = 3; 
-    Solution solution;
-    vector<int> result = solution.searchRange(nums,target);
-    cout<<result[0]<<" "<<result[1]<<endl;
-    return 0;
-}

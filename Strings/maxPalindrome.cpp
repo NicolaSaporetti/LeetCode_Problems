@@ -1,7 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
 #include <string>
-
 using namespace std;
 
 class Solution {
@@ -16,7 +14,6 @@ public:
     int lengthOfLongestSubstring(string s) {
         int maxLength = 0;
         bool duplicated[256];
-        //cout<<"Size: "<<s.size()<<endl;
         for(int i=0; i<s.size();i++)
         {
             int length = 0;
@@ -42,11 +39,3 @@ public:
         return maxLength;
     }
 };
-
-int main()
-{
-    Solution solution;
-    string result = "au";
-    cout<<solution.lengthOfLongestSubstring(result)<<endl;
-    return 0;
-}

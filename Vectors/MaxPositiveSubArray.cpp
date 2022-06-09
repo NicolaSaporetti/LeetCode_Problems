@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 using namespace std;
 
@@ -17,9 +16,3 @@ public:
         return max;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

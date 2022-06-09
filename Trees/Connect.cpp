@@ -42,9 +42,3 @@ public:
         return root;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

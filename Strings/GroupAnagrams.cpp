@@ -1,7 +1,7 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
-
+#include <array>
+#include <map>
 using namespace std;
 
 class Solution {
@@ -44,18 +44,3 @@ public:
         return results;
     }
 };
-
-int main()
-{
-    vector<string> anagrams = {""};
-    Solution solution;
-    vector<vector<string>> sol = solution.groupAnagrams(anagrams);
-    for(int i=0; i< sol.size(); i++)
-    {
-        for(int j=0; j< sol[i].size(); j++)
-        {   
-            cout<<sol[i][j]<<endl;
-        }
-    }
-    return 0;
-}

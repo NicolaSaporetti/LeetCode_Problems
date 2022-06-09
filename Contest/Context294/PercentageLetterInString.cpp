@@ -1,5 +1,4 @@
 #include <iostream>
-
 using namespace std;
 
 class Solution {
@@ -17,9 +16,3 @@ public:
         return count/s.size();
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

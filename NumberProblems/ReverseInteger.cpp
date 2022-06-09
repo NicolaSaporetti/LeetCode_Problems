@@ -1,7 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
 #include <cmath>
-
 using namespace std;
 
 class Solution {
@@ -23,11 +21,3 @@ public:
         return static_cast<int>(solution);
     }
 };
-
-int main()
-{
-    Solution solution;
-    int val = 2147483647;
-    cout<<solution.reverse(val)<<endl;
-    return 0;
-}

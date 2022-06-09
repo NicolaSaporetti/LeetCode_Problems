@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 using namespace std;
 
@@ -25,22 +24,16 @@ private:
                 else{
                     *rightSide=index;
                 }
-                cout<<*rightSide<<endl;
-                cout<<*leftSide<<endl;
             }
             if(target<nums[0])
             {
                 *leftSide=*rightSide;
                 *rightSide=nums.size()-1;
-                cout<<"Left"<<endl;
             }
             else{
                 *rightSide=*leftSide;
                 *leftSide=0;
-                cout<<"Rigth"<<endl;
             }
-            cout<<*rightSide<<endl;
-            cout<<*leftSide<<endl;
         }
     }
     bool binarySearch(vector<int>& nums, int leftSide, int rightSide, int target)
@@ -72,12 +65,3 @@ public:
         return binarySearch(nums,leftSide,rightSide,target);
     }
 };
-
-int main()
-{
-    vector<int> nums = {2,5,6,0,0,1,2};
-    int target = 0; 
-    Solution solution;
-    cout<<solution.search(nums,target)<<endl;
-    return 0;
-}

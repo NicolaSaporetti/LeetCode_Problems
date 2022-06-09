@@ -1,3 +1,7 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
 class Solution {
     vector<int> result;
     void verify(vector<int>& total, int index)

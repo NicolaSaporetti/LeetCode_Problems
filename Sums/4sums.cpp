@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 #include <cmath>
 using namespace std;
@@ -84,19 +83,3 @@ public:
         return solutions;
     }
 };
-
-int main()
-{
-    vector<int> nums = {1000000000,1000000000,1000000000,1000000000};
-    Solution solution;
-    vector<vector<int>> final = solution.fourSum(nums, 8);
-    for(int i=0;i<final.size();i++)
-    {
-        for(int j=0;j<final[i].size();j++)
-        {
-            cout<<final[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-    return 0;
-}

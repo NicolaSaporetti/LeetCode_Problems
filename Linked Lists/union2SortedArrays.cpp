@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 
 using namespace std;
@@ -46,9 +45,3 @@ public:
         return solution;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

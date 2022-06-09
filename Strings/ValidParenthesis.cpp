@@ -1,8 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
-#include <vector>
-#include <string>
-
 using namespace std;
 
 class Solution {
@@ -31,11 +27,3 @@ public:
         else return true;        
     }
 };
-
-int main()
-{
-    string s ="]";
-    Solution solution;
-    cout<<solution.isValid(s)<<endl;
-    return 0;
-}

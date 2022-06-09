@@ -35,9 +35,3 @@ public:
 		return maxLevel;
 	}
 };
-
-int main()
-{
-    Solution sol;
-    return 0;
-}

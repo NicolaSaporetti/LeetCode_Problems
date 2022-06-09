@@ -1,7 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
-
 using namespace std;
 
 class Solution {
@@ -39,10 +37,8 @@ private:
         for(int i=0;i<local.size()-missingIndexes.size();i++)
         {
             localTemp[temp[i]]=-1;
-            cout<<"Index "<<i<<" used"<<endl;
         }
         int j=0;
-        cout<<"missingIndexes ("<<missingIndexes.size()<<"): ";
         for(int i=0;i<local.size();i++)
         {
             if(localTemp[i]!=-1)
@@ -51,7 +47,6 @@ private:
                 cout<<missingIndexes[j-1]<<" ";
             }
         }
-        cout<<endl;
     }
 
     void fillCell(int positionToFill, vector<int>& temp)
@@ -69,13 +64,10 @@ private:
             }
         }
         else{
-            cout<<"Adding solution "<<index<<": ";
             for(int i=0;i<local.size();i++)
             {
                 solutions[index][i]=local[temp[i]];
-                cout<<solutions[index][i]<<" ";
             }
-            cout<<endl;
             index++;
         }
         return;
@@ -94,19 +86,3 @@ public:
     vector<vector<int>> solutions;
     vector<int> local;
 };
-
-int main()
-{
-    vector<int> numbers = {1,1,3,4};
-    Solution solution;
-    vector<vector<int>> permutations = solution.permute(numbers);
-    for(int i=0;i<permutations.size(); i++)
-    {
-        cout<<"\nCombination: "<<i<<endl;
-        for (int j=0;j<permutations[i].size();j++)
-        {
-            cout<<permutations[i][j]<<" ";
-        }
-    }
-    return 0;
-}

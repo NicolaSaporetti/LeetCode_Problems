@@ -47,9 +47,3 @@ public:
         return matrix[RowElem][ColElem]==target;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

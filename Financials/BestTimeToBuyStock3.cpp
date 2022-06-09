@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 #include "Financial.cpp"
 using namespace std;
@@ -38,17 +37,7 @@ public:
         vector<int> part1(prices.size(),0);
         vector<int> part2(prices.size(),0);
         compute_part1(part1,prices);
-        for(int i=0;i<part1.size();i++)
-        {
-            cout<<part1[i]<<" ";
-        }
-        cout<<endl;
         if(part2.size()>=2) compute_part2(part2,prices);
-        for(int i=0;i<part2.size();i++)
-        {
-            cout<<part2[i]<<" ";
-        }
-        cout<<endl;
         for(int i=0;i<part1.size();i++)
         {
             maxProfit=max(maxProfit,part1[i]+part2[i]);

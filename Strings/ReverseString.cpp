@@ -1,7 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
-
 using namespace std;
 
 class Solution {
@@ -16,16 +14,3 @@ public:
         }
     }
 };
-
-int main()
-{
-    vector<char> anagrams = {'b','a','m','b','a'};
-    Solution solution;
-    solution.reverseString(anagrams);
-    for(int i=0; i< anagrams.size(); i++)
-    {
-        cout<<anagrams[i];
-    }
-    cout<<endl;
-    return 0;
-}

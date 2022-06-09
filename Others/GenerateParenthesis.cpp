@@ -1,7 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
-
 using namespace std;
 
 class Solution {
@@ -38,14 +36,3 @@ public:
     vector<string> solutions;
     string temp;
 };
-
-int main()
-{
-    Solution solution;
-    vector<string> possibleNumbers = solution.generateParenthesis(3);
-    for(int i=0;i<possibleNumbers.size(); i++)
-    {
-        cout<<"Sol: "<<possibleNumbers[i]<<endl;
-    }
-    return 0;
-}

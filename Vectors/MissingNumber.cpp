@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 class Solution {
@@ -13,9 +14,3 @@ public:
         return sum;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

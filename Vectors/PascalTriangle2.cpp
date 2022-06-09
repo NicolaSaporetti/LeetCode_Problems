@@ -28,9 +28,3 @@ public:
         return results[rowIndex];
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

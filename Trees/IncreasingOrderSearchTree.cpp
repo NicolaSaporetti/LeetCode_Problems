@@ -35,8 +35,6 @@ private:
     }
     void explore(TreeNode* current, TreeNode* root)
     {
-        cout<<"Current: "<<current->val<<endl;
-        cout<<"Root: "<<root->val<<endl;
         if(current->left==nullptr && current->right==nullptr)
         {
             add_element(current);
@@ -58,8 +56,3 @@ private:
     TreeNode* newTree;
     TreeNode* head;
 };
-
-int main()
-{
-    Solution solution;
-}

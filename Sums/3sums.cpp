@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 using namespace std;
 
@@ -139,22 +138,3 @@ public:
         return solutions;
     }
 };
-
-int main()
-{
-    vector<int> nums;
-    vector<vector<int>> result;
-    nums.push_back(0);
-    nums.push_back(0);
-    nums.push_back(0);
-    Solution solution;
-    solution.threeSum(nums);
-    for(int i=0; i< result.size(); i++)
-    {
-        for(int j=0; j< result[i].size(); j++)
-        {
-            cout<<result[i][j]<<endl;
-        }
-    }
-    return 0;
-}

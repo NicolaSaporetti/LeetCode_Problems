@@ -45,9 +45,3 @@ public:
         return it2->first;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

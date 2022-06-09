@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 using namespace std;
 
@@ -23,12 +22,3 @@ public:
         return solution;
     }
 };
-
-int main()
-{
-    vector<int> nums;
-    int target = 53; 
-    Solution solution;
-    //cout<<solution.twoSum(nums)<<endl;
-    return 0;
-}

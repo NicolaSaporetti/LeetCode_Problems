@@ -41,10 +41,8 @@ private:
         {
             newEdge.destination = times[i][1];
             newEdge.connectionWeight = times[i][2];
-            //cout<<"Adding edge i("<<times[i][0]<<"). Dest: "<<times[i][1]<<", Weight: "<<times[i][2]<<endl;
             graph[times[i][0]].push_back(newEdge);
         }
-        //cout<<"Initialize starts"<<endl;
         elementsToEvaluate.insert(k);
     }
     
@@ -98,9 +96,3 @@ public:
         else return totalDelay;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

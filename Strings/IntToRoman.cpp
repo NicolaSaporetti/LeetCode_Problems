@@ -1,6 +1,6 @@
 #include <iostream>
-#include <stdlib.h>
 #include <string>
+
 #define C 67
 #define D 68
 #define I 73
@@ -115,11 +115,3 @@ public:
         return s;
     }
 };
-
-int main()
-{
-    Solution solution;
-    int result = 58;
-    cout<<solution.intToRoman(result)<<endl;
-    return 0;
-}

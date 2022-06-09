@@ -1,7 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
-
 using namespace std;
 
 class Solution {
@@ -65,16 +63,3 @@ public:
         if(!positionFound) order(nums,-1);
     }
 };
-
-int main()
-{
-    vector<int> numbers = {4,2,0,2,3,2,0};
-    Solution solution;
-    solution.nextPermutation(numbers);
-    for(int i=0;i<numbers.size();i++)
-    {
-        cout<<numbers[i];
-    }
-    cout<<endl;
-    return 0;
-}

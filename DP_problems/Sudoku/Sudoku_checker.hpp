@@ -1,6 +1,5 @@
 #include <vector>
 #include <array>
-
 using namespace std;
 
 class Sudoku_checker {

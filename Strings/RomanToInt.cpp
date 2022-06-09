@@ -1,6 +1,6 @@
 #include <iostream>
-#include <stdlib.h>
-#include <string>
+using namespace std;
+
 #define C 67
 #define D 68
 #define I 73
@@ -8,8 +8,6 @@
 #define M 77
 #define V 86
 #define X 88
-
-using namespace std;
 
 class Solution {
 public:
@@ -83,11 +81,3 @@ public:
         return solution;
     }
 };
-
-int main()
-{
-    Solution solution;
-    string result = "CMLXXXIII";
-    cout<<solution.romanToInt(result)<<endl;
-    return 0;
-}

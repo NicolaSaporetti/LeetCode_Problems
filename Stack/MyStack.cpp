@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <deque>
 
 using namespace std;
@@ -29,9 +28,3 @@ public:
         return mydeque.empty();
     }
 };
-
-int main()
-{
-    MyStack solution;
-    return 0;
-}

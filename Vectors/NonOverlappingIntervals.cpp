@@ -1,3 +1,7 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
 bool mySort (vector<int>& i,vector<int>& j) {
     return (i[0]<j[0] || (i[0]==j[0] && i[1]<j[1])); 
 }

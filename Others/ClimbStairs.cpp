@@ -57,9 +57,3 @@ public:
         return combinations;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

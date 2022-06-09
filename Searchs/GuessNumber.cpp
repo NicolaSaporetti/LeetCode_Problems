@@ -1,3 +1,6 @@
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
     int guessNumber(int n) {
@@ -7,7 +10,6 @@ public:
         do
         {
             index=(leftSide+rightSide)/2;
-            //cout<<"Right: "<<rightSide<<" Left: "<<leftSide<<" index: "<<index<<endl;
             int res = guess(index);
             if(!res) break;
             else if(res==1) leftSide=index+1;

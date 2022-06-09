@@ -1,7 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
-
 using namespace std;
 
 class Solution {
@@ -55,10 +53,3 @@ public:
         }
     }
 };
-
-int main()
-{
-    Solution solution;
-    cout<<solution.isPalindrome(0)<<endl;
-    return 0;
-}

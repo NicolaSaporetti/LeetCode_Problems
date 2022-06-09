@@ -39,9 +39,3 @@ public:
         return matchingSumFound;
 	}
 };
-
-int main()
-{
-    Solution sol;
-    return 0;
-}

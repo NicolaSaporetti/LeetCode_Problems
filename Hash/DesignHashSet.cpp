@@ -21,11 +21,3 @@ public:
     }
     vector<bool> table;
 };
-
-int main()
-{
-    MyHashSet obj;
-    obj.add(3);
-    obj.remove(3);
-    bool param_3 = obj.contains(2);
-}

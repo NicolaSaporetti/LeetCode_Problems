@@ -1,3 +1,8 @@
+#include <iostream>
+#include <vector>
+#include <array>
+using namespace std;
+
 class Solution {
     array<array<int,2>,26> lettersBoundaries;
     vector<int> boundariesSize;

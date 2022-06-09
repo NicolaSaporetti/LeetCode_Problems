@@ -1,3 +1,6 @@
+#include <vector>
+using namespace std;
+
 typedef struct limits
 {
     int lR;

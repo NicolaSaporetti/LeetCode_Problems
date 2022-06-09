@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 #include <cmath>
 using namespace std;
@@ -52,15 +51,3 @@ public:
         return result;
     }
 };
-
-int main()
-{
-    vector<int> nums;
-    nums.push_back(-1);
-    nums.push_back(2);
-    nums.push_back(1);
-    nums.push_back(-4);
-    Solution solution;
-    cout<<solution.threeSumClosest(nums, 1)<<endl;
-    return 0;
-}

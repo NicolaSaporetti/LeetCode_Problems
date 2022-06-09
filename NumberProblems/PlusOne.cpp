@@ -1,7 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
-
 using namespace std;
 
 class Solution {
@@ -38,15 +36,3 @@ public:
         return digits;
     }
 };
-
-int main()
-{
-    vector<int> a ={8,9,9,9};
-    Solution solution;
-    vector<int> b = solution.plusOne(a);
-    for(int i=0;i<b.size();i++)
-    {
-        cout<<b[i]<<endl;
-    }
-    return 0;
-}

@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 
 using namespace std;
@@ -105,15 +104,3 @@ public:
     string temp;
     string Localdigits;
 };
-
-int main()
-{
-    string phoneNumber = "23";
-    Solution solution;
-    vector<string> possibleNumbers = solution.letterCombinations(phoneNumber);
-    for(int i=0;i<possibleNumbers.size(); i++)
-    {
-        cout<<"Sol: "<<possibleNumbers[i]<<endl;
-    }
-    return 0;
-}

@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
 using namespace std;
 
@@ -61,12 +60,3 @@ public:
         return binarySearch(nums,leftSide,rightSide,target);
     }
 };
-
-int main()
-{
-    vector<int> nums = {1,3};
-    int target = 3; 
-    Solution solution;
-    cout<<solution.search(nums,target)<<endl;
-    return 0;
-}

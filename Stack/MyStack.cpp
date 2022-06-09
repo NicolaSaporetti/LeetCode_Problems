@@ -28,9 +28,3 @@ public:
         return mydeque.empty();
     }
 };
-
-int main()
-{
-    MyStack solution;
-    return 0;
-}

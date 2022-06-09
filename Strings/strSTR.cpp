@@ -1,8 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
-#include <vector>
-#include <string>
-
 using namespace std;
 
 class Solution {
@@ -32,13 +28,3 @@ public:
         else return -1;
     }
 };
-
-int main()
-{
-    Solution solution;
-    bool testResult = true;
-    string s ="a";
-    string p ="a";
-    cout<<solution.strStr(s,p)<<endl;
-    return 0;
-}

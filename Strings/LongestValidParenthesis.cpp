@@ -1,7 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <stdlib.h>
-
 using namespace std;
 
 class Solution {
@@ -69,12 +67,3 @@ public:
         return maxsize;
     }
 };
-
-int main()
-{
-    Solution solution;
-    string s = ")(())()())()()()()()";
-    //string s = "()(())";
-    cout<<solution.longestValidParentheses(s)<<endl;
-    return 0;
-}

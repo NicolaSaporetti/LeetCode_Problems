@@ -1,3 +1,7 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
 class NumMatrix {
 public:
     vector<vector<int>> sum;

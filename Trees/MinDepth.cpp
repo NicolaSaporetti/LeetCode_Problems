@@ -37,9 +37,3 @@ public:
         else return 0;
 	}
 };
-
-int main()
-{
-    Solution sol;
-    return 0;
-}

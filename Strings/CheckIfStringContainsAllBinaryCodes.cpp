@@ -1,3 +1,7 @@
+#include <iostream>
+#include <unordered_set>
+using namespace std;
+
 class Solution {
     unordered_set<int> myS;
     int mask;

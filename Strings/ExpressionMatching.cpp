@@ -1,8 +1,4 @@
 #include <iostream>
-#include <stdlib.h>
-#include <vector>
-#include <string>
-
 using namespace std;
 
 class Solution {
@@ -81,32 +77,3 @@ public:
         return matchIsCorrect;
     }
 };
-
-int main()
-{
-    Solution solution;
-    bool testResult = true;
-    string s ="ab";
-    string p =".*";
-    testResult &= solution.isMatch(s,p);
-    s ="ab";
-    p =".*c";
-    testResult &= !solution.isMatch(s,p);
-    s ="aa";
-    p ="a*";
-    testResult &= solution.isMatch(s,p);
-    s ="a";
-    p ="ab*";
-    testResult &= solution.isMatch(s,p);
-    s ="aab";
-    p ="c*a*b*c*";
-    testResult &= solution.isMatch(s,p);
-    s ="a";
-    p ="ab*";
-    testResult &= solution.isMatch(s,p);
-    s ="aaaaaaaaaaaaab";
-    p ="a*a*a*a*a*a*a*a*a*a*c";
-    testResult &= solution.isMatch(s,p);
-    cout<<testResult<<endl;
-    return 0;
-}

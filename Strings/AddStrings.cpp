@@ -1,3 +1,6 @@
+#include <iostream>
+using namespace std;
+
 class Solution {
     vector<int> number1;
     vector<int> number2;

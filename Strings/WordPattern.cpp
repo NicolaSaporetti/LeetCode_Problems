@@ -1,3 +1,7 @@
+#include <iostream>
+#include <map>
+using namespace std;
+
 class Solution {
 private:
     map<char,string> myM;

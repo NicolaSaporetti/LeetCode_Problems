@@ -115,9 +115,3 @@ public:
         return isStringCorrect;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

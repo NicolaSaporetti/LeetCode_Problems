@@ -1,7 +1,5 @@
 #include <iostream>
-#include <stdlib.h>
 #include <vector>
-
 using namespace std;
 
 class Solution {
@@ -42,11 +40,3 @@ public:
     vector<vector<int>> solutions;
     vector<int> temp;
 };
-
-int main()
-{
-    vector<int> numbers = {1,2,3};
-    Solution solution;
-    vector<vector<int>> solutions = solution.combinationSum(numbers,7);
-    return 0;
-}

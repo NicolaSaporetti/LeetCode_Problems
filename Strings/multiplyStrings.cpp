@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 #include <vector>
 using namespace std;
 
@@ -53,12 +52,3 @@ public:
         return result;
     }
 };
-
-int main()
-{
-    string s1 = "123";
-    string s2 = "123";
-    Solution solution;
-    cout<<solution.multiply(s1,s2)<<endl;
-    return 0;
-}

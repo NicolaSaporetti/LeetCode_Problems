@@ -33,9 +33,3 @@ public:
         return counter;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

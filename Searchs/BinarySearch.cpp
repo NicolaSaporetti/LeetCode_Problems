@@ -1,6 +1,5 @@
 #include "BinarySearch.hpp"
 #include <vector>
-
 using namespace std;
 
 int BinarySearch::search(vector<int>& nums, int target)

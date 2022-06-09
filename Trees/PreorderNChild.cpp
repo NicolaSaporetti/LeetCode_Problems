@@ -35,8 +35,3 @@ public:
         return result;
     }
 };
-
-int main()
-{
-    Solution solution;
-}

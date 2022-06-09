@@ -51,10 +51,4 @@ public:
         }
         return sumDeepestLeafs;
     }
-};
-
-int main()
-{
-    Solution solution;
-    return 0;
-}
+};ssssss

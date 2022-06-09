@@ -1,8 +1,6 @@
 #include <iostream>
-#include <stdlib.h>
 #include <map>
 #include <vector>
-
 using namespace std;
 
 class Solution {
@@ -42,9 +40,3 @@ public:
         return result;
     }
 };
-
-int main()
-{
-    Solution solution;
-    return 0;
-}

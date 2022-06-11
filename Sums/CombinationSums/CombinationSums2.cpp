@@ -5,22 +5,6 @@ using namespace std;
 class Solution {
 private:
     private:
-    void order(vector<int>& vec)
-    {
-        for(int i=0; i< vec.size(); i++)
-        {
-            for(int j=i+1; j< vec.size(); j++)
-            {
-                if(vec[i]>vec[j])
-                {
-                    int temp = vec[j];
-                    vec[j] = vec[i];
-                    vec[i] = temp;
-                }
-            }
-        }
-    }
-
     bool is_duplicate()
     {
         bool found = false;
@@ -72,7 +56,7 @@ public:
         solution_index=0;
         temp_sum=0;
         this->target=target;
-        order(candidates);
+        sort(candidates.begin(),candidates.end());
         addNumber(candidates,0);
         return solutions;
     }

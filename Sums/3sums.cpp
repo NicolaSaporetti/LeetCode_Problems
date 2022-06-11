@@ -4,22 +4,6 @@ using namespace std;
 
 class Solution {
     private:
-    void order(vector<int>& vec)
-    {
-        for(int i=0; i< vec.size(); i++)
-        {
-            for(int j=i+1; j< vec.size(); j++)
-            {
-                if(vec[i]>vec[j])
-                {
-                    int temp = vec[j];
-                    vec[j] = vec[i];
-                    vec[i] = temp;
-                }
-            }
-        }
-    }
-
     void arrange_pos_neg(vector<int>& positives, vector<int>& negatives, vector<int>& nums)
     {
         int i=0;
@@ -73,7 +57,7 @@ class Solution {
         single_triple.push_back(i);
         single_triple.push_back(j);
         single_triple.push_back(k);
-        order(single_triple);
+        sort(single_triple.begin(),single_triple.end());
         if(!is_duplicate(solutions, single_triple))
         {
             solutions.push_back(single_triple);
@@ -99,7 +83,7 @@ public:
         vector<vector<int>> solutions;
         vector<int> positives;
         vector<int> negatives;
-        order(nums);
+        sort(nums.begin(),nums.end());
         arrange_pos_neg(positives, negatives, nums);
         for(int i=0; i< positives.size(); i++)
         {

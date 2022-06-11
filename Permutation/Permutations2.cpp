@@ -60,7 +60,6 @@ private:
             {
                 previousNum = local[i];
                 missingIndexes[j++]=localTemp[i];
-                cout<<missingIndexes[j-1]<<" "<<endl;
             }
         }
         missingIndexes.resize(j);
@@ -84,7 +83,6 @@ private:
             for(int i=0;i<local.size();i++)
             {
                 tempVec.push_back(local[temp[i]]);
-                cout<<local[temp[i]]<<" ";
             }
             solutions.push_back(tempVec);
             index++;

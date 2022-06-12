@@ -29,7 +29,7 @@ private:
             {
                 graph[i][j].i=i;
                 graph[i][j].j=j;
-                graph[i][j].weight = 100000;
+                graph[i][j].weight = INT_MAX;
                 graph[i][j].evaluated = false;
             }
         }

@@ -2,9 +2,9 @@
 #include <vector>
 using namespace std;
 
-Sudoku_checker::Sudoku_checker()
+Sudoku_checker::Sudoku_checker(int size)
 {
-    sz=9;
+    sz=size;
 }
 
 void Sudoku_checker::resetChecker()

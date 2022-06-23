@@ -14,7 +14,7 @@ private:
     bool validateBoxe(vector<vector<char>>& board, int boxRow, int boxColumn);
     bool validateBoxes(vector<vector<char>>& board);
 public:
-    Sudoku_checker();
+    Sudoku_checker(int size);
     bool isValidSudoku(vector<vector<char>>& board);
     bool isValidSudoku(vector<vector<char>>& board, int row, int column);
 };

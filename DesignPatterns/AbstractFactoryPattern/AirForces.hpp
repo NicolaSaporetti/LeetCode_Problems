@@ -6,6 +6,6 @@ class AirForces : public AviationUnit
 {
     public:
     AirForces(double cost, double damage);
-    void getDescription();
+    void getDescription() override;
 };
 #endif

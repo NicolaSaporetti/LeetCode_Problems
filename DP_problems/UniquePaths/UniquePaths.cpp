@@ -23,14 +23,6 @@ private:
                 matrix[i][j]=matrix[i-1][j]+matrix[i][j-1];
             }
         }
-        for(int i=0;i<matrix.size();i++)
-        {
-            for(int j=0;j<matrix[i].size();j++)
-            {
-                cout<<matrix[i][j]<<" ";
-            }
-            cout<<endl;
-        }
     }
 public:
     int uniquePaths(int m, int n) {

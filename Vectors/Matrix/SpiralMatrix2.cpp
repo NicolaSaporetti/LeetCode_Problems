@@ -42,18 +42,3 @@ public:
         return matrix;
     }
 };
-
-int main()
-{
-    Solution solution;
-    vector<vector<int>> matrix = solution.generateMatrix(5);
-    for(int i=0; i< matrix.size(); i++)
-    {
-        for(int j=0;j<matrix[i].size();j++)
-        {
-            cout<<matrix[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-    return 0;
-}

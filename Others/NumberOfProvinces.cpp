@@ -2,7 +2,6 @@
 #include <vector>
 using namespace std;
 
-
 class DisjoinSet {
 public:
     DisjoinSet(int sz): root(sz), heigth(sz)

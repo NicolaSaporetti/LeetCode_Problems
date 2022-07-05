@@ -44,7 +44,6 @@ private:
             if(localTemp[i]!=-1)
             {
                 missingIndexes[j++]=localTemp[i];
-                cout<<missingIndexes[j-1]<<" ";
             }
         }
     }

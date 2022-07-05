@@ -58,14 +58,6 @@ public:
                     }
                 }
             }
-            for(int i=0;i<row;i++)
-            {
-                for(int j=0;j<column;j++)
-                {
-                    cout<<obstacleGrid2[i][j]<<" ";
-                }
-                cout<<endl;
-            }
         }
         return obstacleGrid2[0][0];
     }

@@ -14,9 +14,9 @@ typedef struct
 typedef pair<int, Node*> pi;
 
 struct myComp {
-  bool operator() (pair<int, Node*> const& a,
-                   pair<int, Node*> const& b)
-  { return a.first > b.first;}
+  bool operator() (pair<int, Node*> const& top_pq,
+                   pair<int, Node*> const& new_el)
+  { return top_pq.first > new_el.first;}
 };
 
 class Solution {

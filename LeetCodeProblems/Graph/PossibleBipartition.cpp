@@ -5,11 +5,12 @@ using namespace std;
 
 class Solution {
 public:
-    bool isBipartite(vector<vector<int>>& graph) {
-        sz=graph.size();
-        elementsEvaluated.resize(sz);
+    bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
         unordered_set<int> setA;
         unordered_set<int> setB;
+        sz=n;
+        elementsEvaluated.resize(sz);
+        makeGraph(dislikes);
         
         for(int i=0;i<sz;i++) elementsEvaluated[i]=false;
         for(int i=0;i<sz;i++)
@@ -26,6 +27,15 @@ public:
         return true;
     }
 private:
+    void makeGraph(vector<vector<int>>& dislikes)
+    {
+        graph.resize(sz);
+        for(int i=0;i<dislikes.size();i++)
+        {
+            graph[dislikes[i][0]-1].push_back(dislikes[i][1]-1);
+            graph[dislikes[i][1]-1].push_back(dislikes[i][0]-1);
+        }
+    }
     
     bool evaluate(vector<vector<int>>& graph, unordered_set<int>& firstPartition, unordered_set<int>& secondPartition)
     {
@@ -60,4 +70,5 @@ private:
     int sz;
     queue<int> elementsToEvaluate;
     vector<bool> elementsEvaluated;
+    vector<vector<int>> graph;
 };

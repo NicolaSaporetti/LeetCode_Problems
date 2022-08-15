@@ -1,3 +1,7 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
 class Solution {
 private:    
     bool checkIfStringIsSubset(string& s, string& p)

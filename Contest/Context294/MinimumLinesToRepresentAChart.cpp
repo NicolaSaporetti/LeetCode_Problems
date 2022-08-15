@@ -5,27 +5,25 @@ using namespace std;
 
 class Solution {
 public:
-int minimumLines(vector<vector<int>>& stockPrices) {
+    int minimumLines(vector<vector<int>>& stockPrices) {
         int totalSeg=0;
-        int previous_der=INT_MAX;
-        int previous_mod=0;
+        long long previous_price=INT_MAX;
+        long long previous_time=INT_MIN;
         map<int,int> mymap;
         for(int i=0;i<stockPrices.size();i++)
         {
             mymap.insert (pair<int,int>(stockPrices[i][0],stockPrices[i][1]));
         }
-        auto It2=mymap.begin();
-        It2++;
-        for(auto It=mymap.begin();It2!=mymap.end();It2++,It++)
+        auto it2=mymap.begin();
+        it2++;
+        for(auto it=mymap.begin(); it2!=mymap.end();it2++,it++)
         {
-            int timeDiff = It2->first-It->first;
-            int priceDiff = It2->second-It->second;
-            double newDer =static_cast<double>(priceDiff)/static_cast<double>(timeDiff);
-            int newMod =priceDiff%timeDiff;
-            if(previous_der!=newDer || previous_mod!=newMod)
+            long long timeDiff = it2->first-it->first;
+            long long priceDiff = it2->second-it->second;
+            if(priceDiff*previous_time!=timeDiff*previous_price)
             {
-                previous_der=newDer;
-                previous_mod=newMod;
+                previous_price = priceDiff;
+                previous_time= timeDiff;
                 totalSeg++;
             }
         }

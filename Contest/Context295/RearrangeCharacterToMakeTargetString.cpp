@@ -12,11 +12,11 @@ public:
         tNum.resize(26);
         for(int i=0;i<s.size();i++)
         {
-            sNum[s[i]-97]++;
+            sNum[s[i]-'a']++;
         }
         for(int i=0;i<target.size();i++)
         {
-            tNum[target[i]-97]++;
+            tNum[target[i]-'a']++;
         }
         for(int i=0;i<26;i++)
         {

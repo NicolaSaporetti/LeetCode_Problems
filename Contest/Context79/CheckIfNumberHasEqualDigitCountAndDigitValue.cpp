@@ -3,35 +3,17 @@
 using namespace std;
 
 class Solution {
-private:
-    int sz;
 public:
-    int maximumBags(vector<int>& capacity, vector<int>& rocks, int additionalRocks) {
-        sz = rocks.size();
-        int total = 0;
-        for(int i=0;i<sz;i++)
+    bool digitCount(string num) {
+        vector<int> digits(10,0);
+        for(int i=0;i<num.size();i++)
         {
-            capacity[i]-=rocks[i];
+            digits[num[i]-'0']++;
         }
-        sort(capacity.begin(),capacity.end());
-        for(int i=0;i<sz&&additionalRocks>0;i++)
+        for(int i=0;i<num.size();i++)
         {
-            if(capacity[i]>0)
-            {
-                if(capacity[i]<=additionalRocks)
-                {
-                    additionalRocks-=capacity[i];
-                    capacity[i]=0;
-                    total++;
-                }
-                else
-                {
-                    capacity[i]-=additionalRocks;
-                    additionalRocks-=0;
-                }
-            }
-            else total++;
+            if(digits[i]!=num[i]-'0') return false;
         }
-        return total;
+        return true;
     }
 };

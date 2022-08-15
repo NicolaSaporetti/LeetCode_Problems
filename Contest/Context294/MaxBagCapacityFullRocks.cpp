@@ -4,23 +4,23 @@ using namespace std;
 
 class Solution {
 public:
-    bool digitCount(string num) {
-        vector<int> vec;
-        vec.resize(num.size());
-        for(int i=0;i<num.size();i++)
+    int maximumBags(vector<int>& capacity, vector<int>& rocks, int additionalRocks) {
+        int sz = rocks.size();
+        int total = 0;
+        for(int i=0;i<sz;i++)
         {
-            int n = num[i]-48;
-            if(n>=num.size())
+            capacity[i]-=rocks[i];
+        }
+        sort(capacity.begin(),capacity.end());
+        for(int i=0;i<sz;i++)
+        {
+            if(capacity[i]<=additionalRocks)
             {
-                return false;
+                additionalRocks-=capacity[i];
+                total++;
             }
-            else vec[num[i]-48]++;
+            else break;
         }
-        for(int i=0;i<num.size();i++)
-        {
-            cout<<"Num: "<<num[i]<<" Vect: "<<vec[i]<<endl;
-            if(vec[i]!=int(num[i]-48)) return false;
-        }
-        return true;
+        return total;
     }
 };

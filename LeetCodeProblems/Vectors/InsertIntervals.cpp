@@ -1,8 +1,23 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
+public:
+    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
+        if(intervals.size()==0)
+        {
+            result.push_back(newInterval);
+        }
+        else
+        {
+            int firstElem = findSet(intervals,newInterval[0]);
+            int secondElem = findSet(intervals,newInterval[1]);
+            add(intervals,0,firstElem-1);
+            mergeIntervals(intervals,newInterval,firstElem,secondElem);
+            add(intervals,secondElem+1, intervals.size()-1);
+        }
+        return result;
+    }
 private:
     int findSet(vector<vector<int>>& intervals, int value)
     {
@@ -18,7 +33,7 @@ private:
         return element;
     }
     
-    void add(vector<vector<int>>& intervals, int start, int finish, vector<vector<int>>& result)
+    void add(vector<vector<int>>& intervals, int start, int finish)
     {
         for(int i=start;i<=finish;i++)
         {
@@ -26,45 +41,23 @@ private:
         } 
     }
     
-    void mergeIntervals(vector<vector<int>>& intervals, vector<int>& newInterval, int firstElem, int secondElem, vector<vector<int>>& result)
+    void mergeIntervals(vector<vector<int>>& intervals, vector<int>& newInterval, int firstElem, int secondElem)
     {
-        vector<int> elemToMerge = {newInterval[0], newInterval[1]};
         if(newInterval[0]<=intervals[secondElem][1])
         {
-            elemToMerge[0]= min(intervals[firstElem][0],newInterval[0]);
-            if(intervals[secondElem][1]>newInterval[1] && intervals[secondElem][0]>newInterval[1])
+            newInterval[0]= min(intervals[firstElem][0],newInterval[0]);
+            if(!(intervals[secondElem][1]>newInterval[1] && intervals[secondElem][0]>newInterval[1]))
             {
-                elemToMerge[1]=newInterval[1]; 
-            }
-            else
-            {
-                elemToMerge[1]=max(intervals[secondElem][1],newInterval[1]);
+                newInterval[1]=max(intervals[secondElem][1],newInterval[1]);
             }
         }
         else
         {
             result.push_back(intervals[secondElem]);
         }
-        result.push_back(elemToMerge);
+        result.push_back(newInterval);
+        if(intervals[secondElem][0]>newInterval[1]) add(intervals,secondElem, secondElem);
     }
     
-public:
-    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
-        vector<vector<int>> result;
-        if(intervals.size()==0)
-        {
-            vector<int> elem = {newInterval[0], newInterval[1]};
-            result.push_back(elem);
-        }
-        else
-        {
-            int firstElem = findSet(intervals,newInterval[0]);
-            int secondElem = findSet(intervals,newInterval[1]);
-            if(firstElem>0) add(intervals,0,firstElem-1,result);
-            mergeIntervals(intervals,newInterval,firstElem,secondElem,result);
-            if(intervals[secondElem][0]>newInterval[1]) add(intervals,secondElem, secondElem,result);
-            if(secondElem<intervals.size()-1) add(intervals,secondElem+1, intervals.size()-1,result);
-        }
-        return result;
-    }
+    vector<vector<int>> result;
 };

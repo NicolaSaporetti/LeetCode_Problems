@@ -2,15 +2,12 @@
 using namespace std;
 
 class Solution {
-private:
-    vector<int> mask;
 public:
     int maxProduct(vector<string>& words) {
         int res = 0;
-        mask.resize(words.size());
+        vector<int> mask(words.size(),0);
         for(int i=0;i<words.size();i++)
         {
-            mask[i]=0;
             for(int j=0;j<words[i].size();j++)
             {
                 mask[i]|=1<<(words[i][j]-'a');

@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <map>
+#include <set>
 #include <queue>
 using namespace std;
 
@@ -21,34 +23,35 @@ public:
             for(int i=0;i<sz;i++) visited[i]=false;
             visited[start_word_pos] = true;
             fillWordsGraph(wordList);
-            addAllElementDistanceOne(start_word_pos);
-            return computeMinDistance(end_word_pos);
+            addAllElementDistanceOne(start_word_pos,wordList);
+            return computeMinDistance(end_word_pos,wordList);
         }
     }
 
 private:
-    int getWordPos(string& endWord, vector<string>& wordList)
+    int getWordPos(string& word, vector<string>& wordList)
     {
         for(int i=0;i<sz;i++)
         {
-            if(endWord.compare(wordList[i])==0) return i;
+            if(word.compare(wordList[i])==0) return i;
         }
         return sz;
     }
     
     void fillWordsGraph(vector<string>& wordList)
     {
-        wordsGraph.resize(sz);
         for(int i=0;i<sz;i++)
         {
-            for(int j=0;j<sz;j++)
+            for(int j=0;j<wordList[i].size();j++)
             {
-                if(computeDistance(wordList[i],wordList[j])==1) wordsGraph[i].push_back(j);
+                string origin = wordList[i];
+                origin[j] = '1';
+                wordsGraph[origin].insert(i);
             }
         }
     }
     
-    int computeMinDistance(int end_pos)
+    int computeMinDistance(int end_pos, vector<string>& wordList)
     {
         int distance = 1;
         while(!wordsToEvaluate.empty())
@@ -58,41 +61,39 @@ private:
             for(int i=0;i<num;i++)
             {
                 int elem = wordsToEvaluate.front();
+                cout<<"Elem: "<<elem<<endl;
                 wordsToEvaluate.pop();
                 if(elem ==end_pos) return distance;
                 else
                 {
-                    addAllElementDistanceOne(elem);
+                    addAllElementDistanceOne(elem, wordList);
                 }
             }
         }
         return 0;
     }
     
-    void addAllElementDistanceOne(int elem)
+    void addAllElementDistanceOne(int elem, vector<string>& wordList)
     {
-        for(int i=0;i<wordsGraph[elem].size();i++)
+        for(int j=0;j<wordList[elem].size();j++)
         {
-            if(!visited[wordsGraph[elem][i]])
+            string origin = wordList[elem];
+            origin[j] = '1';
+            wordsGraph[origin].erase(elem);
+            for(auto i=wordsGraph[origin].begin();i!=wordsGraph[origin].end();i++)
             {
-                wordsToEvaluate.push(wordsGraph[elem][i]);
-                visited[wordsGraph[elem][i]] = true;
+                if(!visited[*i])
+                {
+                    wordsToEvaluate.push(*i);
+                    visited[*i] = true;
+                }
             }
+            wordsGraph.erase(origin);
         }
-    }
-    
-    int computeDistance(string& origin, string& dest)
-    {
-        int res = 0;
-        for(int i=0;i<origin.size();i++)
-        {
-            if(origin[i]!=dest[i]) res++;
-        }
-        return res;
     }
     
     queue<int> wordsToEvaluate;
     vector<bool> visited;
-    vector<vector<int>> wordsGraph;
+    map<string,set<int>> wordsGraph;
     int sz;
 };

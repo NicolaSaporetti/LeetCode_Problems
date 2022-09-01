@@ -1,26 +1,20 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
-private:
-    vector<int> coinsByAmount;
-    
-    void sort_coins(vector<int>& coins)
-    {
-        for(int i=0;i<coins.size()-1;i++)
-        {
-            for(int j=i;j<coins.size();j++)
-            {
-                if(coins[i]>coins[j])
-                {
-                    int temp = coins[j];
-                    coins[j]= coins[i];
-                    coins[i]=temp;
-                }
-            }
-        }
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        if(amount ==0) return 0;
+        coinsByAmount.assign(amount+1,0);
+        sort(coins.begin(),coins.end());
+        remove_coins_value_too_high(coins, amount);
+        if(coins.empty()) return -1;
+        compute_min_coin_amount(coins);
+        if (coinsByAmount[amount]<20000) return coinsByAmount[amount];
+        else return -1;
     }
+    
+private:
     
     void remove_coins_value_too_high(vector<int>& coins, int amount)
     {
@@ -28,10 +22,7 @@ private:
         {
             if(coins[i]>amount)
             {
-                for(int j=0;j<coins.size()-i;j++)
-                {
-                    coins.pop_back();
-                }
+                coins.resize(i);
                 break;
             }
         }
@@ -39,7 +30,6 @@ private:
     
     void compute_min_coin_amount(vector<int>& coins)
     {
-        coinsByAmount[0] = 0;
         for(int i=1;i<coinsByAmount.size();i++)
         {
             int tempMin = 20000;
@@ -53,15 +43,6 @@ private:
             
         }
     }
-public:
-    int coinChange(vector<int>& coins, int amount) {
-        if(amount ==0) return 0;
-        coinsByAmount.resize(amount+1);
-        sort_coins(coins);
-        remove_coins_value_too_high(coins, amount);
-        if(coins.empty()) return -1;
-        compute_min_coin_amount(coins);
-        if (coinsByAmount[amount]<20000) return coinsByAmount[amount];
-        else return -1;
-    }
+    
+    vector<int> coinsByAmount;
 };

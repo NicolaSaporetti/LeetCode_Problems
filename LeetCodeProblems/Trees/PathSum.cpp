@@ -4,6 +4,15 @@
 using namespace std;
 
 class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        matchingSumFound = false;
+        if(root!=nullptr)
+        {
+            traverse(root, targetSum);
+        }
+        return matchingSumFound;
+	}
 private:
 	bool matchingSumFound;
 	void traverse(TreeNode* node, int leftSum)
@@ -20,14 +29,5 @@ private:
                 traverse(node->right,leftSum-node->val);
             }
         }
-	}
-public:
-    bool hasPathSum(TreeNode* root, int targetSum) {
-        matchingSumFound = false;
-        if(root!=nullptr)
-        {
-            traverse(root, targetSum);
-        }
-        return matchingSumFound;
 	}
 };

@@ -7,26 +7,16 @@ class Solution {
 public:
     int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) {
         maxTime = 0;
-        setUpMap(manager);
+        for(int i=0;i<manager.size();i++)
+        {
+            myM[manager[i]].push_back(i);
+        }
         traverse(headID, manager, informTime, 0);
         return maxTime;
     }
 private:
     void setUpMap(vector<int>& manager)
     {
-        for(int i=0;i<manager.size();i++)
-        {
-            auto it = myM.find(manager[i]);
-            if(it!=myM.end())
-            {
-                it->second.push_back(i);
-            }
-            else
-            {
-                vector<int> temp ={i};
-                myM.insert(make_pair(manager[i],temp));
-            }
-        }
     }
     
     void traverse(int headID, vector<int>& manager, vector<int>& informTime, int time)

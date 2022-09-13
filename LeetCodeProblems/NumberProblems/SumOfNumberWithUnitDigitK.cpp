@@ -13,10 +13,7 @@ public:
                 break;
             }
         }
-        if(val!=-1)
-        {
-            if(val*k>num) val = -1;
-        }
+        if(val!=-1 && val*k>num) val = -1;
         return val;
     }
 };

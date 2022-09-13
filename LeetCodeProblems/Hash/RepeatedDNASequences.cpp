@@ -1,14 +1,12 @@
-#include <iostream>
 #include <vector>
 #include <map>
 using namespace std;
 
 class Solution {
-private:
-    map<string,int> myM;
-    vector<string> solutions;
 public:
     vector<string> findRepeatedDnaSequences(string s) {
+        map<string,int> myM;
+        vector<string> solutions;
         for(int i=9;i<s.size();i++)
         {
             string a = s.substr(i-9,10);

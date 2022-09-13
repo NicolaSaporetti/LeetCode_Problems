@@ -1,65 +1,25 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-        int row=obstacleGrid.size();
-        int column=obstacleGrid[0].size();
-        obstacleGrid2.resize(row);
-        for(int i=0;i<obstacleGrid2.size();i++)
+        int m = obstacleGrid.size();
+        int n = obstacleGrid[0].size();
+        vector<vector<int>> matrix(m+1,vector<int>(n+1,0));
+        matrix[1][1]=1;
+        for(int i=1;i<m+1;i++)
         {
-            obstacleGrid2[i].resize(column);
-            obstacleGrid2[i][0]=1;
-        }
-        if(obstacleGrid[row-1][column-1]==1) return 0;
-        else{
-            obstacleGrid2[row-1][column-1]=1;
-            if(column>=2)
+            for(int j=1;j<n+1;j++)
             {
-                for(int i=column-2;i>=0;i--)
+                if(obstacleGrid[i-1][j-1]==1) matrix[i][j] = 0;
+                else
                 {
-                    if(obstacleGrid[row-1][i]==1)
-                    {
-                        obstacleGrid2[row-1][i]=0;
-                    }
-                    else{
-                        obstacleGrid2[row-1][i]=obstacleGrid2[row-1][i+1];
-                    }
-                }
-            }
-            if(row>=2)
-            {
-                for(int i=row-2;i>=0;i--)
-                {
-                    if(obstacleGrid[i][column-1]==1)
-                    {
-                        obstacleGrid2[i][column-1]=0;
-                    }
-                    else{
-                        obstacleGrid2[i][column-1]=obstacleGrid2[i+1][column-1];
-                    }
-                }
-            }
-            if(row>=2 && column>=2)
-            {
-                for(int i=row-2;i>=0;i--)
-                {
-                    for(int j=column-2;j>=0;j--)
-                    {
-                        if(obstacleGrid[i][j]==1)
-                        {
-                            obstacleGrid2[i][j]=0;
-                        }
-                        else{
-                            obstacleGrid2[i][j]=obstacleGrid2[i+1][j]+obstacleGrid2[i][j+1];
-                        }
-                    }
+                    if(i==1 && j==1) continue;
+                    matrix[i][j]=matrix[i-1][j]+matrix[i][j-1];
                 }
             }
         }
-        return obstacleGrid2[0][0];
+        return matrix[m][n];
     }
-    vector<vector<long long int>> obstacleGrid2;
 };

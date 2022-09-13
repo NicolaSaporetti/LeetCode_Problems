@@ -25,11 +25,9 @@ public:
         myS.erase(starting);
         for(auto it = myS.begin();it!=myS.end();it++)
         {
-            //cout<<"Start: "<<starting<<" end: "<<*it<<endl;
             for(int i=starting+1;i<=*it;i++)
             {
                 result = max(result, (values[starting]+values[i]-i+starting));
-                //cout<<"Result: "<<result<<endl;
             }
             starting = *it;
         }

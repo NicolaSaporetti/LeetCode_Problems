@@ -4,27 +4,10 @@
 using namespace std;
 
 class Solution {
-    private:
-    void order(vector<int>& vec)
-    {
-        for(int i=0; i< vec.size(); i++)
-        {
-            for(int j=i+1; j< vec.size(); j++)
-            {
-                if(vec[i]>vec[j])
-                {
-                    int temp = vec[j];
-                    vec[j] = vec[i];
-                    vec[i] = temp;
-                }
-            }
-        }
-    }
 public:
     int threeSumClosest(vector<int>& nums, int target) {
-        order(nums);
-        for(int i=0; i< nums.size(); i++) cout<<nums[i]<<endl;
-        int difference = 2000;
+        sort(nums.begin(),nums.end());
+        int difference = 20000;
         int result = 0;
         for(int i=0; i< nums.size()-2; i++)
         {

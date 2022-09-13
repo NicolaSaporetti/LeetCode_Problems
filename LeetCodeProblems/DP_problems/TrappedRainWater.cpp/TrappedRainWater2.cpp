@@ -1,3 +1,7 @@
+#include <priority_queue>
+#include <vector>
+using namespace std;
+
 typedef struct
 {
     int i;

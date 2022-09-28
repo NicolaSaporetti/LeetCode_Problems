@@ -1,7 +1,7 @@
-#include <iostream>       // std::cout
-#include <atomic>         // std::atomic
-#include <thread>         // std::thread
-#include <vector>         // std::vector
+#include <iostream>
+#include <atomic>
+#include <thread>
+#include <vector>
 
 std::atomic<int> global_counter (0);
 

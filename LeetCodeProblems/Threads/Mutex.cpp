@@ -1,11 +1,10 @@
-#include <iostream>       // std::cout
-#include <atomic>         // std::atomic
-#include <thread>         // std::thread
-#include <vector>         // std::vector
+#include <atomic>
+#include <thread>
+#include <vector>
 #include <mutex>
 using namespace std;
 
-mutex mtx;           // mutex for critical section
+mutex mtx;
 int var;
 
 void print_block (int n) {
@@ -31,7 +30,6 @@ int main ()
   {
     v1[i].join();
   }
-  cout<<var<<endl;
 
   return 0;
 }

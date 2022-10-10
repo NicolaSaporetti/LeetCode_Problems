@@ -1,16 +1,12 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
-private:
-    vector<vector<int>> solutions;
-    vector<int> sol;
 public:
     vector<vector<int>> intervalIntersection(vector<vector<int>>& firstList, vector<vector<int>>& secondList) {
         if(firstList.size() >=1 && secondList.size()>=1)
         {
-            sol.resize(2);
+            vector<int> sol(2,0);
             int j = 0;
             int i = 0;
             while(i<firstList.size() && j<secondList.size())
@@ -27,4 +23,6 @@ public:
         }
         return solutions;
     }
+private:
+    vector<vector<int>> solutions;
 };

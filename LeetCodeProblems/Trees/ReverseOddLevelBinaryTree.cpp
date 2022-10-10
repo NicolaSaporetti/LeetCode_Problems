@@ -12,20 +12,15 @@ public:
         }
         return root;
     }
-
-private:
+    
     void traverse(int level)
     {
-        vector<TreeNode*> temp(nodes.size());
-        copy(nodes.begin(),nodes.end(),temp.begin());
-        nodes.clear();
+        vector<TreeNode*> temp = move(nodes);
         if(level%2==1)
         {
             for(int i=0;i<temp.size()/2;i++)
             {
-                int val = nodes[temp.size()-1-i]->val;
-                nodes[temp.size()-1-i]->val = nodes[i]->val;
-                nodes[i]->val = val;
+                swap(temp[temp.size()-1-i]->val,temp[i]->val);
             }
         }
         if(temp[0]->right!=nullptr)

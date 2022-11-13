@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 #include "ListNode.cpp"
 using namespace std;
@@ -6,22 +5,27 @@ using namespace std;
 class Solution {
 public:
     ListNode* swapPairs(ListNode* head) {
-        ListNode* current = head;
-        int size = 0;
-        while(current!=nullptr)
+        if(head == nullptr || head->next == nullptr) return head;
+        ListNode* sol = head->next;
+        ListNode* prev = NULL;
+        while(head->next && head->next->next)
         {
-            size++;
-            current = current->next;
+            if(prev) prev->next = head->next;
+            ListNode* temp = head->next->next;
+            head->next->next = head;
+            head->next = temp;
+            prev = head;
+            head = head->next;
         }
-        current = head;
-        for(int i=0;i+1<size;i+=2)
+        
+        if(head->next)
         {
-            int temp = current->val;
-            current->val = current->next->val;
-            current = current->next;
-            current->val = temp;
-            current = current->next;
+            ListNode* temp = head->next;
+            temp->next= head;
+            head->next = NULL;
+            if(prev) prev->next = temp;
         }
-        return head;
+        return sol;
+        
     }
 };

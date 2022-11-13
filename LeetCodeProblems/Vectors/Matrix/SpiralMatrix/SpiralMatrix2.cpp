@@ -1,43 +1,24 @@
-#include <iostream>
-#include <stdlib.h>
 #include <vector>
-
 using namespace std;
 
 class Solution {
 public:
     vector<vector<int>> generateMatrix(int n) {
-        vector<vector<int>> matrix;
-        int number = 1;
-        matrix.resize(n);
-        for(int j=0;j<n;j++)
-        {
-            matrix[j].resize(n);
-        }
-        for(int j=0;j<(n+1)/2;j++)
-        {
-            if(n-2*j == 1)
-            {
-                matrix[j][j] = number++;
-            }
-            else{
-                for(int i=0;i<n-1-2*j;i++)
-                {
-                    matrix[j][i+j]=number++;
-                }
-                for(int i=0;i<n-1-2*j;i++)
-                {
-                    matrix[i+j][n-1-j]=number++;
-                }
-                for(int i=0;i<n-1-2*j;i++)
-                {
-                    matrix[n-1-j][n-1-i-j]=number++;
-                }
-                for(int i=0;i<n-1-2*j;i++)
-                {
-                    matrix[n-1-i-j][j]=number++;
-                }
-            }
+        vector<vector<int>> matrix(n,vector<int>(n,0));
+        int startRow = 0;
+        int endRow = n-1;
+        int startCol = 0;
+        int endCol = n-1;
+        int num=1;
+        while(startRow<=endRow && startCol<=endCol){
+            for(int i=startCol;i<=endCol;i++) matrix[startRow][i]=num++;
+            if(++startRow>endRow) break;
+            for(int i=startRow;i<=endRow;i++) matrix[i][endCol]=num++;
+            if(startCol>--endCol) break;
+            for(int i=endCol;i>=startCol;i--) matrix[endRow][i]=num++;
+            if(startRow>--endRow) break;
+            for(int i=endRow;i>=startRow;i--) matrix[i][startCol]=num++;
+            startCol++;
         }
         return matrix;
     }

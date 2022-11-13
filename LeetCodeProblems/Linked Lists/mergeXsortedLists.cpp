@@ -1,56 +1,37 @@
-#include <iostream>
 #include <vector>
+#include <map>
 #include "ListNode.cpp"
 using namespace std;
 
 class Solution {
-private:
-    bool isVectorEmpty(vector<ListNode*>& lists)
-    {
-        bool oneNotEmpty = false;
-        for(int i=0;i<lists.size() && oneNotEmpty == false;i++)
-        {
-            if(lists[i]!=nullptr) oneNotEmpty = true;
-        }
-        return oneNotEmpty;
-    }
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         ListNode* solution = new ListNode();
         ListNode* current = solution;
-        bool first = true;
-        if(isVectorEmpty(lists) == false)
+        bool isfirst = true;
+        map<int,vector<int>> m;
+        for(int i=0;i<lists.size();i++)
         {
-            return nullptr;
+            if(lists[i]!=nullptr) m[lists[i]->val].push_back(i);
         }
+        if(m.empty()) return nullptr;
         do
         {
-            if(first==true)
-            {
-                first = false;
-            }
+            if(isfirst==true) isfirst = false;
             else
             {
                 current->next = new ListNode();      
                 current = current->next; 
             }
-            int listNumber = 0;
-            int min = 20000;
-            for(int i=0;i<lists.size();i++)
-            {
-                if(lists[i]!=nullptr)
-                {
-                    if(lists[i]->val<min)
-                    {
-                        min = lists[i]->val;
-                        listNumber = i;
-                    }
-                }
-            }
-            current->val = lists[listNumber]->val;
-            lists[listNumber] = lists[listNumber]->next;
+            int val = m.begin()->first;
+            int listN = m.begin()->second[m.begin()->second.size()-1];
+            m.begin()->second.pop_back();
+            if(m.begin()->second.size()==0) m.erase(val);
+            current->val = val;
+            lists[listN] = lists[listN]->next;
+            if(lists[listN]!=nullptr) m[lists[listN]->val].push_back(listN);
    
-        }while(isVectorEmpty(lists) == true);
+        }while(!m.empty());
         return solution;
     }
 };

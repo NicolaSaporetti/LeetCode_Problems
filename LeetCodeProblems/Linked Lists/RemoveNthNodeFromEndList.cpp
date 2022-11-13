@@ -1,10 +1,16 @@
-#include <iostream>
 #include "ListNode.cpp"
 using namespace std;
 
-class Solution {
+class Solution {        
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        finalHead = head;
+        traverse(head,nullptr,n);
+        return finalHead;
+    }
+    
 private:
-    int traverse(ListNode* node, ListNode* root, int n)
+    int traverse(ListNode* node, ListNode* prev, int n)
     {
         if(node!=nullptr)
         {
@@ -12,25 +18,13 @@ private:
             elem--;
             if(elem==0)
             {
-                if(root==nullptr) return INT_MAX;
-                root->next = node->next;
+                if(prev==nullptr) finalHead = node->next;
+                else prev->next = node->next;
             }
             return elem;
         }
-        else
-        {
-            return n;
-        }
+        else return n;
     }
-        
-public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        int a = traverse(head,nullptr,n);
-        if(a>1000)
-        {
-            if(head->next==nullptr) return nullptr;
-            else return head->next;
-        }
-        return head;
-    }
+    
+    ListNode* finalHead;
 };

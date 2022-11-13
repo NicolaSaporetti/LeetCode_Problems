@@ -1,106 +1,42 @@
-#include <iostream>
+#include <set>
 #include <vector>
 using namespace std;
 
 class Solution {
-private:
-    int computeSize(int size)
-    {
-        if(size<=2) return size;
-        else
-            return size * computeSize(size-1);
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sz = nums.size();
+        multiset<int> s;
+        for(int i=0;i<nums.size();i++) s.insert(nums[i]);
+        populate(s);
+        return solutions;
     }
 
-    void order()
+private:
+    void populate(multiset<int> s)
     {
-        for(int i=0; i< local.size(); i++)
+        if(temp.size()==sz) solutions.push_back(temp);
+        else
         {
-            for(int j=i+1; j< local.size(); j++)
+            multiset<int> s2 = s;
+            int prev = INT_MAX;
+            for(auto& e : s)
             {
-                if(local[i]>local[j])
+                if(e!=prev)
                 {
-                    int temp = local[j];
-                    local[j] = local[i];
-                    local[i] = temp;
+                    prev=e;
+                    auto it = s2.find(e);
+                    s2.erase(it);
+                    temp.push_back(e);
+                    populate(s2);
+                    temp.pop_back();
+                    s2.insert(e);
                 }
             }
         }
     }
 
-    void initialize(int sz, vector<int>& nums)
-    {
-        local.resize(nums.size());
-        for(int j=0; j<sz; j++)
-        {
-            local[j] = nums[j];
-        }
-        order();
-        index = 0;
-    }
-
-    vector<int> fillMissingIndexes(vector<int>& temp,int positionToFill)
-    {
-        vector<int> missingIndexes;
-        vector<int> localTemp;
-        missingIndexes.resize(local.size()-positionToFill);
-        localTemp.resize(local.size());
-        for(int i=0;i<local.size();i++)
-        {
-            localTemp[i]=i;
-        }
-        for(int i=0;i<local.size()-missingIndexes.size();i++)
-        {
-            localTemp[temp[i]]=-1;
-        }
-        int j=0;
-        int previousNum = -100;
-        for(int i=0;i<local.size();i++)
-        {
-            if(localTemp[i]!=-1 && local[i]!=previousNum)
-            {
-                previousNum = local[i];
-                missingIndexes[j++]=localTemp[i];
-            }
-        }
-        missingIndexes.resize(j);
-        return missingIndexes;
-    }
-
-    void fillCell(int positionToFill, vector<int>& temp)
-    {
-        if(positionToFill<local.size())
-        {
-            vector<int> missingIndexes = fillMissingIndexes(temp,positionToFill);
-        
-            for(int i=0;i<missingIndexes.size();i++)
-            {
-                temp[positionToFill]=missingIndexes[i];
-                fillCell(positionToFill+1, temp);
-            }
-        }
-        else{
-            vector<int> tempVec;
-            for(int i=0;i<local.size();i++)
-            {
-                tempVec.push_back(local[temp[i]]);
-            }
-            solutions.push_back(tempVec);
-            index++;
-        }
-        return;
-    }
-
-public:
-    vector<vector<int>> permuteUnique(vector<int>& nums) {
-        int sz = nums.size();
-        initialize(sz, nums);
-        vector<int> temp;
-        temp.resize(sz);
-        fillCell(0, temp);
-        return solutions;
-    }
-
-    int index;
     vector<vector<int>> solutions;
-    vector<int> local;
+    vector<int> temp;
+    int sz;
 };

@@ -1,48 +1,20 @@
-#include <iostream>
-#include <string>
 using namespace std;
 
 class Solution {
 public:
     string convert(string s, int numRows) {
-        string result = {};
-        result.resize(s.size());
-        if(numRows == 1)
-        {
-            for(int i=0; i<s.size(); i++)
-            {
-                result[i] = s[i];
-            }
-        }
+        int sz = s.size();
+        string result(sz,0);
+        if(numRows == 1) return s;
         else{
             int element = 0;
             for(int i=0; i<numRows;i++)
             {
-                if(i==0 || i==numRows-1)
+                for(int j=i; j<sz; j+=2*(numRows-1))
                 {
-                    for(int j=i; j<s.size(); j+=2*(numRows - 1))
-                    {
-                        result[element] = s[j];
-                        element++;
-                    }
-                }
-                else{
-                    bool FirstAngle = true;
-                    int j=i;
-                    while (j<s.size())
-                    {
-                        result[element] = s[j];
-                        element++;
-
-                        if(FirstAngle == true)
-                        {
-                            j+= 2*(numRows - i - 1);
-                        }
-                        else{
-                            j+= 2*i;
-                        }
-                        FirstAngle = !FirstAngle;
-                    }
+                    result[element++] = s[j];
+                    int secondElementPos = j+2*(numRows-i-1);
+                    if(secondElementPos<sz && i!=0 && i!=numRows-1) result[element++] = s[secondElementPos];
                 }
             }
         }

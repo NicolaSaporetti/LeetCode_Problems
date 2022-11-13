@@ -1,106 +1,31 @@
-#include <iostream>
 #include <vector>
-
 using namespace std;
 
 class Solution {
-private:
-    void initialize(string digits)
-    {
-        solutions.clear();
-        temp.resize(digits.size());
-        Localdigits = digits;
-    }
-
-    void fillCell(int positionToFill)
-    {
-        if(positionToFill<Localdigits.size())
-        {
-            switch(Localdigits[positionToFill])
-            {
-                case '2':
-                temp[positionToFill]='a';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='b';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='c';
-                fillCell(positionToFill+1);
-                break;
-                case '3':
-                temp[positionToFill]='d';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='e';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='f';
-                fillCell(positionToFill+1);
-                break;
-                case '4':
-                temp[positionToFill]='g';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='h';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='i';
-                fillCell(positionToFill+1);
-                break;
-                case '5':
-                temp[positionToFill]='j';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='k';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='l';
-                fillCell(positionToFill+1);
-                break;
-                case '6':
-                temp[positionToFill]='m';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='n';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='o';
-                fillCell(positionToFill+1);
-                break;
-                case '7':
-                temp[positionToFill]='p';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='q';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='r';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='s';
-                fillCell(positionToFill+1);
-                break;
-                case '8':
-                temp[positionToFill]='t';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='u';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='v';
-                fillCell(positionToFill+1);
-                break;
-                case '9':
-                temp[positionToFill]='w';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='x';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='y';
-                fillCell(positionToFill+1);
-                temp[positionToFill]='z';
-                fillCell(positionToFill+1);
-                break;
-            }
-        }
-        else{
-            solutions.push_back(temp);
-        }
-        return;
-    }
 public:
     vector<string> letterCombinations(string digits) {
-        initialize(digits);
-        if(digits.size()) fillCell(0);
+        if(digits.size()==0) return solutions;
+        word.resize(digits.size());
+        comb = {{'a','b','c'},{'d','e','f'},{'g','h','i'},{'j','k','l'},{'m','n','o'},{'p','q','r','s'},{'t','u','v'},{'w','x','y','z'}};
+        fillCell(digits,0);
         return solutions;
     }
+    
+private:
+    void fillCell(string& digits, int pos)
+    {
+        if(pos>=digits.size()) solutions.push_back(word);
+        else
+        {
+            for(int i=0;i<comb[digits[pos]-'2'].size();i++)
+            {
+                word[pos]=comb[digits[pos]-'2'][i];
+                fillCell(digits,pos+1);
+            }
+        }
+    }
 
+    string word;
     vector<string> solutions;
-    string temp;
-    string Localdigits;
+    vector<vector<char>> comb;
 };

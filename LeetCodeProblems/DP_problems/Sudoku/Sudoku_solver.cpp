@@ -1,74 +1,50 @@
-#include <iostream>
 #include <vector>
-#include "Sudoku_checker.cpp"
-
+#include "ValidSudoku.cpp"
 using namespace std;
 
 class Solution {
+public:
+    void solveSudoku(vector<vector<char>>& board) {
+        sz = board.size();
+        complete_board(board,0,0);
+    }
+    
 private:
-    Sudoku_checker sudoku;
     bool complete_board(vector<vector<char>>& board, int row, int column)
     {
         if(sudoku.isValidSudoku(board,row,column))
         {
-            if(column==board.size()-1)
+            while(row<sz && board[row][column]!='.')
             {
-                row++;
-                column=0;
-            }
-            else{
                 column++;
-            }
-            for(int i=row;i<board.size();i++)
-            {
-                for(int j=column;j<board[i].size();j++)
+                if(column==sz)
                 {
-                    if(board[i][j]<49 || board[i][j]>57)
-                    {
-                        bool table_correct = false;
-                        char k=49;
-                        while(k<58 && !table_correct)
-                        {
-                            board[i][j] = k;
-                            table_correct = complete_board(board,i,j);
-                            k++;
-                        }
-                        if(!table_correct)
-                        {
-                            board[i][j] = '.';
-                            return false;
-                        }
-                    }
+                    row++;
+                    column=0;
                 }
             }
-            return true;
+            if(row==sz) return true;
+            else
+            {
+                bool isValid = false;
+                set<char> s;
+                for(int i=0;i<sz;i++) s.insert('1'+i);
+                for(int i=0;i<sz;i++) if(board[row][i]!='.') s.erase(board[row][i]);
+                for(int i=0;i<sz;i++) if(board[i][column]!='.') s.erase(board[i][column]);
+                for(int i=(row/3)*3;i<(row/3)*3+3;i++)
+                    for(int j=(column/3)*3;j<(column/3)*3+3;j++) if(board[i][j]!='.') s.erase(board[i][j]);
+                for(auto it=s.begin();it!=s.end() && !isValid;it++)
+                {
+                    board[row][column]=*it;
+                    isValid=complete_board(board,row,column);
+                }
+                if(!isValid) board[row][column]='.';
+                return isValid;
+            }
         }
-        else
-        {
-            return false;
-        }
+        else return false;
     }
-
-public:
-    void solveSudoku(vector<vector<char>>& board) {
-        complete_board(board,0,0);
-    }
-
-    Solution() : sudoku(9) {}
+    
+    ValidSudoku sudoku;
+    int sz;
 };
-
-int main()
-{
-    vector<vector<char>> board={{'5', '3', '4', '6', '7', '8', '9', '1', '2'},
-                                  {'6', '7', '2', '1', '9', '5', '3', '4', '8'},
-                                  {'1', '9', '8', '3', '4', '2', '5', '6', '7'},
-                                  {'8', '5', '9', '7', '6', '1', '4', '2', '3'},
-                                  {'4', '2', '6', '8', '5', '3', '7', '9', '1'},
-                                  {'7', '1', '3', '9', '2', '4', '8', '5', '6'},
-                                  {'9', '6', '1', '5', '3', '7', '2', '8', '4'},
-                                  {'2', '8', '7', '4', '1', '9', '6', '3', '5'},
-                                  {'3', '4', '5', '2', '8', '6', '1', '7', '9'}};
-    Solution solution;
-    solution.solveSudoku(board);
-    return 0;
-}

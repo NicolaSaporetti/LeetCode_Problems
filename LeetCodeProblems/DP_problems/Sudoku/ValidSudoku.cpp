@@ -1,21 +1,69 @@
-#include <iostream>
 #include <vector>
-#include "Sudoku_checker.cpp"
-
 using namespace std;
 
-int main()
-{
-    vector<vector<char>> board={{'5', '3', '4', '6', '7', '8', '9', '1', '2'},
-                                  {'6', '7', '2', '1', '9', '5', '3', '4', '8'},
-                                  {'1', '9', '8', '3', '4', '2', '5', '6', '7'},
-                                  {'8', '5', '9', '7', '6', '1', '4', '2', '3'},
-                                  {'4', '2', '6', '8', '5', '3', '7', '9', '1'},
-                                  {'7', '1', '3', '9', '2', '4', '8', '5', '6'},
-                                  {'9', '6', '1', '5', '3', '7', '2', '8', '4'},
-                                  {'2', '8', '7', '4', '1', '9', '6', '3', '5'},
-                                  {'3', '4', '5', '2', '8', '6', '1', '7', '9'}};
-    Sudoku_checker sudoku(9);
-    cout<<sudoku.isValidSudoku(board)<<endl;
-    return 0;
-}
+class ValidSudoku {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        sz = board.size();
+        checker.assign(9,0);
+        return validateRows(board) && validateColumns(board) && validateBoxes(board);
+    }
+    
+    bool isValidSudoku(vector<vector<char>>& board, int row, int column) {
+        sz = board.size();
+        return validateRow(board,row) && validateColumn(board,column) && validateBox(board, row, column);
+    }
+
+private:
+    bool validateRows(vector<vector<char>>& board)
+    {
+        bool isRowsValid = true;
+        for(int i=0;i<sz && isRowsValid;i++) isRowsValid = validateRow(board,i);
+        return isRowsValid;
+    }
+    
+    bool validateRow(vector<vector<char>>& board, int row)
+    {
+        checker.assign(9,0);
+        for(int j=0;j<sz;j++) if(board[row][j]>='1' && board[row][j]<='9') checker[board[row][j]-'1']++;
+        for(int j=0;j<sz;j++) if(checker[j]>1) return false;
+        return true;
+    }
+
+    bool validateColumns(vector<vector<char>>& board)
+    {
+        bool isColumnValid = true;
+        for(int i=0;i<sz && isColumnValid;i++) isColumnValid = validateColumn(board,i);
+        return isColumnValid;
+    }
+
+    bool validateColumn(vector<vector<char>>& board, int column)
+    {
+        checker.assign(9,0);
+        for(int j=0;j<sz;j++) if(board[j][column]>='1' && board[j][column]<='9') checker[board[j][column]-'1']++;
+        for(int j=0;j<sz;j++) if(checker[j]>1) return false;
+        return true;
+    }
+
+    bool validateBoxes(vector<vector<char>>& board)
+    {
+        bool isBoxesValid = true;
+        for(int i=0;i<9 && isBoxesValid;i+=3)
+            for(int t=0;t<9 && isBoxesValid;t+=3) isBoxesValid = validateBox(board,i,t);
+        return isBoxesValid;
+    }
+
+    bool validateBox(vector<vector<char>>& board, int row, int column)
+    {
+        checker.assign(9,0);
+        int rowBase = (row/3)*3;
+        int colBase = (column/3)*3;
+        for(int j=0;j<3;j++)
+            for(int w=0;w<3;w++) if(board[rowBase+j][colBase+w]>='1' && board[rowBase+j][colBase+w]<='9') checker[board[rowBase+j][colBase+w]-'1']++;
+        for(int j=0;j<sz;j++) if(checker[j]>1) return false;
+        return true;
+    }
+    
+    int sz;
+    vector<int> checker;
+};

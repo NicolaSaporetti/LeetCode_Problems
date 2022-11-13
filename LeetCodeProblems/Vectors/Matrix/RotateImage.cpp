@@ -1,30 +1,18 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:
-int sz;
     void rotate(vector<vector<int>>& matrix) {
-        if(matrix.size()==1) return;
-        else{
-            sz=matrix.size();
-            int temp[4] = {0};
-            for(int j=0;j<sz/2;j++)
-            {
-                for(int i=0;i<sz-1-2*j;i++)
-                {
-                    temp[0]= matrix[i+j][sz-1-j];
-                    matrix[i+j][sz-1-j] = matrix[j][i+j];
-
-                    temp[1]= matrix[sz-1-j][sz-1-i-j];
-                    matrix[sz-1-j][sz-1-i-j] = temp[0];
-
-                    temp[2]= matrix[sz-1-i-j][j];
-                    matrix[sz-1-i-j][j] = temp[1];
-                    
-                    matrix[j][i+j] = temp[2];
-                }
+        int n = matrix.size();
+        for(int i=0;i<n/2;i++)
+        {
+            for (int j=0; j<n-1-2*i; j++){
+                int t = matrix[i][i+j];
+                matrix[i][i+j] = matrix[n-i-1-j][i];
+                matrix[n-i-1-j][i] =  matrix[n-i-1][n-i-1-j];
+                matrix[n-i-1][n-i-1-j] = matrix[i+j][n-i-1];
+                matrix[i+j][n-i-1] = t;
             }
         }
     }

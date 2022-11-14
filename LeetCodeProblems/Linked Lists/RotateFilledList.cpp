@@ -1,10 +1,20 @@
-#include <iostream>
 #include "ListNode.cpp"
 using namespace std;
 
 class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(head == nullptr) return nullptr;
+        else
+        {
+            sz = get_size(head);
+            k = k%sz;
+            if(k==0) return head;
+            else return rotateFilledList(head, k);
+        }
+    }
+
 private:
-    int sz;
     int get_size(ListNode* head)
     {
         ListNode* temp = head;
@@ -17,31 +27,16 @@ private:
         return sz;
     }
     ListNode* rotateFilledList(ListNode* head, int k) {
-        ListNode* temphead = head;
+        ListNode* oldHead = head;
         ListNode* temp = head;
-        for(int i=0;i<sz-k-1;i++)
-        {
-            temp = temp->next;
-        }
+        for(int i=0;i<sz-k-1;i++) temp = temp->next;
         head = temp->next;
         temp->next = nullptr;
         temp = head;
-        for(int i=0;i<k-1;i++)
-        {
-            temp = temp->next;
-        }
-        temp->next = temphead;
+        while(temp->next!=nullptr) temp = temp->next;
+        temp->next = oldHead;
         return head;
     }
-public:
-    ListNode* rotateRight(ListNode* head, int k) {
-        if(head == nullptr) return nullptr;
-        else
-        {
-            sz = get_size(head);
-            k = k%sz;
-            if(k==0) return head;
-            else return rotateFilledList(head, k);
-        }
-    }
+    
+    int sz;
 };

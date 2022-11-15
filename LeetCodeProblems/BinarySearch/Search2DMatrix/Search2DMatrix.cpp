@@ -4,45 +4,33 @@ using namespace std;
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        int left = 0;
-		int right = matrix.size()-1;
-		int RowElem = 0;
-		int ColElem = 0;
-        RowElem = (left+right)/2;
-		while(right!=left)
+        int bottom = 0;
+		int up = matrix.size()-1;
+        int rowSelected = 0;
+		while(bottom<=up)
 		{
-			if(matrix[RowElem][0]<=target && matrix[RowElem][matrix[0].size()-1]>=target) break;
-			else
-			{
-				if(matrix[RowElem][0]>target)
-				{
-					right = RowElem;
-				}
-				else{
-					left = max(RowElem,left+1);
-				}
-			}
-			RowElem = (left+right)/2;
+			int mid = (bottom+up)/2;
+            if(matrix[mid][0]>target) up = mid-1;
+            else
+            {
+                rowSelected = mid;
+                bottom = mid+1;
+            }
 		}
-		left = 0;
-		right = matrix[0].size()-1;
-        ColElem = (left+right)/2;
-		while(right!=left)
+        int left = 0;
+		int right = matrix[0].size()-1;
+        int columnSelected = 0;
+		while(left<=right)
 		{
-			if(matrix[RowElem][ColElem]==target) break;
-			else
-			{
-				if(matrix[RowElem][ColElem]>target)
-				{
-					right = ColElem;
-				}
-				else{
-					left = max(ColElem,left+1);
-				}
-			}
-			ColElem = (left+right)/2;
+			int mid = (left+right)/2;
+            if(matrix[rowSelected][mid]>target) right = mid-1;
+            else
+            {
+                columnSelected = mid;
+                left = mid+1;
+            }
 		}
 		
-        return matrix[RowElem][ColElem]==target;
+        return matrix[rowSelected][columnSelected]==target;
     }
 };

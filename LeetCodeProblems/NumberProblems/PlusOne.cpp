@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -17,10 +16,6 @@ public:
         if(digits[0]==10)
         {
             digits.push_back(0);
-            for(int i=digits.size()-2;i>=1;i--)
-            {
-                digits[i+1]=digits[i];
-            }
             digits[0] = 1;
         }
         return digits;

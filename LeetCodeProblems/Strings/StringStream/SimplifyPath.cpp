@@ -1,4 +1,4 @@
-#include <stack>
+#include <deque>
 using namespace std;
 
 class Solution {
@@ -16,30 +16,22 @@ private:
             if(s=="." || s=="");
             else if(s=="..")
             {
-                if(!correctPath.empty()) correctPath.pop();
+                if(!correctPath.empty()) correctPath.pop_back();
             }
-            else correctPath.push(s);
+            else correctPath.push_back(s);
 	    }
     }
     
     string saveCorrectPathToString()
     {
-        stack<string> temp;
         string res;
         while(!correctPath.empty())
         {
-            temp.push(correctPath.top());
-            correctPath.pop();
+            res+='/'+correctPath.front();
+            correctPath.pop_front();
         }
-        while(!temp.empty())
-        {
-            res+='/';
-            res+=temp.top();
-            temp.pop();
-        }
-        if(res=="") res+='/';
-        return res;
+        return (res.size()==0)? "/" : res;
     }
     
-    stack<string> correctPath;
+    deque<string> correctPath;
 };

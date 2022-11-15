@@ -13,7 +13,7 @@ public:
             int bI = get_value(b,i);
             int value = (aI+bI+carry)%2;
             carry = (aI+bI+carry)/2;
-            result.push_back((value)? '1': '0');
+            result.push_back(value+'0');
         }
         reverse(result.begin(),result.end());
         return result;
@@ -22,7 +22,7 @@ public:
 private:
     int get_value(string& s, int pos)
     {
-        if(s.size()<=pos || s[s.size()-pos-1] == '0') return 0;
+        if(s.size()<=pos || s[s.size()-1-pos] == '0') return 0;
         else return 1;
     }
 };

@@ -1,22 +1,23 @@
-#include <iostream>
 #include "TreeNode.cpp"
 using namespace std;
 
 class Solution {
 private:
-    int traverse(TreeNode* current)
+    void traverse(TreeNode* current)
     {
-        int nodes = 0;
         if(current!=nullptr)
         {
             nodes++;
-            nodes+=traverse(current->left);
-            nodes+=traverse(current->right);
+            traverse(current->left);
+            traverse(current->right);
         }
-        return nodes;
     }
 public:
     int countNodes(TreeNode* root) {
-        return traverse(root);
+        nodes = 0;
+        traverse(root);
+        return nodes;
     }
+    
+    int nodes;
 };

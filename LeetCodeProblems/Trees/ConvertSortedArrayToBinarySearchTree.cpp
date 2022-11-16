@@ -1,8 +1,14 @@
-#include <iostream>
 #include "TreeNode.cpp"
 using namespace std;
 
 class Solution {
+public:
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        TreeNode* root = new TreeNode();
+        buildTree(nums,0,nums.size()-1, root);
+        return root;
+    }
+    
 private:
     void buildTree(vector<int>& nums, int left, int right, TreeNode* node) {
         int pos = (left+right)/2;
@@ -19,11 +25,5 @@ private:
             buildTree(nums,pos+1,right, node->right);
         }
         else node->right = nullptr;
-    }
-public:
-    TreeNode* sortedArrayToBST(vector<int>& nums) {
-        TreeNode* root = new TreeNode();
-        buildTree(nums,0,nums.size()-1, root);
-        return root;
     }
 };

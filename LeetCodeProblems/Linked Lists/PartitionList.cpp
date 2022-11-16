@@ -1,4 +1,3 @@
-#include <iostream>
 #include "ListNode.cpp"
 using namespace std;
 
@@ -11,14 +10,8 @@ public:
         ListNode* head2=nullptr;
         for(ListNode* temp = head;temp!=nullptr;temp = temp->next)
         {
-            if(temp->val<x)
-            {
-                fillNewList(head1, temp1, temp->val);
-            }
-            else
-            {
-                fillNewList(head2, temp2, temp->val);
-            }
+            if(temp->val<x) fillNewList(head1, temp1, temp->val);
+            else fillNewList(head2, temp2, temp->val);
         }
         if(head1==nullptr) return head2;
         else

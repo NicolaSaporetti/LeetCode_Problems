@@ -1,36 +1,24 @@
-#include <iostream>
-#include <vector>
 #include "TreeNode.cpp"
 using namespace std;
 
 class Solution {
-private:
-    bool result;
-    void traverse(TreeNode* node, long long int left, long long int right)
-    {
-        if(result)
-        {
-            if(static_cast<long long int>(node->val)<=left || 
-               static_cast<long long int>(node->val)>=right)
-            {
-                result = false;
-                return;
-            }
-            if(node->left!=nullptr)
-            {
-                traverse(node->left,left,static_cast<long long int>(node->val));
-            }
-            if(node->right!=nullptr)
-            {
-                traverse(node->right,static_cast<long long int>(node->val),right);
-            }
-        }
-    }
 public:
     bool isValidBST(TreeNode* root) {
         result = true;
-        if(result && root!=nullptr)
-            traverse(root,-3000000000,3000000000);
+        traverse(root,((long long) INT_MIN)-1,((long long)INT_MAX)+1);
         return result;
     }
+private:
+    void traverse(TreeNode* node, long long left, long long right)
+    {
+        if(node!=nullptr && result)
+        {
+            if(static_cast<long long>(node->val)<=left || 
+               static_cast<long long>(node->val)>=right) result = false;
+            traverse(node->left,left,node->val);
+            traverse(node->right,node->val,right);
+        }
+    }
+    
+    bool result;
 };

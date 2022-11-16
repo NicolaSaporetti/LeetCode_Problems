@@ -1,4 +1,3 @@
-#include <iostream>
 #include "TreeNode.cpp"
 using namespace std;
 
@@ -11,7 +10,7 @@ public:
             current = head;
             traverse(root->left);
             traverse(root->right);
-            &root->left = nullptr;
+            root->left = nullptr;
             root->right = head->right;
         }
     }
@@ -27,6 +26,7 @@ private:
         }
         
     }
+    
     TreeNode* head;
     TreeNode* current;
 };

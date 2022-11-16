@@ -1,29 +1,25 @@
 #include <queue>
-#include <vector>
 #include "TreeNode.cpp"
 using namespace std;
 
 class Solution {
 public:
-	vector<vector<int>> levelOrder(TreeNode* root) {
-	    vector<vector<int>> solutions;
-        queue<TreeNode*> q;
+    Node* connect(Node* root) {
+        queue<Node*> q;
         q.push(root);
         while(!q.empty())
         {
-            vector<int> sol;
             int sz = q.size();
             for(int i=0;i<sz;i++)
             {
-                TreeNode* elem = q.front();
+                Node* elem = q.front();
                 q.pop();
                 if(elem==nullptr) continue;
-                sol.push_back(elem->val);
+                if(i!=sz-1) elem->next=q.front();
                 q.push(elem->left);
                 q.push(elem->right);
             }
-            if(sol.size()>0) solutions.push_back(sol);
         }
-		return solutions;
+		return root;
 	}
 };

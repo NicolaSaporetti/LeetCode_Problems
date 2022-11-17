@@ -5,9 +5,11 @@ using namespace std;
 
 class Financial {
 public:
+    void simplifyGraph(vector<int>& prices);
+
+private:
     void simplifyBear(vector<int>& prices);
     void simplifyBull(vector<int>& prices);
     void translateValuesToRelative(vector<int>& prices);
-    int computeProfit(vector<int>& relative_prices);
 };
 #endif

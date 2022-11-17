@@ -1,11 +1,10 @@
-#include <iostream>
-#include <vector>
+#include <set>
 using namespace std;
 
 class Solution {
-    set<int> myS;
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
+        set<int> myS;
         myS.insert(0);
         while(!myS.empty())
         {

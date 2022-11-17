@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 #include <map>
 #include <set>
@@ -17,10 +16,8 @@ public:
             addStartingWordIfNotInVector(beginWord,wordList);
             int start_word_pos = getWordPos(beginWord,wordList);
             fillWordsGraph(wordList);
-            visited[end_word_pos] = true;
             successor.resize(words);
-            addAllElementDistanceOne(end_word_pos,wordList);
-            computeMinDistance(start_word_pos,wordList);
+            computeMinDistance(end_word_pos,start_word_pos,wordList);
             vector<int> temp(minDistance+1);
             computeResult(start_word_pos,end_word_pos,wordList,temp,0);
         }
@@ -54,12 +51,14 @@ private:
         {
             for(int j=0;j<wordSize;j++)
             {
-                string origin = wordList[i];
-                origin[j] = '*';
-                tempWordsGraph[origin].push_back(i);
+                char temp = '*';
+                swap(wordList[i][j],temp);
+                tempWordsGraph[wordList[i]].push_back(i);
+                swap(wordList[i][j],temp);
             }
         }
         
+        wordsGraph.resize(words);
         for(auto it=tempWordsGraph.begin();it!=tempWordsGraph.end();it++)
         {
             for(auto j=0;j<it->second.size();j++)
@@ -73,26 +72,20 @@ private:
         }
     }
     
-    void computeMinDistance(int end_pos, vector<string>& wordList)
+    void computeMinDistance(int start_pos, int end_pos, vector<string>& wordList)
     {
         minDistance = 0;
+        visited[start_pos] = true;
+        wordsToEvaluate.insert(start_pos);
         while(!wordsToEvaluate.empty())
         {
             minDistance++;
-            set<int> temp;
-            for(auto it = wordsToEvaluate.begin();it!=wordsToEvaluate.end();it++)
+            set<int> temp = std::move(wordsToEvaluate);
+            for(auto e : temp) visited[e] = true;
+            for(auto e : temp)
             {
-                temp.insert(*it);
-                visited[*it] = true;
-            }
-            wordsToEvaluate.clear();
-            for(auto it = temp.begin();it!=temp.end();it++)
-            {
-                if(*it == end_pos) return;
-                else
-                {
-                    addAllElementDistanceOne(*it, wordList);
-                }
+                if(e == end_pos) return;
+                addAllElementDistanceOne(e, wordList);
             }
         }
         return;
@@ -100,16 +93,14 @@ private:
     
     void addAllElementDistanceOne(int source, vector<string>& wordList)
     {
-        for(auto i=wordsGraph[source].begin();i!=wordsGraph[source].end();i++)
+        for(auto e : wordsGraph[source])
         {
-            if(!visited[*i])
+            if(!visited[e])
             {
-                wordsToEvaluate.insert(*i);
-                successor[*i].push_back(source);
+                wordsToEvaluate.insert(e);
+                successor[e].push_back(source);
             }
-            wordsGraph[*i].erase(source);
         }
-        wordsGraph.erase(source);
     }
     
     void computeResult(int current, int end, vector<string>& wordList, vector<int>& path, int pos)
@@ -131,7 +122,7 @@ private:
     }
     
     set<int> wordsToEvaluate;
-    map<int,set<int>> wordsGraph;
+    vector<set<int>> wordsGraph;
     vector<bool> visited;
     int words;
     int wordSize;

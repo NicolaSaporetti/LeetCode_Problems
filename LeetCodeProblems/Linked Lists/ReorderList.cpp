@@ -1,12 +1,14 @@
-#include <iostream>
 #include "ListNode.cpp"
 using namespace std;
 
-
 class Solution {
-private:
-    ListNode *tempHead;
+public:
+    void reorderList(ListNode* head) {
+        tempHead = head;
+        reorderL(head,0);
+    }
     
+private:
     int reorderL(ListNode* current, int current_size) {
         if(current!=nullptr)
         {
@@ -26,9 +28,6 @@ private:
         }
         else return current_size;
     }
-public:
-    void reorderList(ListNode* head) {
-        tempHead = head;
-        reorderL(head,0);
-    }
+    
+    ListNode *tempHead;
 };

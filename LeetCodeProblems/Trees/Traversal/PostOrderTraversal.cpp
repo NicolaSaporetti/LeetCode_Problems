@@ -1,11 +1,15 @@
-#include <iostream>
 #include <vector>
 #include "Node.cpp"
 using namespace std;
 
 class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        traverse(root);
+        return sol;
+    }
+    
 private:
-    vector<int> sol;
     void traverse(TreeNode* node)
     {
         if(node!=nullptr)
@@ -15,9 +19,6 @@ private:
             sol.push_back(node->val);
         }
     }
-public:
-    vector<int> postorderTraversal(TreeNode* root) {
-        traverse(root);
-        return sol;
-    }
+    
+    vector<int> sol;
 };

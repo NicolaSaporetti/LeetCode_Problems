@@ -1,22 +1,15 @@
-#include <vector>
-#include "Financial.cpp"
 using namespace std;
 
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        Financial financial;
-        financial.simplifyBear(prices);
-        financial.simplifyBull(prices);
-        financial.translateValuesToRelative(prices);
-        return financial.computeProfit(prices);
+        int minBuy = prices[0];
+        int res = 0;
+        for(int i=1; i<prices.size(); i++)
+        {
+            res=max(res,prices[i]-minBuy);
+            minBuy=min(minBuy,prices[i]);
+        }
+        return res;
     }
 };
-
-int main()
-{
-    vector<int> prices = {5};
-    Solution solution;
-    cout<<solution.maxProfit(prices);
-    return 0;
-}

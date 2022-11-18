@@ -1,5 +1,4 @@
 #include <vector>
-#include <array>
 using namespace std;
 
 class Solution {
@@ -7,11 +6,12 @@ public:
     int numIslands(vector<vector<char>>& grid) {
         row_sz = grid.size();
         col_sz = grid[0].size();
+        row_pos.assign({1,-1,0,0});
+        col_pos.assign({0,0,1,-1});
 		return computeNumIslands(grid);
     }
     
 private:
-    
     int computeNumIslands(vector<vector<char>>& grid) {
         int res = 0;
         for(int i=0;i<row_sz;i++)
@@ -27,10 +27,9 @@ private:
         }
         return res;
     }
+    
     void removeIsland(vector<vector<char>>& grid, int row, int col)
     {
-        array<int,4> row_pos = {1,-1,0,0};
-        array<int,4> col_pos = {0,0,1,-1};
         queue<pair<int,int>> pos;
         pos.push({row,col});
         grid[row][col]='0';
@@ -53,4 +52,6 @@ private:
 
     int row_sz;
     int col_sz;
+    vector<int> row_pos;
+    vector<int> col_pos;
 };

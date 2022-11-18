@@ -1,31 +1,17 @@
-#include <vector>
 using namespace std;
 
 class Solution {
-    public:
+public:
     int findMin(vector<int>& nums) {
-        if (nums.size() == 1) {
-            return nums[0];
+        int r= nums.size()-1;
+        int l=0;
+        int mid=0;
+        while(nums[l]>nums[r] && l<r)
+        {
+            mid=l+(r-l)/2;
+            if(nums[r] < nums[mid]) l=mid+1;
+            else r=mid;
         }
-        int left = 0, right = nums.size() - 1;
-        if (nums[right] > nums[0]) {
-            return nums[0];
-        }
-
-        while (right > left) {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] > nums[mid + 1]) {
-                return nums[mid + 1];
-            }
-            if (nums[mid - 1] > nums[mid]) {
-                return nums[mid];
-            }
-            if (nums[mid] > nums[0]) {
-                left = mid + 1;
-            } else {
-                right = mid - 1;
-            }
-        }
-        return INT_MAX;
+        return nums[l];
     }
 };

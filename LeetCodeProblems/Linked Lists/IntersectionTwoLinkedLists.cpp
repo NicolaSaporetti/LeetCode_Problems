@@ -1,58 +1,48 @@
-#include <iostream>
-#include <vector>
 #include "ListNode.cpp"
 using namespace std;
 
-typedef struct
-{
-    bool intersectionPresent;
-    int sizeA;
-    int sizeB;
-} Intersection;
-
-Intersection* getLenghtAndIntPres(ListNode *headA, ListNode *headB)
-{
-    Intersection* myI = new Intersection();
-    while(headA->next!=nullptr)
-    {
-        headA = headA->next;
-        myI->sizeA++;
-    }
-    while(headB->next!=nullptr)
-    {
-        headB = headB->next;
-        myI->sizeB++;
-    }
-    myI->intersectionPresent = (headA==headB)? true : false;
-    return myI;
-}
- 
-ListNode* getIntersection(ListNode *headA, ListNode *headB, Intersection* myI)
-{
-    if(myI->sizeA>myI->sizeB)
-    {
-        for(int i=0;i<myI->sizeA-myI->sizeB;i++) headA = headA->next;
-    }
-    else
-    {
-        for(int i=0;i<myI->sizeB-myI->sizeA;i++) headB = headB->next;
-    }
-    while(headA!=headB)
-    {
-        headA = headA->next;
-        headB = headB->next;
-    }
-    return headA;
-}
-    
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        Intersection* inters = getLenghtAndIntPres(headA, headB);
-        if(inters->intersectionPresent)
+        int sizeA = 0;
+        int sizeB = 0;
+        ListNode* tempA = headA;
+        ListNode* tempB = headB;
+        while(headA!=nullptr)
         {
-            return getIntersection(headA, headB, inters);
+            headA = headA->next;
+            sizeA++;
         }
-        else return nullptr;
+        while(headB!=nullptr)
+        {
+            headB = headB->next;
+            sizeB++;
+        }
+        return getIntersection(tempA, tempB, sizeA, sizeB);
+    }
+    
+private:
+    ListNode* getIntersection(ListNode *headA, ListNode *headB, int sizeA, int sizeB)
+    {
+        while(sizeA>sizeB)
+        {
+            headA = headA->next;
+            sizeA--;
+        }
+        while(sizeA<sizeB)
+        {
+            headB = headB->next;
+            sizeB--;
+        }
+        while(sizeA>0)
+        {
+            if(headA==headB) return headA;
+            else
+            {
+                headA = headA->next;
+                headB = headB->next;
+            }
+        }
+        return nullptr;
     }
 };

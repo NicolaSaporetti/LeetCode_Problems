@@ -3,14 +3,13 @@ using namespace std;
 
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
-        int transactions = 4;
-        vector<vector<int>> dp(5, vector<int>(prices.size()+1, INT_MIN));
-        for(int i=4;i>=0;i--)
+    int maxProfit(int k, vector<int> &prices) {
+        vector<vector<int>> dp(k*2+1, vector<int>(prices.size()+1, INT_MIN));
+        for(int i=k*2;i>=0;i--)
         {
             for(int j=prices.size();j>=0;j--)
             {
-                if(i==4 || j==prices.size()) dp[i][j]=0;
+                if(i==k*2 || j==prices.size()) dp[i][j]=0;
                 else
                 {
                     int profit_next = dp[i][j+1];

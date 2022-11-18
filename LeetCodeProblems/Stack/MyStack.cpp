@@ -1,29 +1,30 @@
-#include <iostream>
-#include <deque>
+#include <stack>
 using namespace std;
 
-class MyStack {
-private:
-    deque<int> mydeque;
+class MinStack {
 public:
-    MyStack() {
+    MinStack() {
+        
     }
     
-    void push(int x) {
-        mydeque.push_front(x);
+    void push(int val) {
+        myS.push(val);
+        if(myS2.empty() ||(!myS2.empty() && val<=myS2.top())) myS2.push(val);
     }
     
-    int pop() {
-        int result = top();
-        mydeque.pop_front();
-        return result;
+    void pop() {
+        if(myS.top()==myS2.top()) myS2.pop();
+        myS.pop();
     }
     
     int top() {
-        return mydeque.front();
+        return myS.top();
     }
     
-    bool empty() {
-        return mydeque.empty();
+    int getMin() {
+        return myS2.top();
     }
+private:
+    stack<int> myS;
+    stack<int> myS2;
 };

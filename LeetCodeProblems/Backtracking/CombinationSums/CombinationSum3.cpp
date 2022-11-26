@@ -1,37 +1,40 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
-private:
-    vector<vector<int>> solutions;
-	int amountOfNumbers;
-	int sum;
-	void addNumber(vector<int>& tempSol, int lastNum, int tempSum)
-	{
-		if(tempSum>sum || (tempSum==sum && tempSol.size()<amountOfNumbers) || (tempSum<sum && tempSol.size()==amountOfNumbers))
-		{
-			return;
-		}
-		if(tempSol.size()==amountOfNumbers && tempSum==sum)
-		{
-			solutions.push_back(tempSol);
-			return;
-		}
-		
-		for(int i=lastNum+1;i<=10-amountOfNumbers+tempSol.size();i++)
-		{
-			tempSol.push_back(i);
-			addNumber(tempSol,i,tempSum+i);
-			tempSol.pop_back();
-		}
-	}
 public:
     vector<vector<int>> combinationSum3(int k, int n) {
-        amountOfNumbers = k;
+        numbers = k;
 		sum = n;
-		vector<int> tempSol;
-		addNumber(tempSol,0,0);
+		addNumber(1);
 		return solutions;
     }
+private:
+	void addNumber(int start)
+	{
+		if(sum==0 && numbers==0)
+        {
+            solutions.push_back(sol);
+            return;
+        }
+        else if(sum<=0 || numbers<=0) return;
+        else 
+        {
+            for(int i=start;i<10;i++)
+            {
+                sol.push_back(i);
+                numbers--;
+                sum-=i;
+                addNumber(i+1);
+                sol.pop_back();
+                numbers++;
+                sum+=i;
+            }
+        }
+	}
+    
+    vector<vector<int>> solutions;
+    vector<int> sol;
+	int numbers;
+	int sum;
 };

@@ -15,22 +15,21 @@ public:
             m[i[0]].insert(i[2]);
             m[i[1]].insert(-i[2]);
         }
-        for(auto it=m.begin();it!=m.end();it++)
+        for(auto e : m)
         {
-            for(auto itE=it->second.begin();itE!=it->second.end();itE++)
+            for(auto h : e.second)
             {
-                if(*itE>0) current[*itE]++;
+                if(h>0) current[h]++;
                 else
                 {
-                    if(current[*itE*-1]==1) current.erase(*itE*-1);
-                    else current[*itE*-1]--;
+                    current[h*-1]--;
+                    if(current[h*-1]==0) current.erase(h*-1);
                 }
             }
             int newHeight = (!current.empty())? current.rbegin()->first : 0;
             if(newHeight!=oldHeight)
             {
-                vector<int> t = {it->first,newHeight};
-                res.push_back(t);
+                res.push_back({e.first,newHeight});
                 oldHeight = newHeight;
             }
         }

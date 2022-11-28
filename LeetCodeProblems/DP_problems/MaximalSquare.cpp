@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -7,10 +6,7 @@ public:
     int maximalSquare(vector<vector<char>>& matrix) {
         int m = matrix.size();
         int n = matrix[0].size();
-        int ** dp = new int*[m];
-        for(int i=0;i<m;i++){
-            dp[i] = new int[n];
-        }
+        vector<vector<int>> dp(m,vector<int>(n,0));
         int ans=0;
 
         for(int i=0;i<m;i++) {
@@ -31,11 +27,6 @@ public:
                 } 
             }
         }
-        
-        for(int i=0;i<m;i++){
-            delete[] dp[i];
-        }
-        delete[] dp;
         
         return ans*ans;
     }

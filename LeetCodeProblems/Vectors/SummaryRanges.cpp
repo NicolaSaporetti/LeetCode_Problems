@@ -1,4 +1,4 @@
-#include <iostream>
+
 #include <vector>
 using namespace std;
 
@@ -7,7 +7,7 @@ public:
     vector<string> summaryRanges(vector<int>& nums) {
         vector<string> result;
         int i=0;
-        sz = nums.size();
+        int sz = nums.size();
         for(int i=0;i<sz;i++)
         {
             int start = i;
@@ -17,6 +17,4 @@ public:
         }
         return result;
     }
-private:
-    int sz;
 };

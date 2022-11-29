@@ -1,11 +1,7 @@
-#include <iostream>
 #include <stack>
 using namespace std;
 
 class MyQueue {
-private:
-    stack<int> first;
-    stack<int> second;
 public:
     MyQueue() {
         
@@ -52,4 +48,8 @@ public:
     bool empty() {
         return first.empty() && second.empty();
     }
+    
+private:
+    stack<int> first;
+    stack<int> second;
 };

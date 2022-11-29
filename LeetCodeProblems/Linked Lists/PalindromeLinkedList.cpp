@@ -1,4 +1,3 @@
-#include <iostream>
 #include "ListNode.cpp"
 using namespace std;
 
@@ -7,20 +6,22 @@ public:
     bool isPalindrome(ListNode* head) {
         result = true;
         first = head;
-        traverse(head,head);
+        traverse(head);
         return result;
     }
+    
 private:
-    void traverse(ListNode* nodeToCheck, ListNode* fastIter)
+    void traverse(ListNode* node)
     {
-        if(fastIter!=nullptr && fastIter->next!=nullptr)
+        if(node!=nullptr)
         {
-            traverse(nodeToCheck->next,fastIter->next->next);
-            if(nodeToCheck->val != first->val) result = false;
+            traverse(node->next);
+            if(node->val != first->val) result = false;
             first = first->next;
         }
         else return;
     }
+    
     ListNode* first;
     bool result;
 };

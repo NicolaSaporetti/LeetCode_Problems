@@ -1,16 +1,16 @@
 #include "CommandLine.hpp"
-#include "Weapon.hpp"
-#include "WeaponCostSummary.hpp"
+#include "Item.hpp"
+#include "ItemSummary.hpp"
 #include "Calculator.hpp"
 #include <iostream>
 using namespace std;
 
-WeaponCostSummary CommandLine::compute_cost()
+ItemSummary CommandLine::compute_cost()
 {
     int choice =0;
-    cout<<"Digitare tipologia equipaggiamento\n1: Arma\n2: Armatura\n3: Pozioni\n4: Pergamene"<<endl;
+    cout<<"Digitare tipologia equipaggiamento\n1: Arma\n2: Armatura\n3: Pozioni\n4: Pergamene\n5: Bacchette"<<endl;
     cin>>choice;
-    WeaponCostSummary result;
+    ItemSummary result;
     switch(choice) {
         case 1:
         {
@@ -35,15 +35,24 @@ WeaponCostSummary CommandLine::compute_cost()
         {
             int spell_level = fill_spell_level();
             int doses = fill_doses();
-            Potion armor = {spell_level,doses};
-            //result = calculator.calculate_cost_armor(armor);
+            Potion potion = {spell_level,doses};
+            result = calculator.calculate_cost_potion(potion);
             break;
         }
         case 4:
         {
             int spell_levels = fill_spell_levels();
-            Scroll armor = {spell_levels};
-            //result = calculator.calculate_cost_armor(armor);
+            Scroll scroll = {spell_levels};
+            result = calculator.calculate_cost_scroll(scroll);
+            break;
+        }
+        case 5:
+        {
+            int spell_level = fill_spell_level();
+            int doses = fill_doses();
+            bool rechargeable = is_rechargeable();
+            Wand wand = {spell_level,doses,rechargeable};
+            result = calculator.calculate_cost_wand(wand);
             break;
         }
     }
@@ -90,6 +99,12 @@ int CommandLine::fill_spell_levels()
 {
     cout<<"Digitare somma livelli incantesimi"<<endl;
     return fill_int();
+}
+
+bool CommandLine::is_rechargeable()
+{
+    cout<<"Digitare 0 in case non sia ricaricabile, 1 altrimenti"<<endl;
+    return (fill_int())? true : false;
 }
 
 int CommandLine::fill_int()

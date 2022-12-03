@@ -1,15 +1,18 @@
 #ifndef Calculator_HPP
 #define Calculator_HPP
 
-#include "Weapon.hpp"
-#include "WeaponCostSummary.hpp"
+#include "Item.hpp"
+#include "ItemSummary.hpp"
 using namespace std;
 
 class Calculator {
 public:
     Calculator() {}
-    WeaponCostSummary calculate_cost_weapon(Weapon weapon);
-    WeaponCostSummary calculate_cost_armor(Armor weapon);
+    ItemSummary calculate_cost_weapon(Weapon weapon);
+    ItemSummary calculate_cost_armor(Armor armor);
+    ItemSummary calculate_cost_potion(Potion potion);
+    ItemSummary calculate_cost_scroll(Scroll scroll);
+    ItemSummary calculate_cost_wand(Wand wand);
 
 private:
     void adjust_initial_enchantment_cost_in_case_is_below_threshold(int& initial_enchantment_cost, int threshold);

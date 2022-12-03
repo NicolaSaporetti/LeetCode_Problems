@@ -1,5 +1,5 @@
-#ifndef Weapon_HPP
-#define Weapon_HPP
+#ifndef Item_HPP
+#define Item_HPP
 using namespace std;
 
 typedef struct Weapon {
@@ -23,5 +23,11 @@ typedef struct Potion {
 typedef struct Scroll {
     int spell_levels;
 } Scroll;
+
+typedef struct Wand {
+    int spell_level;
+    int charges;
+    bool rechargeable;
+} Wand;
 
 #endif

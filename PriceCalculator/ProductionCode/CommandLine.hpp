@@ -14,6 +14,10 @@ private:
     int fill_encoumber();
     int fill_primary_bonus();
     int fill_secondary_bonus();
+    int fill_spell_level();
+    int fill_doses()
+    int fill_spell_levels()
+    int fill_int();
 
     Calculator calculator;
 };

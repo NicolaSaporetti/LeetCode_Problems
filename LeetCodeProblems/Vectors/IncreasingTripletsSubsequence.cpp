@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -10,18 +9,9 @@ public:
         int mid = INT_MIN;
         for(int i=nums.size()-1;i>=0;i--)
         {
-            if(nums[i]>=Max)
-            {
-                Max = nums[i];
-            }
-            else if(nums[i]>=mid)
-            {
-                mid = nums[i];
-            }
-            else
-            {
-                return true;
-            }
+            if(nums[i]>=Max)Max = nums[i];
+            else if(nums[i]>=mid)mid = nums[i];
+            else return true;
         }
         return false;
     }

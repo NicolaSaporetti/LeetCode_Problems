@@ -1,146 +1,49 @@
-#include <iostream>
 #include <vector>
-#include <unordered_set>
 using namespace std;
 
-typedef struct
-{
-    int weight;
-    int i;
-    int j;
-} Node;
-
 class Solution {
-private:
-    int row_sz;
-    int col_sz;
-    vector<vector<Node>> graph;
-    unordered_set<Node*> elementsToEvaluate;
-    int maxLenght;
-    
-    void initializeNodes()
-    {
-        Node node;
-        graph.resize(row_sz);
-        for(int i=0;i<row_sz;i++)
-        {
-            graph[i].resize(col_sz);
-            for(int j=0;j<col_sz;j++)
-            {
-                node.i=i;
-                node.j=j;
-                graph[i][j]= node;
-            }
-        }
-    }
-    
-    int findMax(vector<vector<int>>& matrix)
-    {
+public:
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        rz = matrix.size();
+        cz = matrix[0].size();
+        ri = {1,-1,0,0};
+        ci = {0,0,1,-1};
+        dp.assign(rz,vector<int>(cz,-1));
         int maxE = 0;
-        for(int i=0;i<row_sz;i++)
+        for(int i=0;i<rz;i++)
         {
-            for(int j=0;j<col_sz;j++)
+            for(int j=0;j<cz;j++)
             {
-                maxE = max(maxE, matrix[i][j]);
+                maxE = max(maxE,1+checkGreater(matrix,i,j));
             }
         }
         return maxE;
     }
     
-    void reset(int start_row, int start_col)
+private:
+    int checkGreater(vector<vector<int>>& matrix, int r, int c)
     {
-        elementsToEvaluate.clear();
-        
-        for(int i=0;i<row_sz;i++)
+        if(dp[r][c]!=-1) return dp[r][c];
+        else
         {
-            for(int j=0;j<col_sz;j++)
+            int maxS = 0;
+            for(int i=0;i<4;i++)
             {
-                graph[i][j].weight = -1;
-            }
-        }
-        graph[start_row][start_col].weight=1;
-        elementsToEvaluate.insert(&graph[start_row][start_col]);
-    }
-	
-    Node* findElementToEvaluate(vector<vector<int>>& matrix) {
-        Node* chosenNode = nullptr;
-        unordered_set<Node*>::iterator current;
-        int tempweight = 2147483647;
-        for(auto it=elementsToEvaluate.begin();it!=elementsToEvaluate.end();it++)
-        {
-            if(matrix[(*it)->i][(*it)->j]<=tempweight)
-            {
-                tempweight = graph[(*it)->i][(*it)->j].weight;
-                current = it;
-            }
-        }
-        chosenNode = *current;
-        elementsToEvaluate.erase(current);
-        return chosenNode;
-    }
-    
-    void updateWeight(int current_weight, int newRow, int newCol)
-    {
-        if(graph[newRow][newCol].weight<current_weight+1)
-        {
-            graph[newRow][newCol].weight=current_weight+1;
-            elementsToEvaluate.insert(&graph[newRow][newCol]);
-        }
-    }
-    
-    void computelongestIncreasingPath(vector<vector<int>>& matrix) {
-        Node* elem = nullptr;
-        int current_weight = 0;
-        do
-        {
-            elem = findElementToEvaluate(matrix);
-            current_weight = elem->weight;
-            if(maxLenght<current_weight) maxLenght = current_weight;
-			if(elem->i+1<row_sz && matrix[elem->i+1][elem->j]>matrix[elem->i][elem->j])
-            {
-                updateWeight(current_weight, elem->i+1, elem->j);
-            }
-            if(elem->i-1>=0 && matrix[elem->i-1][elem->j]>matrix[elem->i][elem->j])
-            {
-                updateWeight(current_weight, elem->i-1, elem->j);
-            }
-            if(elem->j+1<col_sz && matrix[elem->i][elem->j+1]>matrix[elem->i][elem->j])
-            {
-                updateWeight(current_weight, elem->i, elem->j+1);
-            }
-            if(elem->j-1>=0 && matrix[elem->i][elem->j-1]>matrix[elem->i][elem->j])
-            {
-                updateWeight(current_weight, elem->i, elem->j-1);
-            }
-        }
-        while(elementsToEvaluate.size()>0);
-    }
-    
-    bool bestNumberInNeighboourd(vector<vector<int>>& matrix, int row, int col)
-    {
-        if(row+1<row_sz && matrix[row][col]>matrix[row+1][col]) return false;
-        if(row-1>=0 && matrix[row][col]>matrix[row-1][col]) return false;
-        if(col+1<col_sz && matrix[row][col]>matrix[row][col+1]) return false;
-        if(col-1>=0 && matrix[row][col]>matrix[row][col-1]) return false;
-        return true;
-    }
-public:
-    int longestIncreasingPath(vector<vector<int>>& matrix) {
-        row_sz = matrix.size();
-        col_sz = matrix[0].size();
-        initializeNodes();
-        int max = findMax(matrix);
-        for(int i=0;i<row_sz;i++)
-        {
-            for(int j=0;j<col_sz;j++)
-            {
-                if(max-maxLenght>=matrix[i][j] && bestNumberInNeighboourd(matrix, i, j))
+                int newr = r+ri[i];
+                int newc = c+ci[i];
+                if(newr>=0 && newr<rz && newc>=0 && newc<cz && matrix[newr][newc]>matrix[r][c])
                 {
-                    reset(i,j);
-		            computelongestIncreasingPath(matrix);
+                    maxS = max(maxS,1+checkGreater(matrix,newr,newc));
                 }
             }
+            dp[r][c]=maxS;
+            return maxS;
         }
-        return maxLenght;
     }
+    
+    int rz;
+    int cz;
+    vector<int> ri;
+    vector<int> ci;
+    vector<vector<int>> dp;
 };

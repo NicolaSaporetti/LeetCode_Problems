@@ -1,26 +1,25 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:
     string getHint(string secret, string guess) {
-        string result = "0A0B";
+        int sz = secret.size();
         int bulls = 0;
         int cows = 0;
-        vector<vector<int>> numberIncorrectPosition(10,vector<int>(2,0));
-        for(int i=0;i<secret.size();i++)
+        vector<int> v(10,0);
+        for(int i=0;i<sz;i++)
         {
             if(secret[i]==guess[i]) bulls++;
-            else
-            {
-                numberIncorrectPosition[secret[i]-'0'][0]++;
-                numberIncorrectPosition[guess[i]-'0'][1]++;
-            }
+            else v[secret[i]-'0']++;
         }
-        for(int i=0;i<10;i++)
+        for(int i=0;i<sz;i++)
         {
-            cows+=min(numberIncorrectPosition[i][0],numberIncorrectPosition[i][1]);
+            if(secret[i]!=guess[i] && v[guess[i]-'0']>0)
+            {
+                cows++;
+                v[guess[i]-'0']--;
+            }
         }
         return to_string(bulls)+'A'+to_string(cows)+'B';
     }

@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 #include <queue>
 #include "TreeNode.cpp"
@@ -8,45 +7,33 @@ class Codec {
 public:
 
     string serialize(TreeNode* root) {
-        if(root==NULL)return "-1001";
+        if(root==NULL) return "-1001";
         string ans="";
-        queue<TreeNode *>q;
+        queue<TreeNode*>q;
         q.push(root);
         while(!q.empty()){
             auto x=q.front();
+            q.pop();
             
-            ans+=" "+to_string(x->val);
-            if(x->val==-1001){
-                q.pop();
-                continue;
-            }
-            if(x->left){
+            if(x==nullptr) ans+=" "+to_string(-1001);
+            else
+            {
+                ans+=" "+to_string(x->val);
                 q.push(x->left);
-                
-            }
-            else{
-                q.push(new TreeNode(-1001));
-            }
-            if(x->right){
                 q.push(x->right);
             }
-            else{
-                q.push(new TreeNode(-1001));
-            }
-            q.pop();
         }
         return ans;
     }
 
     TreeNode* deserialize(string data) {
-        cout<<data;
-        if(data=="-1001")return NULL;
-        vector<int>res=simple_tokenizer(data);
+        if(data=="-1001") return NULL;
+        vector<int>res = simple_tokenizer(data);
         int i=1;
         queue<TreeNode *>q;
         TreeNode *root=new TreeNode(res[0]);
         q.push(root);
-        while(!q.empty() && i<res.size()){
+        while(!q.empty()){
             auto x=q.front();
             if(res[i]!=-1001){
                 x->left=new TreeNode(res[i]);
@@ -67,12 +54,8 @@ public:
     {
         stringstream ss(s);
         string word;
-        vector<int>res;
-        while (ss >> word) {
-            
-            res.push_back((stoi(word)));
-           
-        }
+        vector<int> res;
+        while (ss >> word) res.push_back((stoi(word)));
         return res;
     }
 };

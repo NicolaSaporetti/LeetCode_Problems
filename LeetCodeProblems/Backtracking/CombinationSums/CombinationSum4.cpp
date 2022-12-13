@@ -1,32 +1,26 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
+public:
+    int combinationSum4(vector<int>& nums, int target) {
+        coinsByAmount.assign(target+1,0);
+        compute_comb(nums,target+1);
+        return coinsByAmount[target];
+    }
 private:
-    vector<long long> coinsByAmount;
-    
-    void compute_comb(vector<int>& coins)
+    void compute_comb(vector<int>& coins, int target)
     {
         coinsByAmount[0] = 1;
-        for(int i=0;i<coinsByAmount.size();i++)
+        int sz = coins.size();
+        for(int i=1;i<target;i++)
         {
-            for(int j=0;j<coins.size();j++)
+            for(int j=0;j<sz;j++)
             {
-                if(i+coins[j]<coinsByAmount.size())
-                {
-                    coinsByAmount[i+coins[j]]+=coinsByAmount[i];
-                    coinsByAmount[i+coins[j]]%=INT_MAX;
-                }
+                if(i-coins[j]>=0) coinsByAmount[i]= (coinsByAmount[i]+coinsByAmount[i-coins[j]])%INT_MAX;
             }
         }
     }
-public:
-    int combinationSum4(vector<int>& nums, int target) {
-        if(target ==0) return 0;
-        coinsByAmount.resize(target+1);
-        sort(nums.begin(),nums.end());
-        compute_comb(nums);
-        return coinsByAmount[target];
-    }
+
+    vector<long long> coinsByAmount;
 };

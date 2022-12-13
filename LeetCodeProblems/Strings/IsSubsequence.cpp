@@ -1,10 +1,6 @@
-#include <iostream>
 using namespace std;
 
 class Solution {
-private:
-    int sz_t;
-    int sz_s;
 public:
     bool isSubsequence(string s, string t) {
         int sz_t = t.size();

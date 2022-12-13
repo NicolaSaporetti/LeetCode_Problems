@@ -1,18 +1,11 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
-private:
-    vector<int> original;
-    int size;
 public:
     Solution(vector<int>& nums) {
         size = nums.size();
-        for(int i=0;i<size;i++)
-        {
-            original.push_back(nums[i]);
-        }
+        for(int i=0;i<size;i++) original.push_back(nums[i]);
     }
     
     vector<int> reset() {
@@ -29,4 +22,8 @@ public:
         }
         return temp;
     }
+
+private:
+    vector<int> original;
+    int size;
 };

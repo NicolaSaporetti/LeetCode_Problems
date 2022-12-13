@@ -1,11 +1,20 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class NestedIterator {
-private: 
-    vector<int> list;
-    int current = 0;
+public:
+    NestedIterator(vector<NestedInteger> &nestedList) {
+        extractVector(nestedList);
+    }
+    
+    int next() {
+        return list[current++];
+    }
+    
+    bool hasNext() {
+        return current!=(list.size());
+    }
+private:
     void extractVector(const vector<NestedInteger>& nestedList)
     {
         for(int i=0;i<nestedList.size();i++)
@@ -20,16 +29,7 @@ private:
             }
         }
     }
-public:
-    NestedIterator(vector<NestedInteger> &nestedList) {
-        extractVector(nestedList);
-    }
     
-    int next() {
-        return list[current++];
-    }
-    
-    bool hasNext() {
-        return current!=(list.size());
-    }
+    vector<int> list;
+    int current = 0;
 };

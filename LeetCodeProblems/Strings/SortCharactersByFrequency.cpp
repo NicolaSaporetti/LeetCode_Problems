@@ -1,8 +1,7 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
-bool myfunction (vector<int> i,vector<int> j) {
+bool myfunction (vector<int>& i,vector<int>& j) {
     return (i[1]>j[1]);
 }
 

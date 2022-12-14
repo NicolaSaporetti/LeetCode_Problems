@@ -1,12 +1,6 @@
-#include <iostream>
 #include <vector>
 #include <queue>
 using namespace std;
-
-typedef struct {
-    int x;
-    int y;
-} Cell;
 
 class Solution {
 public:
@@ -16,6 +10,8 @@ public:
         col_sz = heights[0].size();
         vector<vector<bool>> atl(row_sz,vector<bool>(col_sz,false));
         vector<vector<bool>> pac(row_sz,vector<bool>(col_sz,false));
+        dx={1,-1,0,0};
+        dy={0,0,1,-1};
         
         setUpAtlantic(heights,atl);
         setUpPacific(heights,pac);
@@ -23,93 +19,62 @@ public:
         {
             for(int j=0;j<col_sz;j++)
             {
-                if(atl[i][j] && pac[i][j])
-                {
-                    vector<int> temp = {i,j};
-                    sol.push_back(temp);
-                }
+                if(atl[i][j] && pac[i][j]) sol.push_back({i,j});
             }
         }
         return sol;
     }
 private:
-    void setUpAtlantic(vector<vector<int>>& heights, vector<vector<bool>>& atl)
+    void setUpAtlantic(vector<vector<int>>& heights, vector<vector<bool>>& ocean)
     {
-        Cell cell;
-        cell.y =col_sz-1;
         for(int i=0;i<row_sz;i++)
         {
-            cell.x =i;
-            myQ.push(cell);
+            myQ.push({i,col_sz-1});
+            ocean[i][col_sz-1]=true;
         }
-        cell.x =row_sz-1;
-        for(int j=0;j<col_sz;j++)
+        for(int i=0;i<col_sz-1;i++)
         {
-            cell.y =j;
-            myQ.push(cell);
+            myQ.push({row_sz-1,i});
+            ocean[row_sz-1][i]=true;
         }
-        while(!myQ.empty())
-        {
-            Cell cell = myQ.front();
-            myQ.pop();
-            if(atl[cell.x][cell.y] == 0) computeWaterAtlFlowNeighburingCell(heights, cell, atl);
-        }
+        computeFlow(heights,ocean);
     }
     
-    void setUpPacific(vector<vector<int>>& heights, vector<vector<bool>>& pac)
+    void setUpPacific(vector<vector<int>>& heights, vector<vector<bool>>& ocean)
     {
-        Cell cell;
-        cell.y =0;
         for(int i=0;i<row_sz;i++)
         {
-            cell.x =i;
-            myQ.push(cell);
+            myQ.push({i,0});
+            ocean[i][0]=true;
         }
-        cell.x =0;
-        for(int j=0;j<col_sz;j++)
+        for(int i=1;i<col_sz;i++)
         {
-            cell.y =j;
-            myQ.push(cell);
+            myQ.push({0,i});
+            ocean[0][i]=true;
         }
+        computeFlow(heights,ocean);
+    }
+
+    void computeFlow(vector<vector<int>>& heights, vector<vector<bool>>& ocean)
+    {
         while(!myQ.empty())
         {
-            Cell cell = myQ.front();
+            auto cell = myQ.front();
             myQ.pop();
-            if(pac[cell.x][cell.y] == 0) computeWaterAtlFlowNeighburingCell(heights, cell, pac);
+            for(int i=0;i<4;i++)
+            {
+                int nx = cell.first+dx[i];
+                int ny = cell.second+dy[i];
+                if(nx<0 || nx>=row_sz || ny<0 || ny>=col_sz || ocean[nx][ny] || heights[nx][ny]<heights[cell.first][cell.second]) continue;
+                myQ.push({nx,ny});
+                ocean[nx][ny]=true;
+            }
         }
     }
     
-    void computeWaterAtlFlowNeighburingCell(vector<vector<int>>& heights, Cell cell, vector<vector<bool>>& ocean)
-    {
-        Cell temp;
-        ocean[cell.x][cell.y]=true;
-        if(cell.x+1<row_sz && heights[cell.x+1][cell.y]>=heights[cell.x][cell.y])
-        {
-            temp.x = cell.x+1;
-            temp.y = cell.y;
-            myQ.push(temp);
-        }
-        if(cell.x-1>=0 && heights[cell.x-1][cell.y]>=heights[cell.x][cell.y])
-        {
-            temp.x = cell.x-1;
-            temp.y = cell.y;
-            myQ.push(temp);
-        }
-        if(cell.y+1<col_sz && heights[cell.x][cell.y+1]>=heights[cell.x][cell.y])
-        {
-            temp.x = cell.x;
-            temp.y = cell.y+1;
-            myQ.push(temp);
-        }
-        if(cell.y-1>=0 && heights[cell.x][cell.y-1]>=heights[cell.x][cell.y])
-        {
-            temp.x = cell.x;
-            temp.y = cell.y-1;
-            myQ.push(temp);
-        }
-    }
-    
-    queue<Cell> myQ;
+    queue<pair<int,int>> myQ;
+    vector<int> dx;
+    vector<int> dy;
     int row_sz;
     int col_sz;
 };

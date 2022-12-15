@@ -1,43 +1,36 @@
-#include <iostream>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include "TreeNode.cpp"
 using namespace std;
 
 class Solution {
-private:
-    map<int,int> store;
-    vector<int> result;
-    int max;
-    void traverse(TreeNode* node)
-    {
-        auto it = store.insert(pair<int,int>(node->val,1));
-        if(!it.second) 
-        {
-            auto iter = it.first;
-            iter->second+=1;
-            if(max<iter->second)
-            {
-                max = iter->second;
-            }
-        }
-        if(node->left!=nullptr)
-            traverse(node->left);
-        if(node->right!=nullptr)
-            traverse(node->right);
-    }
 public:
     vector<int> findMode(TreeNode* root) {
-        max = 1;
-        if(root!=nullptr)
-            traverse(root);
-        for(auto it=store.begin();it!=store.end();it++)
+        traverse(root);
+        int max = 0;
+        for(auto& e : m)
         {
-            if(it->second==max)
+            if(e.second>max)
             {
-                result.push_back(it->first);
+                result.clear();
+                result.push_back(e.first);
+                max = e.second;
             }
+            else if(e.second==max) result.push_back(e.first);
         }
         return result;
     }
+private:
+    void traverse(TreeNode* node)
+    {
+        if(node!=nullptr)
+        {
+            m[node->val]++;
+            traverse(node->left);
+            traverse(node->right);
+        }
+    }
+
+    unordered_map<int,int> m;
+    vector<int> result;
 };

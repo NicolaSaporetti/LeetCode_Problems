@@ -1,25 +1,29 @@
-#include <iostream>
+#include <stack>
 #include <vector>
+#include <map>
 using namespace std;
 
 class Solution {
 public:
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-        int sz = nums1.size();
-        int sz2 = nums2.size();
-        vector<int> result(sz,-1);
-        for(int i=0;i<sz;i++)
+        stack<int> s;
+        map<int,int> m;
+        vector<int> res;
+        for(int i=0;i<nums2.size();i++)
         {
-            int idx = find(nums2.begin(),nums2.end(),nums1[i])-nums2.begin();
-            for(int j=idx+1;j<sz2;j++)
+            while(!s.empty() && nums2[s.top()]<nums2[i])
             {
-                if(nums2[j]>nums2[idx])
-                {
-                    result[i]=nums2[j];
-                    break;
-                }
+                m[nums2[s.top()]]=nums2[i];
+                s.pop();
             }
+            s.push(i);
         }
-        return result;
+        while(!s.empty())
+        {
+            m[nums2[s.top()]]=-1;
+            s.pop();
+        }
+        for(int i=0;i<nums1.size();i++) res.push_back(m[nums1[i]]);
+        return res;
     }
 };

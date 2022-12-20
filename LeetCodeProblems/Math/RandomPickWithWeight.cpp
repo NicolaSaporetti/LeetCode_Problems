@@ -1,11 +1,7 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
-private:
-    vector<int> cumulative;
-    int sz;
 public:
     Solution(vector<int>& w) {
         sz = w.size();
@@ -18,7 +14,11 @@ public:
     }
     
     int pickIndex() {
-        int sum = cumulative[sz-1];
-        int value = rand() % sum;
+        int value = rand() % cumulative[sz-1];
         return lower_bound(cumulative.begin(),cumulative.end(),value+1)-cumulative.begin();
     }
+
+private:
+    vector<int> cumulative;
+    int sz;
+};

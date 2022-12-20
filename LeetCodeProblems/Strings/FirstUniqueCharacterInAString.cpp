@@ -1,26 +1,22 @@
-#include <iostream>
+#include <vector>
 using namespace std;
 
 class Solution {
-private:
-    
 public:
     int firstUniqChar(string s) {
-        int firstUnique = INT_MAX;
+        int pos = INT_MAX;
         vector<int> starting(26,-1);
-        vector<bool> duplicate(26,false);
         int sz = s.size();
         
         for(int i=0;i<sz;i++)
         {
-            if(starting[s[i]-'a']!=-1) duplicate[s[i]-'a'] = true;
-            starting[s[i]-'a']=i;
+            if(starting[s[i]-'a']==-1) starting[s[i]-'a']=i;
+            else starting[s[i]-'a']=-2;
         }
         for(int i=0;i<26;i++)
         {
-            if(!duplicate[i] && starting[i]!=-1) firstUnique = min(firstUnique,starting[i]);
+            if(starting[i]<pos && starting[i]>=0) pos = starting[i];
         }
-        if(firstUnique!=INT_MAX) return firstUnique;
-        else return -1;
+        return (pos!=INT_MAX)? pos : -1;
     }
 };

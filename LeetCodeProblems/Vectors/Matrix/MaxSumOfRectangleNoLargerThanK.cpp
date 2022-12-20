@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 #include <set>
 using namespace std;
@@ -6,17 +5,16 @@ using namespace std;
 class Solution {
 public:
     int maxSumSubmatrix(vector<vector<int>>& matrix, int k) {
-        int n = matrix.size();
-        int m = matrix[0].size();
+        rz = matrix.size();
+        cz = matrix[0].size();
         int maxi = INT_MIN;
         
-        for(int start_row = 0; start_row < n; start_row++)
+        for(int start_row = 0; start_row < rz; start_row++)
         {
-            vector<int> col_array(m, 0);
-            
-            for(int end_row = start_row; end_row < n; end_row++)
+            vector<int> col_array(cz, 0);
+            for(int end_row = start_row; end_row < rz; end_row++)
             {
-                for(int col = 0; col < m; col++)
+                for(int col = 0; col < cz; col++)
                 {
                     col_array[col] += matrix[end_row][col];
                 }
@@ -30,13 +28,12 @@ public:
 private:
     int find_max(vector<int>& arr, int k)
     {
-        int n = arr.size();
         int maxi = INT_MIN;
         int curr_sum = 0;
         set<int> s;
         s.insert(0);
         
-        for(int i = 0; i < n; i++)
+        for(int i = 0; i < cz; i++)
         {            
             curr_sum += arr[i];
             auto it = s.lower_bound(curr_sum - k);
@@ -49,4 +46,7 @@ private:
         
         return maxi;
     }
+    
+    int rz;
+    int cz; 
 };

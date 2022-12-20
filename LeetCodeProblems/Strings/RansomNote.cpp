@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -10,19 +9,9 @@ public:
         int szRansom = ransomNote.size();
         int szMag = magazine.size();
         
-        for(int i=0;i<szRansom;i++)
-        {
-            ransomComp[ransomNote[i]-'a']++;
-        }
-        for(int i=0;i<szMag;i++)
-        {
-            magazineComp[magazine[i]-'a']++;
-        }
-        
-        for(int i=0;i<26;i++)
-        {
-            if(ransomComp[i]>magazineComp[i]) return false;
-        }
+        for(int i=0;i<szRansom;i++) ransomComp[ransomNote[i]-'a']++;
+        for(int i=0;i<szMag;i++) magazineComp[magazine[i]-'a']++;
+        for(int i=0;i<26;i++) if(ransomComp[i]>magazineComp[i]) return false;
         return true;
     }
 };

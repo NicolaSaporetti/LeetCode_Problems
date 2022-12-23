@@ -3,15 +3,14 @@
 	"tasks": [
 		{
 			"type": "cppbuild",
-			"label": "C/C++: cpp.exe build active file",
-			"command": "C:\\msys64\\mingw64\\bin\\cpp.exe",
+			"label": "C/C++: gcc.exe compila il file attivo",
+			"command": "C:\\msys64\\mingw64\\bin\\gcc.exe",
 			"args": [
 				"-fdiagnostics-color=always",
 				"-g",
 				"${file}",
 				"-o",
-				"${fileDirname}\\${fileBasenameNoExtension}.exe",
-				"-IC:/Users/nicol/OneDrive/Documents/GitHub/Challenge/Headers/*"
+				"${fileDirname}\\${fileBasenameNoExtension}.exe"
 			],
 			"options": {
 				"cwd": "${fileDirname}"
@@ -23,7 +22,7 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"detail": "compiler: C:\\msys64\\mingw64\\bin\\cpp.exe"
+			"detail": "compilatore: C:\\msys64\\mingw64\\bin\\gcc.exe"
 		}
 	]
 }

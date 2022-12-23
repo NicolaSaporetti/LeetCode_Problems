@@ -1,24 +1,47 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:    
-  int M = 1000000007;
 
-  int findPaths(int m, int n, int N, int i, int j) {
-    vector<vector<vector<int>>> memo(m,vector(n,vector(N+1,-1)));
-    return findPaths(m, n, N, i, j, memo);
-  }
+    int findPaths(int m, int n, int N, int i, int j) {
+        rz = m;
+        cz = n;
+        mod = 1000000007;
+        res = 0;
+        vector<vector<vector<int>>> memo(rz,vector(cz,vector(N+1,0)));
+        memo[i][j][N]=1;
+        findPaths(N, i, j, memo);
+        return res;
+    }
 
-  int findPaths(int m, int n, int N, int i, int j, vector<vector<vector<int>>>& memo) {
-    if (i == m || j == n || i < 0 || j < 0) return 1;
-    if (N == 0) return 0;
-    if (memo[i][j][N] >= 0) return memo[i][j][N];
-    memo[i][j][N] = (
-        (findPaths(m, n, N - 1, i - 1, j, memo) + findPaths(m, n, N - 1, i + 1, j, memo)) % M +
-        (findPaths(m, n, N - 1, i, j - 1, memo) + findPaths(m, n, N - 1, i, j + 1, memo)) % M
-    ) % M;
-    return memo[i][j][N];
-  }
+    void findPaths(int N, int r, int c, vector<vector<vector<int>>>& memo) {
+        vector<int> dx = {1,-1,0,0};
+        vector<int> dy = {0,0,1,-1};
+        for(int z=N;z>0;z--)
+        {
+            for(int i=0;i<rz;i++)
+            {
+                for(int j=0;j<cz;j++)
+                {
+                    if(memo[i][j][z]>0)
+                    {
+                        for(int k=0;k<4;k++)
+                        {
+                            int nx = i+dx[k];
+                            int ny = j+dy[k];
+                            if(nx<0 || nx>=rz || ny<0 || ny>=cz) res=(res+memo[i][j][z])%mod;
+                            else memo[nx][ny][z-1]=(memo[nx][ny][z-1]+memo[i][j][z])%mod;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+private:
+    int rz;
+    int cz;
+    int mod = 1000000007;
+    int res;
 };

@@ -11,7 +11,6 @@ public:
         for(int i=0;i<s_sz;i++)
         {
             total[s[i]-'a']++;
-            cout<<i<<endl;
             if(i-p_sz>=0) total[s[i-p_sz]-'a']--;
             verify(i-p.size()+1);
         }

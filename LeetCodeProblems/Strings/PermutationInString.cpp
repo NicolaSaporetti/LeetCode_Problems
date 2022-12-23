@@ -1,19 +1,7 @@
-#include <iostream>
 #include <array>
 using namespace std;
 
 class Solution {
-private:
-    array<int,26> letters;
-    
-    bool compare()
-    {
-        for(int i=0;i<26;i++)
-        {
-            if(letters[i]!=0) return false;
-        }
-        return true;
-    }
 public:
     bool checkInclusion(string s1, string s2) {
         bool solution = false;
@@ -34,4 +22,15 @@ public:
         }
         return false;
     }
+private:
+    bool compare()
+    {
+        for(int i=0;i<26;i++)
+        {
+            if(letters[i]!=0) return false;
+        }
+        return true;
+    }
+
+    array<int,26> letters;
 };

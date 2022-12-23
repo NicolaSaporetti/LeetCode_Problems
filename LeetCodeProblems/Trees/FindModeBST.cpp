@@ -7,6 +7,7 @@ class Solution {
 public:
     vector<int> findMode(TreeNode* root) {
         traverse(root);
+        vector<int> result;
         int max = 0;
         for(auto& e : m)
         {
@@ -32,5 +33,4 @@ private:
     }
 
     unordered_map<int,int> m;
-    vector<int> result;
 };

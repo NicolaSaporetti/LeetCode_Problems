@@ -7,7 +7,6 @@
 #include "ArmorCalculator.cpp"
 #include "ItemSummary.hpp"
 #include "ObjectCreationSummary.hpp"
-#include "ObjectRecipe.hpp"
 using namespace std;
 
 int main ()

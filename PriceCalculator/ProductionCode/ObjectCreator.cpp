@@ -34,7 +34,8 @@ vector<int> ObjectCreator::compute_roll_required(const vector<int>& enchantment_
 int ObjectCreator::compute_percentage(int caster_level, int enchantment_levels)
 {
     const int intelligence = 18;
-    return (intelligence+caster_level)*2-enchantment_levels*3;
+    const int bonus_meditation = caster_level/5+((caster_level%5!=0)? 1 : 0);
+    return (intelligence+bonus_meditation+caster_level)*2-enchantment_levels*3;
 }
 
 int ObjectCreator::compute_labor_cost(int caster_level, int days_to_create)

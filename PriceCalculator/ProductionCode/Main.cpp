@@ -36,7 +36,6 @@ int main ()
          cout<<summary.rolls_required[i]<<" ";
       }
       cout<<"\n\n"<<endl;
-      cout<<"\n\n"<<endl;
    }
    return 0;
 }

@@ -3,6 +3,7 @@
 #include "ArmorCalculator.hpp"
 #include "Item.hpp"
 #include "ItemSummary.hpp"
+#include <numeric>
 using namespace std;
 
 ItemSummary Calculator::calculate_cost_weapon(const Weapon& weapon)
@@ -25,8 +26,9 @@ ItemSummary Calculator::calculate_cost_item_with_charges(const ItemWithCharges& 
     ItemSummary summary = {};
     double rechargable_item_multiplier = compute_charges_item_multiplier(item_with_charges.recharge_type);
     int charges = item_with_charges.charges+compute_additional_chages(item_with_charges.recharge_type);
-    int spell_level_multiplier = 1000;
-    summary.initial_enchantment_cost = item_with_charges.spell_level*spell_level_multiplier*rechargable_item_multiplier;
+    const int spell_level_multiplier = 1000;
+    int sum_spell_levels = accumulate(item_with_charges.spells_level.begin(), item_with_charges.spells_level.end(), 0);
+    summary.initial_enchantment_cost = sum_spell_levels*spell_level_multiplier*rechargable_item_multiplier;
     summary.enchantment_levels = item_with_charges.spells_level;
     summary.charge_cost = summary.initial_enchantment_cost/10;
     summary.total_cost = summary.initial_enchantment_cost+charges*summary.charge_cost;

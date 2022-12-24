@@ -33,10 +33,8 @@ typedef struct Armor {
 
 typedef struct ItemWithCharges {
     RechargeType recharge_type;
-    int spell_level;
-    int charges;
-    int max_spell_level;
     vector<int> spells_level;
+    int charges;
 } ItemWithCharges;
 
 typedef struct PermanentItem {

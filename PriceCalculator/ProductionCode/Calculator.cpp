@@ -1,35 +1,102 @@
 #include "Calculator.hpp"
-#include "Weapon.hpp"
-#include "WeaponCostSummary.hpp"
+#include "WeaponCalculator.hpp"
+#include "ArmorCalculator.hpp"
+#include "Item.hpp"
+#include "ItemSummary.hpp"
 using namespace std;
 
-WeaponCostSummary Calculator::calculate_cost_weapon(Weapon weapon)
+ItemSummary Calculator::calculate_cost_weapon(const Weapon& weapon)
 {
-    int weapon_modifier = 5;
-    int initial_enchantment_cost = weapon.encoumber*weapon.price_base_object*weapon_modifier;
-    adjust_initial_enchantment_cost_in_case_is_below_threshold(initial_enchantment_cost,100);
-    double final_bonus = weapon.bonus+static_cast<double>(weapon.secondary_bonus)/2;
-    WeaponCostSummary costSummary = {static_cast<int>(initial_enchantment_cost*final_bonus)};
-    return costSummary;
+    return weapon_creator.calculate_cost_weapon(weapon);
 }
 
-WeaponCostSummary Calculator::calculate_cost_armor(Armor weapon)
+ItemSummary Calculator::calculate_cost_sword(const Sword& sword)
 {
-    int armor_modifier = 3;
-    int initial_enchantment_cost = (weapon.encoumber*weapon.price_base_object)/armor_modifier;
-    adjust_cost_to_be_base_10(initial_enchantment_cost);
-    adjust_initial_enchantment_cost_in_case_is_below_threshold(initial_enchantment_cost,3000);
-    int raw_price = initial_enchantment_cost*weapon.bonus;
-    WeaponCostSummary costSummary = {raw_price};
-    return costSummary;
+    return weapon_creator.calculate_cost_sword(sword);
 }
 
-void Calculator::adjust_initial_enchantment_cost_in_case_is_below_threshold(int& initial_enchantment_cost, int threshold)
+ItemSummary Calculator::calculate_cost_armor(const Armor& armor)
 {
-    if(initial_enchantment_cost<threshold) initial_enchantment_cost = threshold;
+    return armor_creator.calculate_cost_armor(armor);
 }
 
-void Calculator::adjust_cost_to_be_base_10(int& modified_enchantment_cost)
+ItemSummary Calculator::calculate_cost_item_with_charges(const ItemWithCharges& item_with_charges)
 {
-    if(modified_enchantment_cost%10!=0) modified_enchantment_cost+=10-(modified_enchantment_cost%10);
+    ItemSummary summary = {};
+    double rechargable_item_multiplier = compute_charges_item_multiplier(item_with_charges.recharge_type);
+    int charges = item_with_charges.charges+compute_additional_chages(item_with_charges.recharge_type);
+    int spell_level_multiplier = 1000;
+    summary.initial_enchantment_cost = item_with_charges.spell_level*spell_level_multiplier*rechargable_item_multiplier;
+    summary.enchantment_levels = item_with_charges.spells_level;
+    summary.charge_cost = summary.initial_enchantment_cost/10;
+    summary.total_cost = summary.initial_enchantment_cost+charges*summary.charge_cost;
+    set_cost_for_charges_to_none_if_non_rechargeable_or_periodical(item_with_charges.recharge_type,summary.charge_cost);
+    return summary;
+}
+
+double Calculator::compute_charges_item_multiplier(RechargeType recharge_type)
+{
+    double rechargable_item_multiplier = 0.0;
+    switch (recharge_type)
+    {
+        case RechargeType::Recheargeable :
+            rechargable_item_multiplier = 1.0;
+        break;
+        case RechargeType::Non_recheargeable :
+            rechargable_item_multiplier = 0.8;
+        break;
+        case RechargeType::Hourly :
+            rechargable_item_multiplier = 0.80;
+        break;
+        case RechargeType::Daily :
+            rechargable_item_multiplier = 0.75;
+        break;
+        case RechargeType::Weekly :
+            rechargable_item_multiplier = 0.70;
+        break;
+        case RechargeType::Montly :
+            rechargable_item_multiplier = 0.65;
+        break;
+    }
+    return rechargable_item_multiplier;
+}
+
+int Calculator::compute_additional_chages(RechargeType recharge_type)
+{
+    int additional_charges = 0;
+    switch (recharge_type)
+    {
+        case RechargeType::Hourly :
+        case RechargeType::Daily :
+        case RechargeType::Weekly :
+        case RechargeType::Montly :
+            additional_charges=30;
+        break;
+    }
+    return additional_charges;
+}
+
+void Calculator::set_cost_for_charges_to_none_if_non_rechargeable_or_periodical(RechargeType recharge_type, int& charges)
+{
+    switch (recharge_type)
+    {
+        case RechargeType::Non_recheargeable :
+        case RechargeType::Hourly :
+        case RechargeType::Daily :
+        case RechargeType::Weekly :
+        case RechargeType::Montly :
+            charges=0;
+        break;
+    }
+}
+
+ItemSummary Calculator::calculate_cost_permanent_item(const PermanentItem& item)
+{
+    ItemSummary summary = {};
+    int spell_level_multiplier = 1000;
+    summary.initial_enchantment_cost = item.spell_level*spell_level_multiplier;
+    summary.enchantment_levels = {item.spell_level};
+    int permanency_cost = summary.initial_enchantment_cost*5;
+    summary.total_cost = summary.initial_enchantment_cost+permanency_cost;
+    return summary;
 }

@@ -4,6 +4,17 @@
         "new": "cpp",
         "iostream": "cpp",
         "ostream": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "unordered_map": "cpp",
+        "array": "cpp",
+        "compare": "cpp",
+        "ratio": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "random": "cpp",
+        "limits": "cpp",
+        "semaphore": "cpp",
+        "system_error": "cpp"
     }
 }

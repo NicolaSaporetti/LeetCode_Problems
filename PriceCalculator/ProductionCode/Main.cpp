@@ -24,7 +24,7 @@ int main ()
       {
          cout<<item.enchantment_levels[i]<<" ";
       }
-      cout<<"\n\n"<<endl;
+      cout<<"\n"<<endl;
       ObjectCreationSummary summary = cl.compute_details_object_creation(item);
       cout<<"Days to create: "<<summary.days_to_create<<endl;
       cout<<"Costo materiali: "<<summary.material_cost<<endl;
@@ -35,7 +35,6 @@ int main ()
       {
          cout<<summary.rolls_required[i]<<" ";
       }
-      cout<<"\n\n"<<endl;
       cout<<"\n\n"<<endl;
    }
    return 0;

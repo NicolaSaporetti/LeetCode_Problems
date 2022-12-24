@@ -18,13 +18,10 @@ private:
     int fill_primary_bonus();
     int fill_secondary_bonus();
     int fill_third_bonus();
-    int fill_bonus();
     int fill_second_bonus();
-    int fill_spell_level();
-    int fill_max_spell_level();
-    int fill_spell();
     int fill_doses();
     vector<int> fill_spells();
+    int fill_spell_level();
     int fill_number_of_spells();
     int fill_charges();
     int fill_int();

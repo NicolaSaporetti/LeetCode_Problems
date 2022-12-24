@@ -38,32 +38,31 @@ ItemSummary CommandLine::compute_cost()
         }
         case 3:
         {
-            int spell_level = fill_spell_level();
-            ItemWithCharges potion = {RechargeType::Non_recheargeable,spell_level,fill_doses(),spell_level};
+            ItemWithCharges potion = {RechargeType::Non_recheargeable,{fill_spell_level()},fill_doses()};
             result = calculator.calculate_cost_item_with_charges(potion);
             break;
         }
         case 4:
         {
-            ItemWithCharges scroll = {RechargeType::Non_recheargeable,fill_number_of_spells(),1,fill_max_spell_level(),fill_spells()};
+            ItemWithCharges scroll = {RechargeType::Non_recheargeable,fill_spells(),1};
             result = calculator.calculate_cost_item_with_charges(scroll);
             break;
         }
         case 5:
         {
-            ItemWithCharges item_with_charges = {get_recharge_type(),fill_number_of_spells(),fill_charges(),fill_max_spell_level(),fill_spells()};
+            ItemWithCharges item_with_charges = {get_recharge_type(),{fill_spell_level()},fill_charges()};
             result = calculator.calculate_cost_item_with_charges(item_with_charges);
             break;
         }
         case 6:
         {
-            ItemWithCharges item_with_charges = {get_recharge_type(),fill_number_of_spells(),fill_charges(),fill_max_spell_level(),fill_spells()};
+            ItemWithCharges item_with_charges = {get_recharge_type(),fill_spells(),fill_charges()};
             result = calculator.calculate_cost_item_with_charges(item_with_charges);
             break;
         }
         case 7:
         {
-            ItemWithCharges item_with_charges = {RechargeType::Recheargeable,fill_number_of_spells(),1,fill_max_spell_level(),fill_spells()};
+            ItemWithCharges item_with_charges = {RechargeType::Recheargeable,fill_spells(),1};
             result = calculator.calculate_cost_item_with_charges(item_with_charges);
             break;
         }
@@ -88,7 +87,13 @@ ObjectCreationSummary CommandLine::compute_details_object_creation(const ItemSum
 int CommandLine::fill_primary_bonus()
 {
     cout<<"Digitare bonus primario (1-5)"<<endl;
-    return fill_bonus();
+    int value = fill_int();
+    while (!inputValidation.verify_bonus_is_correct(value))
+    {
+        cout<<"Valore incorretto, riprovare"<<endl;
+        value = fill_int(); 
+    }
+    return value;
 }
 
 int CommandLine::fill_secondary_bonus()
@@ -101,17 +106,6 @@ int CommandLine::fill_third_bonus()
 {
     cout<<"Digitare bonus terziario (0-5)"<<endl;
     return fill_second_bonus();
-}
-
-int CommandLine::fill_bonus()
-{
-    int value = fill_int();
-    while (!inputValidation.verify_bonus_is_correct(value))
-    {
-        cout<<"Valore incorretto, riprovare"<<endl;
-        value = fill_int(); 
-    }
-    return value;
 }
 
 int CommandLine::fill_second_bonus()
@@ -137,29 +131,6 @@ int CommandLine::fill_doses()
     return value;
 }
 
-int CommandLine::fill_spell_level()
-{
-    cout<<"Digitare livello incantesimo (1-9)"<<endl;
-    return fill_spell();
-}
-
-int CommandLine::fill_max_spell_level()
-{
-    cout<<"Digitare massimo livello di magia usato (1-9)"<<endl;
-    return fill_spell();
-}
-
-int CommandLine::fill_spell()
-{
-    int value = fill_int();
-    while (!inputValidation.verify_spell_level_is_correct(value))
-    {
-        cout<<"Valore incorretto, riprovare"<<endl;
-        int value = fill_int(); 
-    }
-    return value;
-}
-
 vector<int> CommandLine::fill_spells()
 {
     int spell_num = fill_number_of_spells();
@@ -179,6 +150,18 @@ int CommandLine::fill_number_of_spells()
     {
         cout<<"Valore incorretto, riprovare"<<endl;
         value = fill_int(); 
+    }
+    return value;
+}
+
+int CommandLine::fill_spell_level()
+{
+    cout<<"Digitare livello incantesimo (1-9)"<<endl;
+    int value = fill_int();
+    while (!inputValidation.verify_spell_level_is_correct(value))
+    {
+        cout<<"Valore incorretto, riprovare"<<endl;
+        int value = fill_int(); 
     }
     return value;
 }

@@ -1,14 +1,10 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
-
 class Solution {
-private:
-    int total;
 public:
     int triangleNumber(vector<int>& nums) {
-        total = 0;
+        int total = 0;
         int indexLast = 0;
         if(nums.size()>=3)
         {

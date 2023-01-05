@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -6,7 +5,7 @@ class MyCircularQueue {
 public:
     MyCircularQueue(int k) {
         sz = k;
-        queue.resize(sz,0);
+        queue.assign(sz,0);
         front = 0;
         back = sz-1;
         queueIsEmpty = true;
@@ -17,7 +16,7 @@ public:
         {
             back=(back+1)%sz;
             queue[back]=value;
-            if(queueIsEmpty) queueIsEmpty = false;
+            queueIsEmpty = false;
             return true;
         }
         else return false;

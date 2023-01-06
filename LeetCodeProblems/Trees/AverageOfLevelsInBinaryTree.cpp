@@ -6,6 +6,8 @@ using namespace std;
 class Solution {
 public:
     vector<double> averageOfLevels(TreeNode* root) {
+        queue<TreeNode*> q;
+        vector<double> res;
         q.push(root);
         while(!q.empty())
         {
@@ -23,7 +25,4 @@ public:
         }
         return res;
     }
-private:
-    queue<TreeNode*> q;
-    vector<double> res;
 };

@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -6,23 +5,26 @@ class Solution {
 public:
     bool checkPossibility(vector<int>& nums) {
         int sz = nums.size();
-        bool switchDone = false;
-        for(int i=1;i<sz;i++)
+        bool convDone = false;
+        int i=1;
+        for(;i<sz;i++) if(nums[i]<nums[i-1]) break;
+        if(i<sz)
         {
-            if(nums[i]<nums[i-1])
+            int temp = nums[i];
+            nums[i]=nums[i-1];
+            if(!isCorrect(nums))
             {
-                if(!switchDone)
-                {
-                    if(i-1==0)
-                        nums[i-1]=nums[i];
-                    else
-                        if(nums[i]>=nums[i-2]) nums[i-1] =nums[i];
-                        else nums[i]=nums[i-1];
-                    switchDone = true;
-                }
-                else return false;
+                nums[i]=temp;
+                nums[i-1]=nums[i];
+                if(!isCorrect(nums)) return false;
             }
         }
+        return true;
+    }
+private:
+    bool isCorrect(vector<int>& nums)
+    {
+        for(int j=1;j<nums.size();j++) if(nums[j]<nums[j-1]) return false;
         return true;
     }
 };

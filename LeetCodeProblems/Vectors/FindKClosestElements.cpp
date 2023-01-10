@@ -1,47 +1,19 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
-private:
-    vector<int> result;
-    int setFirstIndex(vector<int>& arr, int x)
-    {
-        int Index = lower_bound(arr.begin(),arr.end(),x) - arr.begin();
-        if(Index==arr.size()) Index = arr.size()-1;
-        else if(Index>0 && (abs(arr[Index-1]-x) <= abs(arr[Index]-x))) Index--;
-        return Index;
-    }
 public:
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
-        int rightIndex = setFirstIndex(arr , x);
-        int leftIndex = rightIndex;
-        for(int i=1;i<k;i++)
+        int sz = arr.size();
+        int right_idx = lower_bound(arr.begin(),arr.end(),x)-arr.begin();
+        int left_idx = right_idx-1;
+        vector<int> result;
+        for(int i=0;i<k;i++)
         {
-            if(leftIndex>0 && rightIndex<arr.size()-1)
-            {
-                if(abs(arr[leftIndex-1]-x) <= abs(arr[rightIndex+1]-x))
-                {
-                    leftIndex--;
-                }
-                else
-                {
-                    rightIndex++;
-                }
-            }
-            else if(leftIndex==0)
-            {
-                rightIndex++;
-            }
-            else
-            {
-                leftIndex--;
-            }
+            if(left_idx==-1 || ((right_idx!=sz) && abs(arr[left_idx]-x)>abs(arr[right_idx]-x))) result.push_back(arr[right_idx++]);
+            else result.push_back(arr[left_idx--]);
         }
-        for(int i=leftIndex;i<=rightIndex;i++)
-        {
-            result.push_back(arr[i]);
-        }
+        sort(result.begin(),result.end());
         return result;
     }
 };

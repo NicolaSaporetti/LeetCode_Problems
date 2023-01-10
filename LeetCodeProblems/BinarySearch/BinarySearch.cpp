@@ -1,10 +1,10 @@
 #include <vector>
 using namespace std;
 
-class BinarySearch {
+class Solution {
 public:
-    static int search(vector<int>& nums, int target) {
-        int index = lower_bound(nums.begin(), nums.end(), target) - nums.begin();
-        return index != nums.size() && nums[index] == target ? index : -1;
+    int search(vector<int>& nums, int target) {
+        int index = find(nums.begin(), nums.end(), target) - nums.begin();
+        return (index != nums.size())? index : -1;
     }
 };

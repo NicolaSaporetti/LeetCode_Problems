@@ -1,23 +1,23 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class MyHashSet {
 public:
     MyHashSet() {
-        table.resize(1000001);
+        set.assign(1000001,false);
     }
     
     void add(int key) {
-        table[key] = true;
+        set[key]=true;
     }
     
     void remove(int key) {
-        table[key] = false;
+        set[key]=false;
     }
     
     bool contains(int key) {
-        return table[key];
+        return set[key];
     }
-    vector<bool> table;
+
+    vector<bool> set;
 };

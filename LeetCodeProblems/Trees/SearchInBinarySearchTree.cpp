@@ -1,12 +1,15 @@
-#include <iostream>
-#include <vector>
 #include "TreeNode.cpp"
 using namespace std;
 
 class Solution {
-    TreeNode* sol;
-    bool solutionFound;
-    
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+        solutionFound = false;
+        sol = nullptr;
+        search(root, val);
+        return sol;
+    }
+private:  
     void search(TreeNode* node, int val)
     {
         if(!solutionFound && node!=nullptr)
@@ -16,12 +19,6 @@ class Solution {
             search(node->right,val);
         }
     }
-    
-public:
-    TreeNode* searchBST(TreeNode* root, int val) {
-        solutionFound = false;
-        sol = nullptr;
-        search(root, val);
-        return sol;
-    }
+    TreeNode* sol;
+    bool solutionFound;
 };

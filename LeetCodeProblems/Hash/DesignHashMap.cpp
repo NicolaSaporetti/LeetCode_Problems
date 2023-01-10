@@ -1,15 +1,10 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class MyHashMap {
 public:
     MyHashMap() {
-        table.resize(1000001);
-        for(int i=0;i<1000001;i++)
-        {
-            table[i]=-1;
-        }
+        table.assign(1000001,-1);
     }
     
     void put(int key, int value) {

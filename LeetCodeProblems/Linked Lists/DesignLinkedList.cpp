@@ -1,10 +1,7 @@
-#include <iostream>
 #include <list>
 using namespace std;
 
 class MyLinkedList {
-private:
-    list<int> myList;
 public:
     MyLinkedList() {
     }
@@ -32,17 +29,15 @@ public:
     
     void addAtIndex(int index, int val) {
         if(myList.size()==index) myList.push_back(val);
-        else if(index<myList.size())
+        else
         {
             int i=0;
             for(auto it=myList.begin();it!=myList.end();it++,i++)
-            {
                 if(i==index)
                 {
                     myList.insert(it,val);
                     break;
                 }
-            }
         }
     }
     
@@ -57,4 +52,6 @@ public:
             }
         }
     }
+private:
+    list<int> myList;
 };

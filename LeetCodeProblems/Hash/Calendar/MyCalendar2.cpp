@@ -1,20 +1,21 @@
 #include <map>
 using namespace std;
 
-class MyCalendar {
+class MyCalendarTwo {
 public:
-    MyCalendar() {
+    MyCalendarTwo() {
+        
     }
     
     bool book(int start, int end) {
         mp[start]++, mp[end]--;
-        int curr = 0;
         bool ans = true;
+        int curr = 0;
         
         for(auto &i : mp)
         {
             curr += i.second;
-            if(curr>1)
+            if(curr>2)
             {
                 mp[start]--, mp[end]++;
                 ans = false;

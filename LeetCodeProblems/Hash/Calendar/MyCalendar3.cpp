@@ -1,25 +1,20 @@
 #include <map>
 using namespace std;
 
-class MyCalendar {
+class MyCalendarThree {
 public:
-    MyCalendar() {
+    MyCalendarThree() {
     }
     
-    bool book(int start, int end) {
+    int book(int start, int end) {
         mp[start]++, mp[end]--;
+        int ans = 0
         int curr = 0;
-        bool ans = true;
         
         for(auto &i : mp)
         {
             curr += i.second;
-            if(curr>1)
-            {
-                mp[start]--, mp[end]++;
-                ans = false;
-                break;
-            }
+            ans = max(ans, curr);
         }
         
         return ans;

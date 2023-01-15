@@ -1,63 +1,35 @@
-#include <iostream>
 #include <vector>
-#include <map>
+#include <unordered_map>
 using namespace std;
 
 class WordFilter {
-    map<string,vector<string>> index;
-    map<string,int> dictionary;
 public:
-    WordFilter(vector<string>& words) {
-        string indexPrefix = "aa";
-        for(int i=0;i<words.size();i++)
+    WordFilter(vector<string>& words) 
+    {
+        int n = words.size();
+        for(int i=0; i<n; i++)
         {
-            indexPrefix[0]=words[i][0];
-            indexPrefix[1]=words[i][words[i].size()-1];
-            auto it = index.find(indexPrefix);
-            if(it!=index.end())
+            string word = words[i]; 
+            int wordsize = word.size();
+            
+            for(int j=1; j<=wordsize; j++)
             {
-                bool exit = false;
-                for(int j=0;j<it->second.size() && !exit;j++)
+                string pre = word.substr(0,j);
+                
+                for(int k=0; k<wordsize; k++)
                 {
-                    if(it->second[j].compare(words[i])==0)
-                    {
-                        auto it2 = dictionary.find(words[i]);
-                        it2->second = i;
-                        exit = true;
-                    }
+                    string suff = word.substr(k, wordsize);
+                    mp[pre + "|" + suff] = i+1;
                 }
-                if(!exit)
-                {
-                    it->second.push_back(words[i]);
-                    dictionary.insert(make_pair(words[i],i));
-                }
-            }
-            else
-            {
-                vector<string> temp(1,words[i]);
-                index.insert(make_pair(indexPrefix,temp));
-                dictionary.insert(make_pair(words[i],i));
             }
         }
     }
     
-    int f(string prefix, string suffix) {
-        int res = -1;
-        string indexPrefix;
-        indexPrefix.push_back(prefix[0]);
-        indexPrefix.push_back(suffix[suffix.size()-1]);
-        auto it = index.find(indexPrefix);
-        if(it!=index.end())
-        {
-            for(int i=0;i<it->second.size();i++)
-            {
-                string word = it->second[i];
-                if(word.compare(0,prefix.size(),prefix)==0 && word.compare(word.size()-suffix.size(),suffix.size(),suffix)==0)
-                {
-                    res = max(res, dictionary.find(it->second[i])->second);
-                }
-            }
-        }
-        return res;
+    int f(string prefix, string suffix) 
+    {
+        string s = prefix + "|" + suffix;
+        return mp[s]-1; //if sequence found in hashmap we return its index
     }
+private:
+    unordered_map<string, int> mp;
 };

@@ -6,12 +6,34 @@ class Solution {
 public:
     int numberOfGoodPaths(vector<int>& vals, vector<vector<int>>& edges) {
         int n = vals.size();
-        vector<vector<int>> graph(n);
+        vector<vector<int>> graph = fillGraph(vals, edges);
         map<int, vector<int>> m1;
-        for (int i = 0; i < n; ++i) 
+        for (int i = 0; i < n; ++i) m1[vals[i]].push_back(i);        
+        DisjoinSet d(n);
+        int ans = n;
+
+        for (auto element : m1) 
         {
-            m1[vals[i]].push_back(i);
+            int value = element.first;
+            
+            for (auto node : element.second) 
+            {
+                for (auto adjcentNode : graph[node]) 
+                {
+                    d.connect(node, adjcentNode);
+                }
+            }
+            unordered_map<int, int> nodesWithSameRoot;
+            for (auto node : element.second) nodesWithSameRoot[d.find_root(node)]++;
+            
+            for (auto& base_roots : nodesWithSameRoot) ans+=((base_roots.second*(base_roots.second-1))/2);
         }
+        return ans;
+    }
+private:
+    vector<vector<int>> fillGraph(vector<int>& vals, vector<vector<int>>& edges)
+    {
+        vector<vector<int>> graph(vals.size());
         for (auto& e : edges) 
         {
             int a = e[0];
@@ -24,32 +46,6 @@ public:
                 graph[b].push_back(a);
             }
         }
-        
-        DisjoinSet d(n);
-        int ans = 0;
-        for (auto element : m1) 
-        {
-            int value = element.first;
-            
-            for (auto node : element.second) 
-            {
-                for (auto nbr : graph[node]) 
-                {
-                    d.connect(node, nbr);
-                }
-            }
-           
-            unordered_map<int, int> m2;
-            for (auto node : element.second) 
-            {
-                m2[d.find_root(node)]++;
-            }
-            
-            for (auto it=m2.begin();it!=m2.end();it++) 
-            {
-                if (it->second > 1) ans += (it->second * (it->second - 1)) / 2;
-            }
-        }
-        return ans+n;
+        return graph;
     }
 };

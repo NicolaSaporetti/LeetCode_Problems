@@ -1,22 +1,20 @@
-#include <iostream>
 #include <vector>
 #include <set>
+#include <queue>
 using namespace std;
 
 class Solution {
 public:
     int openLock(vector<string>& deadends, string target) {
-        visited.resize(10000);
-        for(int i=0;i<visited.size();i++) visited[i]=false;
+        visited.assign(10000,false);
         for(int i=0;i<deadends.size();i++) blockedCombinations.insert(deadends[i]);
-        
-        addElem("0000");
         return computeMinSteps(target);
     }
 
 private:
     int computeMinSteps(string target)
     {
+        addElem("0000");
         int distance = 0;
         while(!paths.empty())
         {
@@ -26,10 +24,7 @@ private:
                 string elem = paths.front();
                 paths.pop();
                 if(!target.compare(elem)) return distance;
-                else
-                {
-                    for(int i=0;i<4;i++) computeNext(i,elem);
-                }
+                for(int i=0;i<4;i++) computeNext(i,elem);
             }
             distance ++;
         }

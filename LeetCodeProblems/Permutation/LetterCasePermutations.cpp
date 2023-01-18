@@ -1,38 +1,7 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
-private:
-    vector<string> results;
-    string temp;
-    int sz;
-    
-    void computeLetterCasePerm(string& s, int pos)
-    {
-        bool exit = false;
-        for(int i=pos;i<sz && !exit;i++)
-        {
-            if(s[i]>='a' && s[i]<='z')
-            {
-                computeLetterCasePerm(s,i+1);
-                temp[i]-=32;
-                computeLetterCasePerm(s,i+1);
-                temp[i]+=32;
-                exit = true;
-            }
-            else if(s[i]>='A' && s[i]<='Z')
-            {
-                computeLetterCasePerm(s,i+1);
-                temp[i]+=32;
-                computeLetterCasePerm(s,i+1);
-                temp[i]-=32;
-                exit = true;
-            }
-        }
-        if(!exit) results.push_back(temp);
-    }
-    
 public:
     vector<string> letterCasePermutation(string s) {
         temp = s;
@@ -40,4 +9,30 @@ public:
         computeLetterCasePerm(s,0);
         return results;
     }
+private:    
+    void computeLetterCasePerm(string& s, int pos)
+    {
+        while(pos<sz && s[pos]>='0' && s[pos]<='9') pos++;
+        if(pos>=sz) results.push_back(temp);
+        else
+        {
+            computeLetterCasePerm(s,pos+1);
+            if(s[pos]>='a' && s[pos]<='z')
+            {
+                temp[pos]-=32;
+                computeLetterCasePerm(s,pos+1);
+                temp[pos]+=32;
+            }
+            else
+            {
+                temp[pos]+=32;
+                computeLetterCasePerm(s,pos+1);
+                temp[pos]-=32;
+            }
+        }
+    }
+
+    vector<string> results;
+    string temp;
+    int sz;
 };

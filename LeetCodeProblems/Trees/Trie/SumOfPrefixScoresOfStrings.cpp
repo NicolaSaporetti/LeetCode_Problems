@@ -1,5 +1,5 @@
 #include <vector>
-#include "Trie.cpp"
+#include "SimpleTrie.cpp"
 using namespace std;
 
 class Solution {

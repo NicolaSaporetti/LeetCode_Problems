@@ -1,6 +1,6 @@
 #include <vector>
 #include <unordered_map>
-#include "Trie.cpp"
+#include "SimpleTrie.cpp"
 using namespace std;
 
 class Encrypter {

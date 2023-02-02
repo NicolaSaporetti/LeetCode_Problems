@@ -4,26 +4,21 @@ using namespace std;
 class Solution {
 public:
     TreeNode* pruneTree(TreeNode* root) {
-        bool res = traverse(root);
-        if(!res) root = nullptr;
+        bool isRootToPrune = pruneZeroNode(root);
+        if(isRootToPrune) root = nullptr;
         return root;
     }
-
 private:
-    bool traverse(TreeNode* root)
+    bool pruneZeroNode(TreeNode* node)
     {
-        if(root!=nullptr)
-        {
-            bool left = traverse(root->left);
-            if(!left) root->left = nullptr;
-            bool right = traverse(root->right);
-            if(!right) root->right = nullptr;
-            if(!left && !right && root->val == 0) return false;
-            else return true;
-        }
+        if(node==nullptr) return 1;
         else
         {
-            return false;
+            bool leftToPrune = pruneZeroNode(node->left);
+            bool rightToPrune = pruneZeroNode(node->right);
+            if(leftToPrune) node->left = nullptr;
+            if(rightToPrune) node->right = nullptr;
+            return leftToPrune & rightToPrune & node->val==0;
         }
     }
 };

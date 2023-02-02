@@ -1,20 +1,18 @@
-#include <iostream>
+#include <vector>
 using namespace std;
 
 class Solution {
 public:
     bool isAlienSorted(vector<string>& words, string order) {
-        for(int i=1;i<words.size();i++)
+        vector<int> number_order(26,0);
+        for(int i=0;i<26;i++) number_order[order[i]-'a']=i;
+        for(int j=0;j<words.size()-1;j++)
         {
-            int j=0;
-            for(;j<min(words[i].size(),words[i-1].size());j++)
+            for(int i=0;i<words[j].size();i++)
             {
-                int i1=find(order.begin(),order.end(),words[i-1][j])-order.begin();
-                int i2=find(order.begin(),order.end(),words[i][j])-order.begin();
-                if(i1<i2) break;
-                if(i1>i2) return false;
+                if(i>=words[j+1].size() || number_order[words[j][i]-'a']>number_order[words[j+1][i]-'a']) return false;
+                else if(number_order[words[j][i]-'a']<number_order[words[j+1][i]-'a']) break;
             }
-            if(j==min(words[i].size(),words[i-1].size()) && words[i].size()<words[i-1].size()) return false;
         }
         return true;
     }

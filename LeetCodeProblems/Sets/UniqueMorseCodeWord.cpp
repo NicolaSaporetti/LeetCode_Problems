@@ -1,21 +1,18 @@
-#include <set>
+#include <unordered_set>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:
     int uniqueMorseRepresentations(vector<string>& words) {
-        set<string> availableConversions;
+        unordered_set<string> s;
         vector<string> conversion = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
-        for(int i=0;i<words.size();i++)
+        for(auto& word : words)
         {
             string temp;
-            for(int j=0;j<words[i].size();j++)
-            {
-                temp+=conversion[words[i][j]-'a'];
-            }
-            availableConversions.insert(temp);
+            for(auto& c : word) temp+=conversion[c-'a'];
+            s.insert(temp);
         }
-        return availableConversions.size();
+        return s.size();
     }
 };

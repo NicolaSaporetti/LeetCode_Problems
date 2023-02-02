@@ -1,47 +1,35 @@
-#include <iostream>
 #include <vector>
-#include <priority_queue>
+#include <queue>
 using namespace std;
 
 class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        vector<int> sol;
-        vector<set<int>> rgraph;
-        vector<set<int>> ngraph;
-        queue<int> myQ;
-        rgraph.resize(graph.size());
-        ngraph.resize(graph.size());
-        for(int i=0;i<graph.size();i++)
-        {
-            if(graph[i].empty())
-            {
-                sol.push_back(i);
-                myQ.push(i);
+        int n = graph.size();
+        vector<int> ans;
+        vector<int> out(n);
+        vector<vector<int>> adj(n);
+        queue<int> q;
+        
+        for(int i=0;i<n;i++){
+            for(auto nbr: graph[i]){
+                out[i]++;
+                adj[nbr].push_back(i);
             }
-            else
-            {
-                for(int j=0;j<graph[i].size();j++)
-                {
-                    rgraph[graph[i][j]].insert(i);
-                    ngraph[i].insert(graph[i][j]);
-                }
+            if(graph[i].empty()) q.push(i);
+        }
+        
+        while(!q.empty()){
+            int top = q.front();
+            q.pop();
+            ans.push_back(top);
+            for(auto nbr: adj[top]){
+                out[nbr]--;
+                if(out[nbr]==0) q.push(nbr);
             }
         }
-        while(!myQ.empty()){
-            int elem = myQ.front();
-            myQ.pop();
-            for(auto i=rgraph[elem].begin();i!=rgraph[elem].end();i++)
-            {
-                ngraph[*i].erase(elem);
-                if(ngraph[*i].empty())
-                {
-                    sol.push_back(*i);
-                    myQ.push(*i);
-                }
-            }
-        }
-        sort(sol.begin(),sol.end());
-        return sol;
+        
+        sort(ans.begin(), ans.end());
+        return ans;
     }
 };

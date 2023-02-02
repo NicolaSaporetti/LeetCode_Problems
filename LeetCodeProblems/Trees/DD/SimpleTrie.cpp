@@ -1,21 +1,22 @@
 class Trie {
-    public:
-        Trie()
-        {
-            ch.resize(26);
-        }
-        vector<Trie*> ch;
-        bool endWord;
+public:
+    Trie()
+    {
+        ch.resize(26);
+        endWord = false;
+    }
 
-        void insert(string& s)
+    void insert(string& word)
+    {
+        Trie* t = this;
+        for(auto& c : word)
         {
-            auto t = this;
-            int sz = s.size();
-            for (int j=0;j<sz;j++) {
-                char c = s[j];
-                if (!t->ch[c - 'a']) t->ch[c - 'a'] = new Trie();
-                t = t->ch[c - 'a'];
-            }
-            t->endWord = true;
+            if(t->ch[c-'a']==nullptr) t->ch[c-'a'] = new Trie();
+            t = t->ch[c-'a'];
         }
+        t->endWord = true;
+    }
+    
+    bool endWord;
+    vector<Trie*> ch;
 };

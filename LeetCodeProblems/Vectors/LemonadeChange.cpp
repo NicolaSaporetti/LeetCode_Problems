@@ -1,35 +1,30 @@
-#include <iostream>
-#include <array>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:
     bool lemonadeChange(vector<int>& bills) {
-        array<int,2> change = {};
-        for(int i=0;i<bills.size();i++)
+        vector<int> notes(2,0);
+        for(auto& bill : bills)
         {
-            if(bills[i]==5) change[0]++;
-            else if(bills[i]==10)
+            if(bill==5) notes[0]++;
+            else if(bill==10)
             {
-                if(change[0]>0)
+                if(notes[0]==0) return false;
+                else
                 {
-                    change[0]--;
-                    change[1]++;
+                    notes[0]--;
+                    notes[1]++;
                 }
-                else return false;
             }
             else
             {
-                if(change[0]>0 && change[1]>0)
+                if(notes[1]>0 && notes[0]>0)
                 {
-                    change[0]--;
-                    change[1]--;
+                    notes[1]--;
+                    notes[0]--;
                 }
-                else if(change[0]>2)
-                {
-                    change[0]-=3;
-                }
+                else if(notes[1]==0 && notes[0]>=3) notes[0]-=3;
                 else return false;
             }
         }

@@ -1,5 +1,3 @@
-#include <iostream>
-#include <vector>
 #include "ListNode.cpp"
 using namespace std;
 
@@ -13,7 +11,6 @@ public:
             slow = slow->next;
             fast = fast->next->next;
         }
-        if(fast->next!=nullptr) slow = slow->next;
-        return slow;
+        return (fast->next!=nullptr)? slow->next : slow;
     }
 };

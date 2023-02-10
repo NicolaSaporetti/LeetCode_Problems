@@ -1,50 +1,36 @@
-#include <iostream>
 #include "TreeNode.cpp"
 using namespace std;
 
 class Solution {
 public:
     TreeNode* increasingBST(TreeNode* root) {
-        newTree = nullptr;
-        if(root==nullptr) return newTree;
-        else{
-            explore(root, root);
-        }
-        return head;
+        traverse(root);
+        current->left = nullptr;
+        current->right = nullptr;
+        return newroot;
     }
 private:
-    void add_element(TreeNode* current)
+    void traverse(TreeNode* node)
     {
-        if(newTree==nullptr)
+        if(node!=nullptr)
         {
-            newTree = new TreeNode(current->val);
-            head = newTree;
-        }
-        else{
-            newTree->right = new TreeNode(current->val);
-            newTree = newTree->right;
-        }
-    }
-    void explore(TreeNode* current, TreeNode* root)
-    {
-        if(current->left==nullptr && current->right==nullptr)
-        {
-            add_element(current);
-        }
-        else
-        {
-            if(current->left!=nullptr)
+            traverse(node->left);
+            if(newroot==nullptr)
             {
-                explore(current->left, current);
+                newroot = node;
+                newroot->left = nullptr;
+                current = newroot;
             }
-            add_element(current);
-            if(current->right!=nullptr)
+            else
             {
-                explore(current->right, current);
+                current->right = node;
+                current->left = nullptr;
+                current = current->right;
             }
+            traverse(node->right);
         }
     }
 
-    TreeNode* newTree;
-    TreeNode* head;
+    TreeNode* newroot;
+    TreeNode* current;
 };

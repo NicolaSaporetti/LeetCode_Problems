@@ -1,89 +1,54 @@
-#include <iostream>
 #include <vector>
-
 using namespace std;
 
 class Solution {
-private:
-    int calculateIterations(int rows, int cols, int rStart, int cStart)
-    {
-        int maxRow = max(rows-rStart,rStart+1);
-        int maxColumn = max(cols-cStart,cStart+1);
-        return max(maxRow,maxColumn);
-    }
 public:
     vector<vector<int>> spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
-        vector<vector<int>> solution;
-        vector<int> element;
-        int iteration = calculateIterations(rows,cols,rStart,cStart);
-        cout<<iteration<<endl;
-        int tempRow=rStart;
-        int tempCol=cStart;
-        element.push_back(tempRow);
-        element.push_back(tempCol);
-        solution.push_back(element);
-        tempRow--;
-        tempCol++;
-        for(int i=1;i<iteration;i++)
+        int remainToVisit = rows*cols-1;
+        vector<vector<int>> res;
+        res.push_back({rStart,cStart});
+        int dist = 1;
+        while(remainToVisit>0)
         {
-            for(int j=0;j<2*i;j++)
+            for(int i=0;i<dist;i++)
             {
-                tempRow++;
-                if(tempCol>=0 && tempCol<cols && tempRow>=0 && tempRow<rows)
+                cStart++;
+                if(cStart<cols && cStart>=0 && rStart>=0 && rStart<rows)
                 {
-                    element[0]=tempRow;
-                    element[1]=tempCol;
-                    solution.push_back(element);
+                    res.push_back({rStart,cStart});
+                    remainToVisit--;
                 }
             }
-            for(int j=0;j<2*i;j++)
+            for(int i=0;i<dist;i++)
             {
-                tempCol--;
-                if(tempCol>=0 && tempCol<cols && tempRow>=0 && tempRow<rows)
+                rStart++;
+                if(cStart<cols && cStart>=0 && rStart>=0 && rStart<rows)
                 {
-                    element[0]=tempRow;
-                    element[1]=tempCol;
-                    solution.push_back(element);
+                    res.push_back({rStart,cStart});
+                    remainToVisit--;
                 }
             }
-            for(int j=0;j<2*i;j++)
+            dist++;
+            for(int i=0;i<dist;i++)
             {
-                tempRow--;
-                if(tempCol>=0 && tempCol<cols && tempRow>=0 && tempRow<rows)
+                cStart--;
+                if(cStart<cols && cStart>=0 && rStart>=0 && rStart<rows)
                 {
-                    element[0]=tempRow;
-                    element[1]=tempCol;
-                    solution.push_back(element);
+                    res.push_back({rStart,cStart});
+                    remainToVisit--;
                 }
             }
-            for(int j=0;j<2*i;j++)
+            for(int i=0;i<dist;i++)
             {
-                tempCol++;
-                if(tempCol>=0 && tempCol<cols && tempRow>=0 && tempRow<rows)
+                rStart--;
+                if(cStart<cols && cStart>=0 && rStart>=0 && rStart<rows)
                 {
-                    element[0]=tempRow;
-                    element[1]=tempCol;
-                    solution.push_back(element);
+                    res.push_back({rStart,cStart});
+                    remainToVisit--;
                 }
             }
-            tempRow--;
-            tempCol++;
+            dist++;
         }
-        return solution;
+        return res;
     }
 };
-
-int main()
-{
-    Solution solution;
-    vector<vector<int>> matrix = solution.spiralMatrixIII(5,6,1,4);
-    for(int i=0; i< matrix.size(); i++)
-    {
-        for(int j=0;j<matrix[i].size();j++)
-        {
-            cout<<matrix[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-    return 0;
-}

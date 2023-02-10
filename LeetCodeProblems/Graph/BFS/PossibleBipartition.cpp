@@ -28,7 +28,7 @@ public:
                     int num = q.size();
                     for(int j=0;j<num;j++)
                     {
-                        bool conflictRaised = (isFirstSet)? computeElement(sA,sB) : computeElement(sB,sA);
+                        bool conflictRaised = (isFirstSet)? CanComputeElement(sA,sB) : CanComputeElement(sB,sA);
                         if(!conflictRaised) return false;
                     }
                     isFirstSet = !isFirstSet;
@@ -38,7 +38,7 @@ public:
         return true;
     }
 private:
-    bool computeElement(set<int>& start, set<int>& dest)
+    bool CanComputeElement(set<int>& start, set<int>& dest)
     {
         int el = q.front();
         q.pop();

@@ -1,4 +1,4 @@
-#include <iostream>
+#include <vector>
 using namespace std;
 
 class Solution {
@@ -6,20 +6,17 @@ public:
     int findKthPositive(vector<int>& arr, int k) {
         int lowBound = 0;
         int highBound = arr.size()-1;
-        int index = (lowBound+highBound)/2;
-        while(lowBound<highBound)
+        int res = lowBound;
+        while(lowBound<=highBound)
         {
-            if(arr[index]-k-index<=0) lowBound = index+1;
-            else highBound = index;
-            index = (lowBound+highBound)/2;
+            int mid = (lowBound+highBound)/2;
+            if(arr[mid]-mid-k<=0)
+            {
+                lowBound = mid+1;
+                res = mid;
+            }
+            else highBound = mid-1;
         }
-        if(arr[index]-k-index<=0)
-        {
-            return k+index+1;
-        }
-        else
-        {
-            return k+index;
-        }
+        return (arr[res]-k-res<=0)? k+res+1 : k+res;
     }
 };

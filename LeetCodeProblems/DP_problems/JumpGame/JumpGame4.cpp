@@ -1,35 +1,50 @@
-#include <iostream>
 #include <vector>
 #include <map>
 using namespace std;
 
 class Solution {
 public:
-    int maxResult(vector<int>& nums, int k) {
-        int sz = nums.size();
-        vector<int> results(sz,0);
-        map<int,int> myM;
-        results[0] = nums[0];
-        myM.insert(make_pair(nums[0],1));
-        for(int i=1;i<sz;i++)
+    int minJumps(vector<int>& arr) {
+        int sz = arr.size();
+        int res = 0;
+        map<int,vector<int>> m;
+        vector<int> vis(sz,false);
+        queue<int> q;
+        for(int i=0;i<sz;i++) m[arr[i]].push_back(i);
+        q.push(0);
+        vis[0]=true;
+        while(!q.empty())
         {
-            results[i] = nums[i]+myM.rbegin()->first;
-            auto it = myM.find(results[i]);
-            if(it!=myM.end()) it->second++;
-            else
+            int n = q.size();
+            for(int i=0;i<n;i++)
             {
-                myM.insert(make_pair(results[i],1));
-            }
-            if(i-k>=0)
-            {
-                auto it2 = myM.find(results[i-k]);
-                if(it2->second ==1) myM.erase(it2);
-                else
+                int node = q.front();
+                int nodeVal = arr[node];
+                q.pop();
+                if(node == sz-1) return res;
+                if(node-1>0 && !vis[node-1])
                 {
-                    it2->second--;
+                    q.push(node-1);
+                    vis[node-1]=true;
                 }
+                if(node+1<sz && !vis[node+1])
+                {
+                    q.push(node+1);
+                    vis[node+1]=true;
+                }
+                for(int j=0;j<m[nodeVal].size();j++)
+                {
+                    int newNode = m[nodeVal][j];
+                    if(!vis[newNode])
+                    {
+                        q.push(newNode);
+                        vis[newNode];
+                    }
+                }
+                m.erase(nodeVal);
             }
+            res++;
         }
-        return results[sz-1];
+        return res;
     }
 };

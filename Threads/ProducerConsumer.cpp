@@ -14,12 +14,8 @@ void consume() {
   do
   {
     unique_lock<mutex> lck(mtx);
-
-    while (myQ.empty())
-    {
-        cv.wait(lck); // predicate an while loop - protection from spurious wakeups
-    }
-    while(!myQ.empty()) // consume all elements from queue
+    cv.wait(lck,[](){return !myQ.empty();});
+    while(!myQ.empty())
     {
         std::cout << "Consumer Thread, queue element: " << myQ.front() << " size: " << myQ.size() << std::endl;
         myQ.pop();
@@ -35,6 +31,7 @@ void produce() {
       std::cout << "Producer Thread, queue size: " << myQ.size() << std::endl;
       bool notificationNeeded = myQ.empty();
       myQ.push(i);
+      lck.unlock();
       if(notificationNeeded) cv.notify_one();
     }
   }
@@ -48,7 +45,5 @@ int main ()
   thread t2(consume);
   t1.join();
   t2.join();
-  cout<<myQ.empty()<<endl;
-
   return 0;
 }

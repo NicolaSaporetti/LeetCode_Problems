@@ -1,32 +1,33 @@
-#include <iostream>       // std::cout
-#include <atomic>         // std::atomic
-#include <thread>         // std::thread
-#include <vector>         // std::vector
+#include <atomic>
+#include <thread>
+#include <vector>
+#include <iostream>
+using namespace std;
 
-std::atomic<int> global_counter (0);
+atomic<int> global_counter (0);
 
-void increase_global (int n) { for (int i=0; i<n; ++i) ++global_counter; }
+void increase_global  (int n) { for (int i=0; i<n; ++i) ++global_counter; }
 
-void increase_reference (std::atomic<int>& variable, int n) { for (int i=0; i<n; ++i) ++variable; }
+void increase_reference (atomic<int>& variable, int n) { for (int i=0; i<n; ++i) ++variable; }
 
 int main ()
 {
-  std::vector<std::thread> threads;
+  vector<thread> threads;
 
-  std::cout << "increase global counter with 10 threads...\n";
+  cout << "increase global counter with 10 threads...\n";
   for (int i=1; i<=10; ++i)
-    threads.push_back(std::thread(increase_global,1000));
+    threads.emplace_back(increase_global,1000);
 
-  std::cout << "increase counter (foo) with 10 threads using reference...\n";
-  std::atomic<int> foo(0);
+  cout << "increase counter (foo) with 10 threads using reference...\n";
+  atomic<int> foo(0);
   for (int i=1; i<=10; ++i)
-    threads.push_back(std::thread(increase_reference,std::ref(foo),1000));
+    threads.emplace_back(increase_reference,ref(foo),1000);
 
-  std::cout << "synchronizing all threads...\n";
+  cout << "synchronizing all threads...\n";
   for (auto& th : threads) th.join();
 
-  std::cout << "global_counter: " << global_counter << '\n';
-  std::cout << "foo: " << foo << '\n';
+  cout << "global_counter: " << global_counter << '\n';
+  cout << "foo: " << foo << '\n';
 
   return 0;
 }

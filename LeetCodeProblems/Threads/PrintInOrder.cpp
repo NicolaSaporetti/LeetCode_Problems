@@ -1,43 +1,36 @@
-#include <vector>
 #include <mutex>
 #include <condition_variable>
-#include <iostream>
 using namespace std;
 
 class Foo {
 public:
-    Foo() {
-        counter = 1;
-    }
+    Foo() : status(0) {}
 
     void first(function<void()> printFirst) {
-        
-        // printFirst() outputs "first". Do not change or remove this line.
-        unique_lock<mutex> lck(mtx);
+        unique_lock<mutex> ul(m);
         printFirst();
-        counter=2;
+        status++;
+        ul.unlock();
         cv.notify_all();
     }
 
     void second(function<void()> printSecond) {
-        
-        // printSecond() outputs "second". Do not change or remove this line.
-        unique_lock<mutex> lck(mtx);
-        while (counter!=2) cv.wait(lck);
+        unique_lock<mutex> ul(m);
+        cv.wait(ul,[=](){return status==1;});
         printSecond();
-        counter=3;
+        status++;
+        ul.unlock();
         cv.notify_all();
     }
 
     void third(function<void()> printThird) {
-        
-        // printThird() outputs "third". Do not change or remove this line.
-        unique_lock<mutex> lck(mtx);
-        while (counter!=3) cv.wait(lck);
+        unique_lock<mutex> ul(m);
+        cv.wait(ul,[=](){return status==2;});
+        status++;
         printThird();
     }
 private:
-    int counter;
+    int status;
+    mutex m;
     condition_variable cv;
-    mutex mtx;
 };

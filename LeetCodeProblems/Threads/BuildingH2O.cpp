@@ -1,43 +1,47 @@
-#include <thread>
-#include <vector>
+#include <condition_variable>
 #include <mutex>
 using namespace std;
 
 class H2O {
 public:
     H2O() {
-        H=2;
-        O=1;
+        resetMolecule();
     }
 
     void hydrogen(function<void()> releaseHydrogen) {
-        unique_lock<mutex> lck(mtx);
-        while(H==0) cv.wait(lck);
+        unique_lock<mutex> ul(m);
+        cv.wait(ul,[=](){return h>0;});
         releaseHydrogen();
-        H--;
-        if(H==0 && O==0)
-        {
-            H=2;
-            O=1;
-        }
+        h--;
+        if(moleculeIsFormed()) resetMolecule();
+        ul.unlock();
         cv.notify_one();
     }
 
     void oxygen(function<void()> releaseOxygen) {
-        unique_lock<mutex> lck(mtx);
-        while(O==0) cv.wait(lck);
+        unique_lock<mutex> ul(m);
+        cv.wait(ul,[=](){return o>0;});
         releaseOxygen();
-        O--;
-        if(H==0 && O==0)
-        {
-            H=2;
-            O=1;
-        }
+        o--;
+        if(moleculeIsFormed()) resetMolecule();
+        ul.unlock();
         cv.notify_one();
     }
+
 private:
-    int H;
-    int O;
-    mutex mtx;
+    bool moleculeIsFormed()
+    {
+        return o==0 && h==0;
+    }
+
+    void resetMolecule()
+    {
+        o=1;
+        h=2;
+    }
+
+    int o;
+    int h;
     condition_variable cv;
+    mutex m;
 };

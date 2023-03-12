@@ -1,59 +1,51 @@
-#include <vector>
 #include <mutex>
 #include <condition_variable>
-#include <iostream>
 using namespace std;
 
 class ZeroEvenOdd {
-private:
-    int n;
-    mutex mtx;
-    int code;
-    bool zeroPrinted;
-    int number;
-    condition_variable cv;
-
 public:
-    ZeroEvenOdd(int n) {
-        this->n = n;
-        code = 1;
-        number = 1;
-        zeroPrinted = false;
+    ZeroEvenOdd(int n) : n(n), isZeroPosition(true), current(1) {
     }
 
-    // printNumber(x) outputs "x", where x is an integer.
     void zero(function<void(int)> printNumber) {
         for(int i=0;i<n;i++)
         {
-            unique_lock<mutex> lck(mtx);
-            while(zeroPrinted) cv.wait(lck);
+            unique_lock<mutex> ul(m);
+            cv.wait(ul,[=](){return isZeroPosition;});
             printNumber(0);
-            zeroPrinted = true;
+            isZeroPosition=!isZeroPosition;
             cv.notify_all();
+            ul.unlock();
         }
     }
 
     void even(function<void(int)> printNumber) {
         for(int i=0;i<n/2;i++)
         {
-            unique_lock<mutex> lck(mtx);
-            while(!zeroPrinted || code%2==1) cv.wait(lck);
-            printNumber(code);
-            code++;
-            zeroPrinted = false;
+            unique_lock<mutex> ul(m);
+            cv.wait(ul,[=](){return !isZeroPosition && current%2==0;});
+            printNumber(current++);
+            isZeroPosition=!isZeroPosition;
             cv.notify_all();
+            ul.unlock();
         }
     }
 
     void odd(function<void(int)> printNumber) {
         for(int i=0;i<(n+1)/2;i++)
         {
-            unique_lock<mutex> lck(mtx);
-            while(!zeroPrinted || code%2==0) cv.wait(lck);
-            printNumber(code);
-            code++;
-            zeroPrinted = false;
+            unique_lock<mutex> ul(m);
+            cv.wait(ul,[=](){return !isZeroPosition && current%2==1;});
+            printNumber(current++);
+            isZeroPosition=!isZeroPosition;
             cv.notify_all();
+            ul.unlock();
         }
     }
+private:
+    int n;
+    bool isZeroPosition;
+    int current;
+    condition_variable cv;
+    mutex m;
 };

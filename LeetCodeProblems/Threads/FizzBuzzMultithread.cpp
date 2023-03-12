@@ -1,78 +1,73 @@
 #include <mutex>
 #include <condition_variable>
-#include <iostream>
 using namespace std;
 
 class FizzBuzz {
-private:
-    int n;
-    condition_variable cv;
-    mutex mtx;
-    int value;
-
 public:
-    FizzBuzz(int n) {
-        this->n = n;
-        value = 1;
-    }
+    FizzBuzz(int n) : n(n), current(1) {}
 
     void fizz(function<void()> printFizz) {
-        while(value<=n)
+        while(current<=n)
         {
-            unique_lock<mutex> lck(mtx);
-            while(!(value%3==0 && value%15!=0) && value<=n)
+            unique_lock<mutex> ul(m);
+            cv.wait(ul,[=](){return current>n || (current%3==0 && current%5!=0);});
+            if(current<=n)
             {
-                cv.wait(lck);
+                printFizz();
+                current++;
             }
-            if(value>n) return;
-            printFizz();
-            value++;
+            ul.unlock();
             cv.notify_all();
         }
     }
 
     void buzz(function<void()> printBuzz) {
-        while(value<=n)
+        while(current<=n)
         {
-            unique_lock<mutex> lck(mtx);
-            while(!(value%5==0 && value%15!=0) && value<=n)
+            unique_lock<mutex> ul(m);
+            cv.wait(ul,[=](){return current>n || (current%5==0 && current%3!=0);});
+            if(current<=n)
             {
-                cv.wait(lck);
+                printBuzz();
+                current++;
             }
-            if(value>n) return;
-            printBuzz();
-            value++;
+            ul.unlock();
             cv.notify_all();
         }
     }
 
 	void fizzbuzz(function<void()> printFizzBuzz) {
-        while(value<=n)
+        while(current<=n)
         {
-            unique_lock<mutex> lck(mtx);
-            while(!(value%15==0) && value<=n)
+            unique_lock<mutex> ul(m);
+            cv.wait(ul,[=](){return current>n || (current%3==0 && current%5==0);});
+            if(current<=n)
             {
-                cv.wait(lck);
+                printFizzBuzz();
+                current++;
             }
-            if(value>n) return;
-            printFizzBuzz();
-            value++;
+            ul.unlock();
             cv.notify_all();
         }
     }
 
     void number(function<void(int)> printNumber) {
-        while(value<=n)
+        while(current<=n)
         {
-            unique_lock<mutex> lck(mtx);
-            while((value%3==0 || value%5==0) && value<=n)
+            unique_lock<mutex> ul(m);
+            cv.wait(ul,[=](){return current>n || (current%3!=0 && current%5!=0);});
+            if(current<=n)
             {
-                cv.wait(lck);
+                printNumber(current);
+                current++;
             }
-            if(value>n) return;
-            printNumber(value);
-            value++;
+            ul.unlock();
             cv.notify_all();
         }
     }
+private:
+    int n;
+    int current;
+    mutex m;
+    condition_variable cv;
 };

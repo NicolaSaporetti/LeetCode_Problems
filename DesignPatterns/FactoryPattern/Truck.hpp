@@ -2,10 +2,11 @@
 #define Truck_HPP
 #include "Transport.hpp"
 
-class Truck : public Transport
+template<class T>
+class Truck : public Transport<T>
 {
     public:
-    Truck(double cost, double time);
+    Truck(T cost, T time);
     void get_description();
 };
 #endif

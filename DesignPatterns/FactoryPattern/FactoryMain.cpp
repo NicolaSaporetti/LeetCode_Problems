@@ -11,10 +11,10 @@ using namespace std;
 
 int main()
 {
-    unique_ptr<LogisticsFactory> factory = unique_ptr<LogisticsFactory>(new TruckFactory());
-    unique_ptr<Transport> transport = factory->createTransport();
+    unique_ptr<LogisticsFactory<double>> factory = make_unique<TruckFactory<double>>();
+    unique_ptr<Transport<double>> transport = factory->createTransport();
     transport->get_description();
-    factory = unique_ptr<LogisticsFactory>(new BoatFactory());
+    factory = make_unique<BoatFactory<double>>();
     transport = factory->createTransport();
     transport->get_description();
 

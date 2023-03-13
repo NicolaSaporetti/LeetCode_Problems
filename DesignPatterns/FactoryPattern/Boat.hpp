@@ -2,10 +2,11 @@
 #define Boat_HPP
 #include "Transport.hpp"
 
-class Boat : public Transport
+template<class T>
+class Boat : public Transport<T>
 {
     public:
-    Boat(double cost, double time);
+    Boat(T cost, T time);
     void get_description();
 };
 #endif

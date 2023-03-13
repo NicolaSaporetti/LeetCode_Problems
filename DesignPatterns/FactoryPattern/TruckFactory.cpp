@@ -2,9 +2,11 @@
 #include "Transport.hpp"
 #include "Truck.hpp"
 
-TruckFactory::~TruckFactory() {}
+template <class T>
+TruckFactory<T>::~TruckFactory() {}
 
-unique_ptr<Transport> TruckFactory::createTransport()
+template <class T>
+unique_ptr<Transport<T>> TruckFactory<T>::createTransport()
 {
-    return unique_ptr<Truck>(new Truck(6.8, 3.2));
+    return unique_ptr<Truck<T>>(new Truck(6.8, 3.2));
 }

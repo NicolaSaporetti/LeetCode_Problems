@@ -2,13 +2,16 @@
 #include <iostream>
 using namespace std;
 
-Transport::Transport(double cost, double time): cost(cost), time(time)
+template<class T>
+Transport<T>::Transport(T cost, T time): cost(cost), time(time)
 {}
 
-Transport::~Transport()
+template<class T>
+Transport<T>::~Transport()
 {}
 
-void Transport::get_description()
+template<class T>
+void Transport<T>::get_description()
 {
     cout<<"Cost: "<<cost<<"\nTime: "<<time<<endl;
 }

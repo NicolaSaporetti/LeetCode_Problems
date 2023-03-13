@@ -2,9 +2,12 @@
 #include "Transport.hpp"
 #include "Boat.hpp"
 
-BoatFactory::~BoatFactory() {}
+template <class T>
+BoatFactory<T>::~BoatFactory() {}
 
-unique_ptr<Transport> BoatFactory::createTransport()
+template <class T>
+unique_ptr<Transport<T>> BoatFactory<T>::createTransport()
 {
-    return unique_ptr<Boat>(new Boat(3.5, 10.2));
+    return make_unique<Boat<T>>(3.5,10.2);
+    //return unique_ptr<Boat<T>>(new Boat(3.5, 10.2));
 }

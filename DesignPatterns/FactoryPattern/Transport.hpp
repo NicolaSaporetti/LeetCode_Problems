@@ -1,15 +1,16 @@
 #ifndef Transport_HPP
 #define Transport_HPP
 
+template<class T>
 class Transport
 {
     public:
-    Transport(double cost, double time);
+    Transport(T cost, T time);
     virtual ~Transport();
     virtual void get_description();
 
     protected:
-    double cost;
-    double time;
+    T cost;
+    T time;
 };
 #endif

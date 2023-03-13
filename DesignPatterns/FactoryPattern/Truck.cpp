@@ -2,11 +2,13 @@
 #include "Transport.hpp"
 #include <iostream>
 
-Truck::Truck(double cost, double time) : Transport(cost,time)
-{} 
+template<class T>
+Truck<T>::Truck(T cost, T time) : Transport<T>(cost,time)
+{}
 
-void Truck::get_description()
+template<class T>
+void Truck<T>::get_description()
 {
     cout<<"Truck"<<endl;
-    Transport::get_description();
+    Transport<T>::get_description();
 }

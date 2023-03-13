@@ -3,11 +3,13 @@
 #include <iostream>
 using namespace std;
 
-Boat::Boat(double cost, double time) : Transport(cost,time)
+template<class T>
+Boat<T>::Boat(T cost, T time) : Transport<T>(cost,time)
 {}
 
-void Boat::get_description()
+template<class T>
+void Boat<T>::get_description()
 {
     cout<<"Boat"<<endl;
-    Transport::get_description();
+    Transport<T>::get_description();
 }

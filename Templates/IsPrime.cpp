@@ -1,7 +1,6 @@
 using namespace std;
 #include <cassert>
 
-
 template<int a, int b>
 struct PrimeC
 {

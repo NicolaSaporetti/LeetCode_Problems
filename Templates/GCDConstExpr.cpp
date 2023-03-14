@@ -1,6 +1,5 @@
 using namespace std;
 #include <cassert>
-#include <iostream>
 
 template<typename T>
 constexpr T gcd(T a,T b)

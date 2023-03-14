@@ -1,7 +1,6 @@
 using namespace std;
 #include <cassert>
 
-
 constexpr bool computePrime(int a, int b)
 {
     return (b*b>a)? true : !(a%b==0) && computePrime(a,b+1);

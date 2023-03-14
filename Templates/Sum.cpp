@@ -7,12 +7,6 @@ struct sum
     static constexpr int value = 0;
 };
 
-template<unsigned size>
-struct sum<size>
-{
-    static constexpr int value = size;
-};
-
 template<unsigned size, unsigned... sizes>
 struct sum<size, sizes...>
 {

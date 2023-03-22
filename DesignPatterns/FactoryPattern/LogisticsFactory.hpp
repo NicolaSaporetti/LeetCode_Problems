@@ -4,10 +4,11 @@
 #include "Transport.hpp"
 using namespace std;
 
+template <class T>
 class LogisticsFactory
 {
     public:
     virtual ~LogisticsFactory() {};
-    virtual unique_ptr<Transport> createTransport() = 0;
+    virtual unique_ptr<Transport<T>> createTransport() = 0;
 };
 #endif

@@ -4,10 +4,11 @@
 #include <memory>
 #include "LogisticsFactory.hpp"
 
-class TruckFactory : public LogisticsFactory
+template <class T>
+class TruckFactory : public LogisticsFactory<T>
 {
     public:
     ~TruckFactory() override;
-    unique_ptr<Transport> createTransport() override;
+    unique_ptr<Transport<T>> createTransport() override;
 };
 #endif

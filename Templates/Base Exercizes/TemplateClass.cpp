@@ -9,4 +9,6 @@ int main()
 
     A<double> myClass2(4,5);
     cout<<myClass2.get_sum()<<endl;
+
+    cout<<(int)sum(foo(42),foo(30))<<endl;
 }

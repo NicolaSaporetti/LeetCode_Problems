@@ -21,3 +21,14 @@ string sum(string a, string b)
     cout<<"Using string sum"<<endl;
     return a+b;
 }
+
+template<typename T, typename Predicate>
+int count_if_template(T start, T end, Predicate p)
+{
+    int total = 0;
+    for(T i=start;i!=end;i++)
+    {
+        if(p(*i)) total++;
+    }
+    return total;
+}

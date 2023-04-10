@@ -1,38 +1,43 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:
     vector<string> wordSubsets(vector<string>& words1, vector<string>& words2) {
+        vector<int> universalRequirements = buildUniversalRequirement(words2);
         vector<string> result;
-        vector<int> letters(26,0);
-        for(int i=0;i<words2.size();i++)
+        for(auto& word : words1)
         {
-            vector<int> lettersTemp(26,0);
-            for(int j=0;j<words2[i].size();j++)
-            {
-                lettersTemp[words2[i][j]-'a']++;
-            }
-            for(int j=0;j<26;j++)
-            {
-                if(letters[j]<lettersTemp[j]) letters[j] = lettersTemp[j];
-            }
-        }
-        for(int i=0;i<words1.size();i++)
-        { 
-            vector<int> lettersTemp(26,0);
-            bool isWordASubset = true;
-            for(int j=0;j<words1[i].size();j++)
-            {
-                lettersTemp[words1[i][j]-'a']++;
-            }
-            for(int j=0;j<26 && isWordASubset;j++)
-            {
-                if(letters[j]>lettersTemp[j]) isWordASubset = false;
-            }
-            if(isWordASubset) result.push_back(words1[i]);
+            vector<int> temp = createLetterAmount(word);
+            if(compareVectors(temp,universalRequirements)) result.push_back(word);
         }
         return result;
+    }
+private:
+    vector<int> buildUniversalRequirement(vector<string>& words)
+    {
+        vector<int> result(26,0);
+        for(auto& word : words)
+        {
+            vector<int> temp = createLetterAmount(word);
+            for(int i=0;i<26;i++) result[i] = max(result[i],temp[i]);
+        }
+        return result;
+    }
+
+    vector<int> createLetterAmount(string& s)
+    {
+        vector<int> result(26,0);
+        for(auto& c : s) result[c-'a']++;
+        return result;
+    }
+
+    bool compareVectors(vector<int>& word1, vector<int>& requirements)
+    {
+        for(int i=0;i<26;i++)
+        {
+            if(word1[i]<requirements[i]) return false;
+        }
+        return true;
     }
 };

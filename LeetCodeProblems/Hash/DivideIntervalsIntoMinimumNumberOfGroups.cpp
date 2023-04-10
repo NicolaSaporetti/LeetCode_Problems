@@ -1,3 +1,7 @@
+#include <vector>
+#include <map>
+using namespace std;
+
 class Solution {
 public:
     int minGroups(vector<vector<int>>& intervals) {

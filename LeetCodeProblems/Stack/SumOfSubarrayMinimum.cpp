@@ -6,25 +6,34 @@ class Solution {
 public:
     int sumSubarrayMins(vector<int>& arr) {
         int n=arr.size();
-        vector <int> left(n,-1),right(n,n);
-        int mod=1e9+7;
-        long long ans=0;
-        stack <int> s;
-        for (int i=n-1;i>=0;i--){
-            while (!s.empty() && arr[s.top()]>=arr[i]) s.pop();
-            if (!s.empty()) right[i]=s.top();
+        int mod = 1e9+7;
+        long long res = 0;
+        vector<long long> left(n,n-1);
+        vector<long long> right(n,0);
+        stack<int> s;
+        for(int i=0;i<n;i++)
+        {
+            while(!s.empty() && arr[s.top()]>arr[i])
+            {
+                left[s.top()]=i-1;
+                s.pop();
+            }
             s.push(i);
         }
-        s = {};
-        for (int i=0;i<n;i++){
-            while (!s.empty() && arr[s.top()]>arr[i]) s.pop();
-            if (!s.empty()) left[i]=s.top();
+        s={};
+        for(int i=n-1;i>=0;i--)
+        {
+            while(!s.empty() && arr[s.top()]>=arr[i])
+            {
+                right[s.top()]=i+1;
+                s.pop();
+            }
             s.push(i);
         }
-        for (int i=0;i<n;i++){
-            ans += (long long)((right[i]-i)*(i-left[i]))*(long long)arr[i];
-            ans %= mod;
+        for(int i=0;i<n;i++)
+        {
+            res=(res+((left[i]-i+1)*(i-right[i]+1))*arr[i])%mod;
         }
-        return ans;  
+        return res;  
     }
 };

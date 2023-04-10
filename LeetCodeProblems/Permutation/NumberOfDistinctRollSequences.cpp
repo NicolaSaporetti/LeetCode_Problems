@@ -4,7 +4,7 @@ using namespace std;
 class Solution {
 public:
     int help(int prev2,int prev1,int idx,int sz){
-        if(idx==sz) return 1;  // you get one valid sequence
+        if(idx==sz) return 1;
         if(dp[prev2][prev1][idx]!=-1) return dp[prev2][prev1][idx];
         int ans=0;
         for(int cur=1;cur<=6;cur++){

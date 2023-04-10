@@ -17,7 +17,6 @@ public:
                 matrix[i][j] += temp;
             }
         }
-        for(int i=0;i<col_sz;i++) result = min(result, matrix[row_sz-1][i]);
-        return result;
+        return *min_element(matrix[row_sz-1].begin(),matrix[row_sz-1].end());
     }
 };

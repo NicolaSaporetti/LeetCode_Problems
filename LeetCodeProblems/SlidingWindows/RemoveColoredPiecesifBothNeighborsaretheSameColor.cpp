@@ -1,4 +1,4 @@
-sing namespace std;
+using namespace std;
 
 class Solution {
 public:

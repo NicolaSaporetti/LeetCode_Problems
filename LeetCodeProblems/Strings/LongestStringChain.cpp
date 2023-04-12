@@ -1,32 +1,49 @@
-#include <iostream>
+#include <unordered_set>
+#include <unordered_map>
+#include <vector>
 using namespace std;
 
 class Solution {
 public:
     int longestStrChain(vector<string>& words) {
-        
-        int ans = 1;
-        int n = words.size();
-        sort(words.begin(), words.end(), [](const std::string& first, const std::string& second)
+        for(auto& w : words) m[w.size()].insert(w);
+        for(auto& w : words) chainLenght[w]=1;
+        int result = 0;
+        for(int i=1;i<=16;i++)
         {
-            return first.size() < second.size();
-        });
-        unordered_map<string, int> dp;
-        
-        for(int i = 0 ; i < n ; i++){
-            dp[words[i]] = 1;
-            int maxPosSubChain = 0;
-            for(int j = 0 ; j < words[i].length(); j++){
-                string ck = words[i].substr(0, j) + words[i].substr(j+1);
-                if(dp.find(ck)!=dp.end()){
-                    maxPosSubChain = max(maxPosSubChain, dp[ck]);
+            for(auto& suc : m[i])
+            {
+                for(auto& pred : m[i-1])
+                {
+                    if(isPredecessor(suc,pred)) chainLenght[suc]=max(chainLenght[suc],chainLenght[pred]+1);
                 }
             }
-            dp[words[i]] += maxPosSubChain;
-            ans = max(ans, dp[words[i]]);
-        }        
-        
-        return ans;
-        
+        }
+        for(auto& [key,chain] : chainLenght) result = max(result, chain);
+        return result;
     }
+private:
+    bool isPredecessor(const string& succe, const string& pred)
+    {
+        int i=0;
+        bool insertionFound = false;
+        bool predecessorExist = true;
+        while(i+insertionFound<succe.size())
+        {
+            if(succe[i+insertionFound]!=pred[i])
+            {
+                if(insertionFound)
+                {
+                    predecessorExist = false;
+                    break;
+                }
+                else insertionFound = true;
+            }
+            else i++;
+        }
+        return predecessorExist;
+    }
+
+    unordered_map<int,unordered_set<string>> m;
+    unordered_map<string,int> chainLenght;
 };

@@ -7,32 +7,29 @@ class Solution {
 public:
     vector<vector<int>> verticalTraversal(TreeNode* root) {
         traverse(root,0,0);
-        for(auto i=temp.begin();i!=temp.end();i++)
+        for(auto& [key,val] : m)
         {
-            vector<int> levelV;
-            for(auto j=i->second.begin();j!=i->second.end();j++)
+            vector<int> temp;
+            for(auto& [key2,level]: val)
             {
-                sort(j->second.begin(),j->second.end());
-                for(int k=0;k<j->second.size();k++)
-                {
-                    levelV.push_back(j->second[k]);
-                }
+                sort(begin(level),end(level));
+                for(auto& e : level) temp.push_back(e);
             }
-            sol.push_back(levelV);
+            sol.push_back(temp);
         }
         return sol;
     }
 private:
-    void traverse(TreeNode* node, int val, int level)
+    void traverse(TreeNode* node, int level, int val)
     {
         if(node!=nullptr)
         {
-            temp[val][level].push_back(node->val);
-            traverse(node->left,val-1,level+1);
-            traverse(node->right,val+1,level+1);
+            m[val][level].push_back(node->val);
+            traverse(node->left,level+1,val-1);
+            traverse(node->right,level+1,val+1);
         }
     }
     
     vector<vector<int>> sol;
-    map<int,map<int,vector<int>>> temp;
+    map<int,map<int,vector<int>>> m;
 };

@@ -5,22 +5,27 @@ class Solution {
 public:
     int bagOfTokensScore(vector<int>& tokens, int power) {
         sort(tokens.begin(),tokens.end());
-        int score =0;
-        int sz = tokens.size();
-        for(int i=0;i<sz;)
+        int score = 0;
+        int result = 0;
+        int end_idx = tokens.size();
+        for(int i=0;i<end_idx;)
         {
             if(power>=tokens[i])
             {
                 score++;
                 power-=tokens[i++];
             }
-            else if(i==sz-1 || score==0) break;
             else
             {
-                score--;
-                power+=tokens[--sz];
+                if(score==0) break;
+                else
+                {
+                    score--;
+                    power+=tokens[--end_idx];
+                }
             }
+            result = max(result,score);
         }
-        return score;
+        return result;
     }
 };

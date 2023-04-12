@@ -1,29 +1,22 @@
-#include <iostream>
 #include <stack>
 using namespace std;
 
 class Solution {
 public:
     string removeDuplicates(string s) {
-        stack<char> myStack;
+        stack<char> st;
+        string result;
         for(int i=0; i<s.size();i++)
         {
-            if(myStack.empty() || s[i]!=myStack.top())
-            {
-                myStack.push(s[i]);
-            }
-            else
-            {
-                myStack.pop();
-            }
+            if(st.empty() || s[i]!=st.top()) st.push(s[i]);
+            else st.pop();
         }
-        int sz=myStack.size();
-        for(int i=sz-1; i>=0;i--)
+        while(!st.empty())
         {
-            s[i]=myStack.top();
-            myStack.pop();
+            result.push_back(st.top());
+            st.pop();
         }
-        s.resize(sz);
-        return s;
+        reverse(begin(result),end(result));
+        return result;
     }
 };

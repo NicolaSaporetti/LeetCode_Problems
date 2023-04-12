@@ -6,9 +6,7 @@ public:
     int mincostTickets(vector<int>& days, vector<int>& costs) {
         vector<int> d(days.back()+30,INT_MAX);
         d[0]=0;
-        int el = 0;
-        int i = 1;
-        for(;i<366 && el<days.size();i++)
+        for(int i=1,el=0;el<days.size();i++)
         {
             if(i!=days[el]) d[i]=min(d[i],d[i-1]);
             else
@@ -20,7 +18,7 @@ public:
             }
         }
         int res = d[days.back()];
-        for(;i<days.back()+30;i++) res = min(res, d[i]);
+        for(int i =days.back();i<days.back()+30;i++) res = min(res, d[i]);
         return res;
     }
 };

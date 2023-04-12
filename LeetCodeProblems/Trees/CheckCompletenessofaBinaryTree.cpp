@@ -21,6 +21,5 @@ public:
             q.push(node->right);
         }
         return true;
-
     }
 };

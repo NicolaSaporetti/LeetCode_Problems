@@ -7,7 +7,7 @@ public:
     int orangesRotting(vector<vector<int>>& grid) {
         setup_initial_rotten_oranges(grid);
         int time_oranges_rot = time_to_rot_oranges(grid);
-        if(!are_all_oranges_rot(grid)) time_oranges_rot = -1;
+        if(!none_of(begin(grid),end(grid),[](vector<int>& vec){return !none_of(begin(vec),end(vec),[](int elem){return elem==1;});})) time_oranges_rot = -1;
         return time_oranges_rot;
     }
     
@@ -50,19 +50,6 @@ private:
             }
         } while(!rottenOranges.empty());
         return res;
-    }
-    
-    bool are_all_oranges_rot(vector<vector<int>>& grid)
-    {
-        bool oranges_are_all_rot = true;
-        for(int i=0;i<row_sz;i++)
-        {
-            for(int j=0;j<col_sz;j++)
-            {
-                if(grid[i][j]==1) oranges_are_all_rot = false;
-            }
-        }
-        return oranges_are_all_rot;
     }
     
     queue<pair<int,int>> rottenOranges;

@@ -1,10 +1,14 @@
-#include <iostream>
 #include "TreeNode.cpp"
 using namespace std;
 
 class Solution {
+public:
+    int minCameraCover(TreeNode* root) {
+        numberOfCameras = 0;
+        traverse(root, nullptr);
+        return numberOfCameras;
+	}
 private:
-	int numberOfCameras;
 	void traverse(TreeNode* cur, TreeNode* root)
 	{
         if(cur->left==nullptr && cur->right==nullptr && root!=nullptr)
@@ -16,14 +20,8 @@ private:
                 numberOfCameras++;
             }
         }
-        if(cur->left!=nullptr)
-        {
-            traverse(cur->left,cur);
-        }
-        if(cur->right!=nullptr)
-        {
-            traverse(cur->right,cur);
-        }
+        if(cur->left!=nullptr) traverse(cur->left,cur);
+        if(cur->right!=nullptr) traverse(cur->right,cur);
         if(cur->val==1)
         {
             if(root!=nullptr && root->val!=1)
@@ -49,10 +47,6 @@ private:
             }
         }
 	}
-public:
-    int minCameraCover(TreeNode* root) {
-        numberOfCameras = 0;
-        traverse(root, nullptr);
-        return numberOfCameras;
-	}
+
+	int numberOfCameras;
 };

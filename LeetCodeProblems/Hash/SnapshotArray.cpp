@@ -21,6 +21,6 @@ public:
     }
     
     int get(int index, int snap_id) {
-        return (--snaps[index].upper_bound(snap_id))->second;
+        return prev(snaps[index].upper_bound(snap_id))->second;
     }
 };

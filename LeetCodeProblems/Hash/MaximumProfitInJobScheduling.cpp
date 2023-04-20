@@ -15,8 +15,7 @@ public:
             {
                 int start = e.first;
                 int end = endTime[p];
-                auto it = maxP.lower_bound(start);
-                if(it==maxP.end() || it->first>start) it--;
+                auto it = prev(maxP.upper_bound(start));
                 int totalP = it->second+profit[p];
                 bool isOk = true;
                 while(it!=maxP.end() && it->first<=end && isOk)

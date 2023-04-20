@@ -1,57 +1,26 @@
-#include <iostream>
+#include <stack>
 using namespace std;
 
 class Solution {
 public:
     string removeDuplicates(string s, int k) {
-        int newPos=0;
-        if(s.size()>=k)
+        stack<pair<char,int>> st;
+        string result;
+        for(auto& c : s)
         {
-            for(int i=0; i<s.size();i++)
+            if(st.empty() || st.top().first!=c) st.push({c,1});
+            else st.push({c,st.top().second+1});
+            if(!st.empty() && st.top().second==k)
             {
-                bool temp_duplicated_found= true;
-                int j=1;
-                if(i+k-1<s.size())
-                {
-                    for(; j<k && temp_duplicated_found; j++)
-                    {
-                        if(s[i+j]!=s[i])
-                        {
-                            temp_duplicated_found=false;
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    temp_duplicated_found= false;
-                }
-                if(!temp_duplicated_found)
-                {
-                    for(int v=0; v<j; v++)
-                    {
-                        cout<<s[i+v]<<endl;
-                        s[newPos++]=s[i];
-                    }
-                    i+=j-1;
-                }
-                else
-                {
-                    i+=j-1;
-                    if(newPos>0)
-                    {
-                        char value = s[--newPos];
-                        s[i--] = s[newPos--];
-                        while(newPos>=0 && s[newPos] == value)
-                        {
-                            s[i--] = s[newPos--];
-                        }
-                        newPos++;
-                    }
-                }
+                for(int i=0;i<k;i++) st.pop();
             }
-            s.resize(newPos);
         }
-        return s;
+        while(!st.empty())
+        {
+            result.push_back(st.top().first);
+            st.pop();
+        }
+        reverse(begin(result),end(result));
+        return result;
     }
 };

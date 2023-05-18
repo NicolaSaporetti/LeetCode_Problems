@@ -7,6 +7,7 @@ public:
         removeWordWithDuplicateLetters(arr);
         sol.assign(26,false);
         maxV = 0;
+        current_val = 0;
         check(0,arr);
         return maxV;
     }
@@ -49,20 +50,16 @@ private:
             if(match)
             {
                 for(auto c : arr[i]) sol[c-'a']=true;
-                computeMax();
+                current_val+=arr[i].size();
+                maxV = max(maxV,current_val);
                 check(i+1,arr);
+                current_val-=arr[i].size();
                 for(auto c : arr[i]) sol[c-'a']=false;
             }
         }
     }
     
-    void computeMax()
-    {
-        int tot = 0;
-        for(auto i : sol) if(i) tot++;
-        maxV = max(maxV, tot);
-    }
-    
     int maxV;
-    vector<int> sol;
+    int current_val;
+    vector<bool> sol;
 };

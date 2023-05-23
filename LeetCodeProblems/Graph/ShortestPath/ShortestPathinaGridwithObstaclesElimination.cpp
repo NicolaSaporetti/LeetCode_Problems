@@ -1,71 +1,53 @@
-#include <iostream>
 #include <vector>
 #include <queue>
 using namespace std;
 
-typedef struct node
-{
-    int x;
-    int y;
-    int dist;
-    int obstacleToRemove;
-} Node;
-
 class Solution {
 public:
     int shortestPath(vector<vector<int>>& grid, int k) {
-        n = grid.size();
-        m = grid[0].size();
-        q.push({0,0,0,k});
-        vis.assign(n, vector<int>(m, -1));
-        vis[0][0] = k;
+        rz = grid.size();
+        cz = grid[0].size();
+        dx = {1,-1,0,0};
+        dy = {0,0,1,-1};
+        q.push({0,0,0,0});
+        obstaclesRemoved.assign(rz, vector<int>(cz, INT_MAX));
+        obstaclesRemoved[0][0] = 0;
         return computeShortestPath(grid,k);
     }
     
 private:
     int computeShortestPath(vector<vector<int>>& grid, int k)
     {
-        int answer = -1;        
-        int dx[] = {0, 0, 1, -1};
-        int dy[] = {1, -1, 0, 0};
         while(!q.empty())
         {
-            Node node = q.front();
+            auto node = q.front();
             q.pop();
             
-            int x = node.x;
-            int y = node.y;
-            int dist = node.dist;
-            int obstacleToRemove = node.obstacleToRemove;
-            if (x == n-1 && y == m-1) return dist;
+            int x = node[0];
+            int y = node[1];
+            int obstacles = node[2];
+            int dist = node[3];
+            if (x == rz-1 && y == cz-1) return dist;
             
             for (int i = 0; i<4; i++)
             {
                 int nx = x+dx[i];
                 int ny = y+dy[i];
                 
-                if (nx < 0 || nx>=n || ny <0 || ny>=m || (vis[nx][ny]!=-1 && vis[nx][ny]>=obstacleToRemove-grid[nx][ny]) || grid[nx][ny]>obstacleToRemove)
-                    continue;
-                q.push({nx,ny,dist+1,obstacleToRemove-grid[nx][ny]});
-                vis[nx][ny] = obstacleToRemove-grid[nx][ny];
+                if (nx < 0 || nx>=rz || ny <0 || ny>=cz) continue;
+                int newObstacles = obstacles+grid[nx][ny];
+                if(newObstacles>k || obstaclesRemoved[nx][ny]<=newObstacles) continue;
+                obstaclesRemoved[nx][ny]=newObstacles;
+                q.push({nx,ny,newObstacles,dist+1});
             }
-            //printV();
         }
-        return answer;
+        return -1;
     }
     
-    void printV()
-    {
-        for(auto x : vis)
-        {
-            for(auto y : x) cout<<y<<" ";
-            cout<<endl;
-        }
-        cout<<endl;
-    }
-    
-    int n;
-    int m;
-    queue<Node> q;
-    vector<vector<int>> vis;
+    int rz;
+    int cz;
+    queue<vector<int>> q;
+    vector<vector<int>> obstaclesRemoved;
+    vector<int> dx;
+    vector<int> dy;
 };

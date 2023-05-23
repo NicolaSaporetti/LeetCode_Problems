@@ -4,48 +4,35 @@ using namespace std;
 
 class Solution {
 public:
-    int getval(int mid , vector<int>&arr)
-    {
-        int sum = 0;
-        for(int i = 0 ; i < arr.size() ; i++)
-        {
-            if(arr[i] > mid)
-                sum+=mid;
-            else
-                sum+=arr[i];
-        }
-        return sum;
-    }
     int findBestValue(vector<int>& arr, int target) {
-        int n = arr.size();
-        int l = 0 , h = *max_element(arr.begin(),arr.end());
-        int ans = 0, min1 = INT_MAX;
-        while(l<=h)
-        {
-            int mid = l + (h-l)/2;
-            int k = getval(mid,arr);
-            if(k==target)
-            {
-                return mid;
-            }
-            else if(k<target)
-            {
-                l = mid+1;
-            }
-            else
-                h = mid -1;
-            
-            int j = abs(k - target);
-            if(j<min1)
-            {
-                min1 = j;
-                ans = mid;
-            }
-            else if(j==min1)
-            {
-                ans = min(ans , mid);
+        sort(arr.begin(), arr.end());
+        int l = 0, r = arr[arr.size() - 1];
+        while (l + 1 < r) {
+            int mid = (l + r) / 2;
+            int diff = getDiff(arr, target, mid);
+            if (diff >= 0) r = mid;
+            else l = mid;
+        }
+        if (abs(getDiff(arr, target, l)) <= abs(getDiff(arr, target, r))) return l;
+        else return r;
+    }
+
+    int getDiff(vector<int>& arr, int target, int value) {
+        int diff;
+        if (arr[0] >= value) {
+            diff = value * arr.size() - target;
+        } else if (arr[arr.size() - 1] <= value) {
+            diff = std::accumulate(arr.begin(), arr.end(), 0) - target;
+        } else {
+            int sum = 0;
+            for (int i = 0; i < arr.size() - 1; i++) {
+                sum = sum + arr[i];
+                if (arr[i] <= value && arr[i + 1] >= value) {
+                    diff = sum + (arr.size() - i - 1) * value - target;
+                    break;
+                }
             }
         }
-        return ans;
+        return diff;
     }
 };

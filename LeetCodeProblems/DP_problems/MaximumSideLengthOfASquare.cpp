@@ -1,47 +1,32 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:
     int maxSideLength(vector<vector<int>>& mat, int threshold) {
-        int row_sz = mat.size();
-        int col_sz = mat[0].size();
+        int rz = mat.size();
+        int cz = mat[0].size();
+        vector<vector<int>> m(rz+1,vector<int>(cz+1,0));
         int result = 0;
-        for(int i=0;i<row_sz;i++)
-        {
-            for(int j=1;j<col_sz;j++)
+        for(int i=0;i<rz;i++)
+            for(int j=0;j<cz;j++) m[i+1][j+1]=mat[i][j]+m[i+1][j]+m[i][j+1]-m[i][j];
+        for(int i=0;i<rz;i++)
+            for(int j=0;j<cz;j++)
             {
-                mat[i][j]+=mat[i][j-1];
-            }
-            if(i>0)
-            {
-                for(int j=0;j<col_sz;j++)
-                {
-                    mat[i][j]+=mat[i-1][j];
-                }
-            }
-        }
-        for(int i=0;i<row_sz;i++)
-        {
-            for(int j=0;j<col_sz;j++)
-            {
-                int k=0;
-                int maxK = min(row_sz-i,col_sz-j);
+                int maxK = min(rz-i,cz-j);
                 if(maxK>result)
                 {
-                    for(;k<maxK;k++)
+                    for(int k=1;k<=maxK;k++)
                     {
-                        int value = mat[i+k][j+k];
-                        if(i>0) value -= mat[i-1][j+k];
-                        if(j>0) value -= mat[i+k][j-1];
-                        if(j>0 && i>0) value += mat[i-1][j-1];
+                        int value = m[i+k][j+k];
+                        value -= m[i][j+k];
+                        value -= m[i+k][j];
+                        value += m[i][j];
                         if(value>threshold) break;
+                        result = max(result,k);
                     }
                 }
-                result = max(result,k);
             }
-        }
         return result;
     }
 };

@@ -2,23 +2,6 @@
 using namespace std;
 
 class Solution {
-private:
-    int row_sz;
-    int col_sz;
-    bool isSubIsland;
-    int count;
-
-    void compMaxAreaIsland(int row, int col, vector<vector<int>>& grid, vector<vector<int>>& comparatorGrid) {
-        if(row<row_sz && row>=0 && col<col_sz && col>=0 && grid[row][col]==1)
-        {
-            grid[row][col]=0;
-            if(comparatorGrid[row][col]==0) isSubIsland = false;
-            compMaxAreaIsland(row+1,col,grid,comparatorGrid);
-            compMaxAreaIsland(row-1,col,grid,comparatorGrid);
-            compMaxAreaIsland(row,col+1,grid,comparatorGrid);
-            compMaxAreaIsland(row,col-1,grid,comparatorGrid);
-        }
-    }
     
 public:
     int countSubIslands(vector<vector<int>>& grid1, vector<vector<int>>& grid2) {
@@ -39,4 +22,21 @@ public:
         }
         return count;
     }
+private:
+    void compMaxAreaIsland(int row, int col, vector<vector<int>>& grid, vector<vector<int>>& comparatorGrid) {
+        if(row<row_sz && row>=0 && col<col_sz && col>=0 && grid[row][col]==1)
+        {
+            grid[row][col]=0;
+            if(comparatorGrid[row][col]==0) isSubIsland = false;
+            compMaxAreaIsland(row+1,col,grid,comparatorGrid);
+            compMaxAreaIsland(row-1,col,grid,comparatorGrid);
+            compMaxAreaIsland(row,col+1,grid,comparatorGrid);
+            compMaxAreaIsland(row,col-1,grid,comparatorGrid);
+        }
+    }
+
+    int row_sz;
+    int col_sz;
+    bool isSubIsland;
+    int count;
 };

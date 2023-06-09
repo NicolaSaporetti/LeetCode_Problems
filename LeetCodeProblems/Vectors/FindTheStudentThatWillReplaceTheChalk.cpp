@@ -1,22 +1,17 @@
-#include <iostream>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:
     int chalkReplacer(vector<int>& chalk, int k) {
-        int sz = chalk.size();
-        long long sum = 0;
-        for(int i=0;i<sz;i++)
+        long long tot = 0;
+        for(auto &c : chalk) tot+=(long long)c;
+        k = k%tot;
+        for(int i=0;i<chalk.size();i++)
         {
-            sum+=chalk[i];
+            if(k<chalk[i]) return i;
+            else k-=chalk[i];
         }
-        if(k>sum) k%=sum;
-        for(int i=0;i<sz;i++)
-        {
-            k-=chalk[i];
-            if(k<0) return i;
-        }
-        return 0;
+        return -1;
     }
 };

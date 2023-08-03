@@ -6,7 +6,7 @@ public:
     int minimumTotal(vector<vector<int>>& triangle) {
         row_sz = triangle.size();
         updateWeightTriangle(triangle);
-		return getMinEffort(triangle);
+		return *min_element(begin(triangle.back()),end(triangle.back()));
     }
     
 private:    
@@ -18,16 +18,6 @@ private:
             for(int j=1;j<i;j++) triangle[i][j]+=min(triangle[i-1][j-1],triangle[i-1][j]);
             triangle[i][i]+=triangle[i-1][i-1];
         }
-    }
-    
-    int getMinEffort(vector<vector<int>>& triangle)
-    {
-        int minEffort = INT_MAX;
-        for(int i=0;i<row_sz;i++)
-        {
-            minEffort = min(minEffort,triangle[row_sz-1][i]);
-        }
-        return minEffort;
     }
     
     int row_sz;

@@ -1,14 +1,10 @@
 #include <vector>
 using namespace std;
 
-bool LISfunction (vector<int>& first ,vector<int>& second) {
-    return (first[0]==second[0])? first[1]>second[1]:first[0]<second[0];
-}
-
 class Solution {
 public:
     int maxEnvelopes(vector<vector<int>>& envelopes) {
-        sort(envelopes.begin(),envelopes.end(),LISfunction);
+        sort(envelopes.begin(),envelopes.end(),[&](const vector<int>& lhs, const vector<int>& rhs) { return lhs[0]<rhs[0] || (lhs[0]==rhs[0] && lhs[1]>=rhs[1]);});
         vector<int> dp;
         for (int i=0;i<envelopes.size();i++) {
             int height = envelopes[i][1];

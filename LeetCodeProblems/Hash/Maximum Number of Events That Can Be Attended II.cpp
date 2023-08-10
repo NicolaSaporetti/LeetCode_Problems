@@ -6,27 +6,26 @@ class Solution {
 public:
     int maxValue(vector<vector<int>>& events, int k) {
         sort(begin(events),end(events));
-        int sz = events.size();
-        int res = 0;
-        vector<map<int,int>> dp(k+1);
-        dp[0][0]=0;
-        for(int j=0;j<k;j++)
+        vector<map<int,int>> v(k+1);
+        v[0][0]=0;
+        for(int i=0;i<k;i++)
         {
-            dp[j+1][0]=0;
-            for(int i=0;i<sz;i++)
+            v[i+1][0]=0;
+            for(auto& e : events)
             {
-                auto it = dp[j].lower_bound(events[i][0]);
-                auto it2 = dp[j+1].upper_bound(events[i][1]);
-                int nv = max(events[i][2]+prev(it)->second,prev(it2)->second);
-                if(events[i][2]+prev(it)->second>prev(it2)->second)
+                auto it = v[i+1].upper_bound(e[1]);
+                auto it2 = v[i].lower_bound(e[0]);
+                int nv = max(prev(it)->second,prev(it2)->second+e[2]);
+                if(prev(it2)->second+e[2]>prev(it)->second)
                 {
-                    dp[j+1][events[i][1]]=max(dp[j+1][events[i][1]],nv);
-                    auto it3 = dp[j+1].find(events[i][1]);
-                    while(next(it3)!=dp[j+1].end() && it3->second>=next(it3)->second) dp[j+1].erase(next(it3));
+                    v[i+1][e[1]]=nv;
+                    auto it3=v[i+1].find(e[1]);
+                    while(next(it3)!=v[i+1].end() && it3->second>=next(it3)->second) v[i+1].erase(next(it3));
                 }
             }
         }
-        for(auto& [key,v] : dp[k]) res = max(res,v);
+        int res = 0;
+        for(auto& [key,a] : v[k]) res = max(res,a);
         return res;
     }
 };

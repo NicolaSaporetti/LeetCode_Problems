@@ -1,4 +1,3 @@
-#include <iostream>
 #include <vector>
 #include "DisjoinSet.cpp"
 using namespace std;

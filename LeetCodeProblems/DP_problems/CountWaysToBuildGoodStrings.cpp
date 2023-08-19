@@ -5,7 +5,7 @@ class Solution {
 public:
     int countGoodStrings(int low, int high, int zero, int one) {
         vector<long long> dp(high+1,0);
-        int mod = 1000000007;
+        int mod = 1e9+7;
         dp[zero]+=1;
         dp[one]+=1;
         long long tot = 0;

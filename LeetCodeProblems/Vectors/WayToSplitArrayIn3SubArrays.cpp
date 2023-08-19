@@ -5,19 +5,17 @@ using namespace std;
 class Solution {
 public:
     int waysToSplit(vector<int>& nums) {
-        long long n = nums.size(), pref[100005], mod = 1e9+7;;
-        pref[0] = nums[0];
-        for(int i = 1; i < n; i++) pref[i] = pref[i-1]+nums[i];
-        int cnt = 0;
-        for(int i = 0; i < n-2; i++) {
-            long long left = pref[i];
-            long long rest = pref[n-1]-pref[i];
-            auto lb = lower_bound(pref+i+1,pref+n-1,2*left);
-            auto ub = upper_bound(pref+i+1,pref+n-1,rest/2+left);
-            if(ub-lb > 0) cnt += ub-lb; 
-            cnt %= mod;
+        int res = 0;
+        int mod = 1e9+7;
+        int sz = nums.size();
+        for(int i=1;i<nums.size();i++) nums[i]+=nums[i-1];
+        for(int i=0;i<nums.size()-2;i++)
+        {
+            int maxDif = nums[i]+(nums.back()-nums[i])/2;
+            int pos1 = lower_bound(begin(nums)+i+1,end(nums),2*nums[i])-begin(nums);
+            int pos = upper_bound(begin(nums)+pos1,begin(nums)+sz-1,maxDif)-begin(nums)-1;
+            if(pos>=pos1) res=(res+(pos-pos1+1))%mod;
         }
-        
-        return cnt%mod;
+        return res;
     }
 };

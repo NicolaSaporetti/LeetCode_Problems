@@ -6,10 +6,12 @@ using namespace std;
 class Solution {
 public:
     int longestStrChain(vector<string>& words) {
-        for(auto& w : words) m[w.size()].insert(w);
-        for(auto& w : words) chainLenght[w]=1;
-        int result = 0;
-        for(int i=1;i<=16;i++)
+        for(auto& w : words)
+        {
+            m[w.size()].insert(w);
+            chainLenght[w]=1;
+        }
+        for(int i=2;i<=16;i++)
         {
             for(auto& suc : m[i])
             {
@@ -19,29 +21,18 @@ public:
                 }
             }
         }
+        int result = 0;
         for(auto& [key,chain] : chainLenght) result = max(result, chain);
         return result;
     }
 private:
     bool isPredecessor(const string& succe, const string& pred)
     {
-        int i=0;
         bool insertionFound = false;
-        bool predecessorExist = true;
-        while(i+insertionFound<succe.size())
-        {
-            if(succe[i+insertionFound]!=pred[i])
-            {
-                if(insertionFound)
-                {
-                    predecessorExist = false;
-                    break;
-                }
-                else insertionFound = true;
-            }
-            else i++;
-        }
-        return predecessorExist;
+        int sz = pred.size();
+        int j=0;
+        for(int i=0;i<sz+1 && j<sz;i++) if(succe[i]==pred[j]) j++;
+        return j==sz;
     }
 
     unordered_map<int,unordered_set<string>> m;

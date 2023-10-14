@@ -10,8 +10,7 @@ public:
         nums.erase(unique(begin(nums),end(nums)),nums.end());
         for(auto it = nums.begin();it!=nums.end();it++)
         {
-            auto it2 = upper_bound(it, nums.end(),*it+sz);
-            if(it2==nums.end() || *it2>*it+sz) it2--;
+            auto it2 = prev(upper_bound(it, nums.end(),*it+sz));
             res = max(res, (int)(it2-it)+1);
         }
         return sz+1-res;

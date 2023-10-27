@@ -1,27 +1,22 @@
-#include <map>
+#include <unordered_map>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:
     int numFactoredBinaryTrees(vector<int>& arr) {
-        map<int,long long> m;
-        int mod = 1000000007;
-        int result = 0;
-        for(auto& elem : arr) m[elem]=1;
-        for(auto& [key, numberCombination] : m)
-        {
-            for(auto& [keySub, numberCombinationSubEl] : m)
-            {
-                if(keySub>=key) break;
-                else
-                {
-                    auto it = m.find(key/keySub);
-                    if(key%keySub==0 && it!=m.end()) m[key]+=(it->second*numberCombinationSubEl);
-                }
+        int mod = pow(10,9) + 7;
+        int res = 0;
+        sort(arr.begin(), arr.end());
+        unordered_map <int, long> rootWithCount;
+        for(int i = 0; i < arr.size(); i++){
+            long count = 1;
+            for(auto& [k,v] : rootWithCount){
+                if(arr[i]%k==0 && rootWithCount.count(arr[i]/k)>0) count += v * rootWithCount[arr[i] / k];
             }
-            result=(result+numberCombination%mod)%mod;
+            rootWithCount[arr[i]] = count;
+            res = (res + rootWithCount[arr[i]]) % mod;
         }
-        return result;
+        return res;
     }
-};
+}

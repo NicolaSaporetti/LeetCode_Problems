@@ -1,34 +1,25 @@
-#include <iostream>
+#include <unordered_map>
 #include <vector>
 using namespace std;
 
 class Solution {
-private:
-    int sum;
-    int maxN;
-    int start;
-    map<int,int> myM;
 public:
     int maximumUniqueSubarray(vector<int>& nums) {
-        sum = 0;
-        start = 0;
-        for(int i=0;i<nums.size();i++)
+        int s = 0;
+        unordered_map<int,int> m;
+        int r = 0;
+        int t = 0;
+        for(auto& e : nums)
         {
-            auto it = myM.find(nums[i]);
-            if(it!=myM.end())
+            t+=e;
+            m[e]++;
+            while(m[e]>1)
             {
-                maxN = max(maxN, sum);
-                int elem = it->second;
-                for(int j=start;j<=elem;j++)
-                {
-                    myM.erase(nums[j]);
-                    sum-=nums[j];
-                }
-                start = elem+1;
+                m[nums[s]]--;
+                t-=nums[s++];
             }
-            myM.insert(make_pair(nums[i],i));
-            sum+=nums[i];
+            r = max(r,t);
         }
-        return max(maxN, sum);
+        return r;
     }
 };

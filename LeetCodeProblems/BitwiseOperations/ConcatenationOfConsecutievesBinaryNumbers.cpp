@@ -4,26 +4,23 @@ using namespace std;
 class Solution {
 public:
     int concatenatedBinary(int n) {
-        string finalS;
+        int res = 0;
+        int mod = 1e9+7;
         for(int i=1;i<=n;i++)
         {
-            string temp;
             int j=i;
+            string s;
             while(j>0)
             {
-                temp.push_back(j%2+'0');
+                s+=(j%2)+'0';
                 j/=2;
             }
-            reverse(temp.begin(),temp.end());
-            finalS+=temp;
-        }
-        long long exp=1;
-        long long res=0;
-        int mod = 1000000007;
-        for(int i=finalS.size()-1;i>=0;i--)
-        {
-            if(finalS[i]=='1') res=(res+exp)%mod;
-            exp=(exp*2)%mod;
+            for(int i=s.size()-1;i>=0;i--)
+            {
+                res*=2;
+                res+=s[i]-'0';
+                res%=mod;
+            }
         }
         return res;
     }

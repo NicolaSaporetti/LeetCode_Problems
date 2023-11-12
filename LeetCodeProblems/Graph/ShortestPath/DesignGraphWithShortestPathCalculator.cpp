@@ -29,10 +29,7 @@ public:
             for (int i = 0; i<graph[node].size();i++)
             {
                 int ne = graph[node][i].first;
-                if(!vis[ne])
-                {
-                    pq.push({cost+graph[node][i].second,ne});
-                }
+                if(!vis[ne]) pq.push({cost+graph[node][i].second,ne});
             }
         }
         return -1;

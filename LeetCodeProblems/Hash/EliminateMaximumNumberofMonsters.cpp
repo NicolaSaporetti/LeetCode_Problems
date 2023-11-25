@@ -1,26 +1,14 @@
-#include <map>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:
     int eliminateMaximum(vector<int>& dist, vector<int>& speed) {
-        map<int,int> m;
-        for(int i=0;i<dist.size();i++)
-        {
-            m[dist[i]/speed[i]+((dist[i]%speed[i]==0) ? 0 : 1)]++;
-        }
-        auto it = m.begin();
-        int val = 0;
-        for(int i=0;i<dist.size();i++)
-        {
-            while(it!=m.end() && it->first<=i+1)
-            {
-                val+=it->second;
-                it++;
-            }
-            if(val>i+1) return i+1;
-        }
-        return dist.size();
+        int n = dist.size();
+        vector<double> v(n);
+        for(int i=0;i<n;i++) v[i]=(double)dist[i]/(double)speed[i];
+        sort(begin(v),end(v));
+        for(int i=0;i<n;i++) if(i>=v[i]) return i;
+        return n;
     }
 };

@@ -19,8 +19,8 @@ public:
             int prev = 0;
             for(auto it=v[i].rbegin();it!=v[i].rend();it++)
             {
-                res =max(res,it->first*(prev+it->second));
                 prev+=it->second;
+                res =max(res,it->first*prev);
             }
         }
         return res;

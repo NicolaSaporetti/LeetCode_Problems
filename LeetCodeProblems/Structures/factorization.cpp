@@ -14,7 +14,7 @@ vector<int> primes(int n)
     return res;
 }
 
-vector<int> trial_division4(int n) {
+vector<int> trial_division(int n) {
     vector<int> primes = primes(n);
     vector<int> factorization;
     for (int d : primes) {

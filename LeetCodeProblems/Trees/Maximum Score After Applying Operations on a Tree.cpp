@@ -43,26 +43,34 @@ public:
         vector<vector<int>> outg = buildDirectGraphToLeafs(edges,n);
         vector<int> v = buildDirectGraphToRoot(outg,n);
         vector<long long> val(n,0);
-        vector<int> out(n,0);
+        vector<long long> cost;
+        for(auto e : values) cost.push_back(e);
+        vector<int> in (n,0);
         queue<int> q;
         long long res = 0;
-        for(int i=0;i<n;i++) val[i]=values[i];
-        for(auto& e : v) if(e!=-1) out[e]++;
-        for(int i=0;i<n;i++) if(out[i]==0) q.push(i);
+        for(int i=0;i<n;i++)
+        {
+            if(v[i]!=-1) in[v[i]]++;
+            if(in[i]==0) q.push(i);
+        }
         while(!q.empty())
         {
             int el = q.front();
-            int value = val[el];
-            long long t = 0;
-            res+=val[el];
-            for(auto& e : outg[el]) t+=val[e];
-            if(t>0) val[el]=min(val[el],t);
-            int rad = v[el];
-            if(rad==-1) break;
             q.pop();
-            out[rad]--;
-            if(out[rad]==0) q.push(rad);
+            if(val[el]!=0)
+            {
+                res+=max(cost[el], val[el]);
+                val[el]=min(val[el],cost[el]);
+            }
+            else val[el]=cost[el];
+            
+            if(v[el]!=-1)
+            {
+                val[v[el]]+=val[el];
+                in[v[el]]--;
+                if(in[v[el]]==0) q.push(v[el]);
+            }
         }
-        return res-val[0];
+        return res;
     }
 };

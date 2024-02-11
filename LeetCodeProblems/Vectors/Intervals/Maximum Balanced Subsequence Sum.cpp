@@ -9,16 +9,14 @@ public:
         int sz=nums.size();
         long long res=0;
         map<long long, long long> m;
-        m[INT_MIN]=0;
         for(int i=0;i<sz;i++)
         {
-            if(nums[i]<=0) continue;
-            long long val = nums[i]-i;
-            auto it = prev(m.upper_bound(val));
-            m[val]=it->second+nums[i];
-            it = m.find(val);
-            if(prev(it)->second>it->second) m.erase(it);
-            else while(next(it)!=m.end() && next(it)->second<=it->second) m.erase(next(it));
+            if(nums[i]<0) continue;
+            long long v = nums[i]-i;
+            m[v]+=nums[i];
+            auto it = m.find(v);
+            if(it!=m.begin()) it->second = max(it->second, prev(it)->second+nums[i]);
+            while(next(it)!=m.end() && next(it)->second<=it->second) m.erase(next(it));
         }
         return m.rbegin()->second;
     }

@@ -10,7 +10,6 @@ public:
         for(auto e : access_times) m[e[0]].push_back(stoi(e[1]));
         for(auto & [k,v] : m)
         {
-            cout<<k<<endl;
             sort(begin(v),end(v));
             for(int i=2;i<v.size();i++)
             {

@@ -19,7 +19,7 @@ public:
             int sec = voc%k;
             if(m.count(dif)>0)
             {
-                for(auto& [key,v] : m[dif]) if((voc-key)*(voc-key)%k==0) res+=v;
+                for(auto& [key,v] : m[dif]) if((sec-key)*(sec-key)%k==0) res+=v;
             }
             m[dif][sec]++;
         }

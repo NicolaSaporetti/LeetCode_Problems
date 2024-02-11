@@ -25,7 +25,7 @@ public:
             if(heights[e[1]]>heights[e[0]] || e[1]==e[0]) res[e[2]]=e[1];
             else
             {
-                auto it = m.upper_bound(max(heights[e[1]],heights[e[0]]));
+                auto it = m.upper_bound(heights[e[0]]);
                 if(it!=m.end()) res[e[2]]=(it->second);
             }
         }

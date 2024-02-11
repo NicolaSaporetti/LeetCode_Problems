@@ -4,52 +4,32 @@ using namespace std;
 class Solution {
 public:
     string minWindow(string s, string t) {
-        vector<int> windowsComposition(60,0);
-        vector<int> wordComposition(60,0);
-        int wz=0;
-        int res = INT_MAX;
+        vector<int> v(58,0);
+        vector<int> v1(58,0);
+        for(auto e : t) v[e-'A']++;
         int start = 0;
-        for(int i=0;i<t.size();i++) wordComposition[t[i]-'A']++;
-        for(int i=0;i<s.size();i++) 
+        int dim = INT_MAX;
+        string r;
+        for(int i=0;i<s.size();i++)
         {
-            wz++;
-            windowsComposition[s[i]-'A']++;
-            if(verityComposition(windowsComposition, wordComposition))
+            v1[s[i]-'A']++;
+            if(match(v,v1))
             {
-                while(wz>0 && removeUselessLetter(windowsComposition, wordComposition, s[i-wz+1]-'A'))
+                while(match(v,v1)) v1[s[start++]-'A']--;
+                v1[s[--start]-'A']++;
+                if(i-start+1<dim)
                 {
-                    wz--;
-                    windowsComposition[s[i-wz]-'A']--;
-                }
-                if(wz<res)
-                {
-                    res = wz;
-                    start = i-wz+1;
-                }
-                wz--;
-                windowsComposition[s[i-wz]-'A']--;
-                while(wz>0 && removeUselessLetter(windowsComposition, wordComposition, s[i-wz+1]-'A'))
-                {
-                    wz--;
-                    windowsComposition[s[i-wz]-'A']--;
+                    dim = i-start+1;
+                    r = s.substr(start, dim);
                 }
             }
         }
-        return (res != INT_MAX)? s.substr(start,res) : "";
+        return r;
     }
 private:
-    bool verityComposition(vector<int>& windowsComposition, vector<int>& wordComposition)
+    bool match(vector<int>& v, vector<int>& v1)
     {
-        for(int i=0;i<60;i++)
-        {
-            if(windowsComposition[i]<wordComposition[i]) return false;
-        }
+        for(int i=0;i<58;i++) if(v1[i]<v[i]) return false;
         return true;
-    }
-    
-    bool removeUselessLetter(vector<int>& windowsComposition, vector<int>& wordComposition, int letter)
-    {
-        if(windowsComposition[letter]-1<wordComposition[letter]) return false;
-        else return true;
     }
 };

@@ -1,19 +1,19 @@
-class Trie {
+class BinaryTrie {
 public:
-    Trie()
+    BinaryTrie()
     {
         ch.resize(2);
-        num.assign(2,0);
+        freq.assign(2,0);
     }
 
     void insert(int num)
     {
-        Trie* t = this;
+        BinaryTrie* t = this;
         for(int i=31;i>=0;i--)
         {
             bool bit = num&(1<<i);
-            if(t->ch[bit]==nullptr) t->ch[bit] = new Trie();
-            t->num[bit]++;
+            if(t->ch[bit]==nullptr) t->ch[bit] = new BinaryTrie();
+            t->freq[bit]++;
             t = t->ch[bit];
         }
     }
@@ -21,7 +21,7 @@ public:
     int find(int num)
     {
         int res = 0;
-        Trie* t = this;
+        BinaryTrie* t = this;
         for(int i=31;i>=0;i--)
         {
             bool bit = !(num&(1<<i));
@@ -40,12 +40,12 @@ public:
     }
     void erase(int num)
     {
-        Trie* t = this;
+        BinaryTrie* t = this;
         for(int i=31;i>=0;i--)
         {
             bool bit = num&(1<<i);
-            t->num[bit]--;
-            if(t->num[bit]==0)
+            t->freq[bit]--;
+            if(t->freq[bit]==0)
             {
                 t->ch[bit]=nullptr;
                 break;
@@ -54,6 +54,6 @@ public:
         }
     }
     
-    vector<Trie*> ch;
-    vector<int> num;
+    vector<BinaryTrie*> ch;
+    vector<int> freq;
 };

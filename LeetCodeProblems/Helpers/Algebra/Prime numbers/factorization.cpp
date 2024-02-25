@@ -1,4 +1,5 @@
-vector<int> primes(int n)
+//This is the sieve
+vector<int> sieveofEratosthenes(int n)
 {
     vector<bool> is_prime(n+1, true);
     is_prime[0] = is_prime[1] = false;

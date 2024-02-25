@@ -7,7 +7,7 @@ public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
         vector<vector<pair<int,int>>> graph(n);
         for(auto& e : flights) graph[e[0]].push_back({e[1],e[2]});
-        stops.assign(n, numeric_limits<int>::max());
+        stops.assign(n, INT_MAX);
         pq.push({0, src, 0});
         return computeCheapestPath(graph,dst,k);
     }

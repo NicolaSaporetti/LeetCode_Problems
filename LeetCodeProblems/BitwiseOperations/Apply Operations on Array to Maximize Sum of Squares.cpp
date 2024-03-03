@@ -5,33 +5,25 @@ class Solution {
 public:
     int maxSum(vector<int>& nums, int k) {
         vector<int> v(31,0);
-        int sz = nums.size();
-        int r = 0;
+        long long res = 0;
         int mod = 1e9+7;
-        for(int i=0;i<sz;i++)
-        {
-            int j=0;
-            while(nums[i]>0)
+        for(auto e : nums)
+            for(int i=0;i<=30;i++)
             {
-                v[j++]+=nums[i]%2;
-                nums[i]/=2;
+                if((1<<i)&e) v[i]++;
             }
-        }
         for(int i=0;i<k;i++)
         {
-            long long n = 0;
-            for(int j=30;j>=0;j--)
+            long long num = 0;
+            for(int i=0;i<31;i++)
+            if(v[i])
             {
-                n*=2;
-                if(v[j]>0)
-                {
-                    n++;
-                    v[j]--;
-                }
+                num|=(1<<i);
+                v[i]--;
             }
-            n*=n;
-            r = (r+(n%mod))%mod;            
+            num*=num;
+            res=(res+num)%mod;
         }
-        return r;
+        return res;
     }
 };

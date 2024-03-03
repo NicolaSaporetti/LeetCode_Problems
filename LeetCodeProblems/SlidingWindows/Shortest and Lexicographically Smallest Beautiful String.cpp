@@ -1,36 +1,27 @@
-#include <set>
 using namespace std;
 
 class Solution {
 public:
     string shortestBeautifulSubstring(string s, int k) {
-        int sz = s.size();
-        int st = 0;
-        int n = 0;
-        int l = 0;
-        int ml = INT_MAX;
-        set<string> s1;
-        for(int i=0;i<sz;i++)
+        int start = 0;
+        string res = s+'1';
+        for(int i=0;i<s.size();i++)
         {
-            if(s[i]=='1') n++;
-            if(n>k)
+            if(s[i]=='1') k--;
+            while(k<0)
             {
-                st++;
-                n--;
+                if(s[start++]=='1') k++;
             }
-            if(n==k)
+            if(k==0)
             {
-                while(s[st]=='0')st++;
-                ml=min(ml,i-st+1);
+                while(s[start]=='0')
+                {
+                    start++;
+                }
+                string nres = s.substr(start,i-start+1);
+                if(i-start+1<res.size() || (i-start+1==res.size() && nres<res)) res = nres;
             }
         }
-        for(int i=0;i<=sz-ml;i++)
-        {
-            int n=0;
-            for(int j=0;j<ml;j++) if(s[j+i]=='1') n++;
-            if(n==k) s1.insert(s.substr(i,ml));
-            
-        }
-        return (s1.empty())? "" : *s1.begin();
+        return (res.size()>s.size())? "" : res;
     }
 };

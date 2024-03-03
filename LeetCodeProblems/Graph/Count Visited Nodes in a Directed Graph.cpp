@@ -7,44 +7,36 @@ class Solution {
 public:
     vector<int> countVisitedNodes(vector<int>& edges) {
         int sz = edges.size();
-        r.assign(sz,-1);
+        vector<int> n(sz,-1);
         for(int i=0;i<sz;i++)
         {
-            if(r[i]!=-1) continue;
-            stack<int> st;
+            int num=0;
+            int current = i;
             unordered_map<int,int> m;
-            int j=0;
-            int cur = i;
-            do
+            stack<int> st;
+            while(n[current]==-1 && m.count(current)==0)
             {
-                st.push(cur);
-                m[cur]=j++;
-                cur = edges[cur];
+                m[current]=num++;
+                st.push(current);
+                current = edges[current];
             }
-            while(m.count(cur)==0 && r[cur]==-1);
-            if(m.count(cur)>0) manageLoop(st,m,j,cur);
+            if(m.count(current)>0)
+            {
+                int el = current;
+                while(st.top()!=el)
+                {
+                    n[st.top()]=num-m[el];
+                    st.pop();
+                }
+                n[st.top()]=num-m[el];
+                st.pop();
+            }
             while(!st.empty())
             {
-                r[st.top()]=r[cur]+1;
-                cur = st.top();
+                n[st.top()] = n[edges[st.top()]]+1;
                 st.pop();
             }
         }
-        return r;
+        return n;
     }
-private:
-    void manageLoop(stack<int>& st, unordered_map<int,int>& m, int j, int cur)
-    {
-        int d = j-m[cur];
-        int e;
-        do
-        {
-            e = st.top();
-            st.pop();
-            r[e]=d;
-        }
-        while(e!=cur);
-    }
-    
-    vector<int> r;
 };

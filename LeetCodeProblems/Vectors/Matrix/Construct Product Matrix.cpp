@@ -4,30 +4,25 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> constructProductMatrix(vector<vector<int>>& grid) {
-        int mod = 12345;
         int rz = grid.size();
         int cz = grid[0].size();
-        vector<long long> s(rz*cz,0);
-        vector<vector<int>> res(rz,vector<int>(cz,0));
-        long long t = 1;
+        int mod = 12345;
+        vector<vector<int>> res(rz,vector<int>(cz));
+        vector<long long> l(rz*cz+1,1);
+        vector<long long> r(rz*cz+1,1);
         for(int i=0;i<rz;i++)
         {
             for(int j=0;j<cz;j++)
             {
-                t*=(long long)grid[i][j];
-                t%=mod;
-                s[i*cz+j]=t;
+                l[i*cz+j+1]=(l[i*cz+j]*grid[i][j])%mod;
             }
         }
-        t = 1;
         for(int i=rz-1;i>=0;i--)
         {
             for(int j=cz-1;j>=0;j--)
             {
-                if(i==0 && j==0) res[i][j] = t;
-                else res[i][j]= (t*s[i*cz+j-1])%mod;
-                t*=(long long)grid[i][j];
-                t%=mod;
+                r[i*cz+j]=(r[i*cz+j+1]*grid[i][j])%mod;
+                res[i][j]=(r[i*cz+j+1]*l[i*cz+j])%mod;
             }
         }
         return res;

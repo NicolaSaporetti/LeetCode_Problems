@@ -1,7 +1,8 @@
-//pattern s, text t
+//pattern s, text t, only works for lowercase english letters
+//To make it work with number replace the 'a' with 0, if larger alphabet replace the 31 with greater prime number(rolling hash)
 
 vector<int> rabin_karp(string const& s, string const& t) {
-    const int p = 31; 
+    const int p = 31;
     const int m = 1e9 + 9;
     int S = s.size(), T = t.size();
 

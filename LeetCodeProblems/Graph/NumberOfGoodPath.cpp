@@ -9,7 +9,7 @@ public:
         vector<vector<int>> graph = fillGraph(vals, edges);
         map<int, vector<int>> m1;
         for (int i = 0; i < n; ++i) m1[vals[i]].push_back(i);        
-        DisjoinSet d(n);
+        DisjoinSetUnion d(n);
         int ans = n;
 
         for (auto element : m1) 
@@ -24,7 +24,7 @@ public:
                 }
             }
             unordered_map<int, int> nodesWithSameRoot;
-            for (auto node : element.second) nodesWithSameRoot[d.find_root(node)]++;
+            for (auto node : element.second) nodesWithSameRoot[d.find_set(node)]++;
             
             for (auto& base_roots : nodesWithSameRoot) ans+=((base_roots.second*(base_roots.second-1))/2);
         }

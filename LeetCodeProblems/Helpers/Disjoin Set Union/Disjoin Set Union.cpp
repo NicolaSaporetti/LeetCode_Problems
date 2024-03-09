@@ -2,12 +2,12 @@
 
 class DisjoinSetUnion {
 public:
-    DisjoinSetUnion(int sz): parent(sz), heigth(sz), sz(sz)
+    DisjoinSetUnion(int sz): parent(sz), rank(sz), sz(sz)
     {
         for(int i = 0; i < sz; i++)
         {
             parent[i] = i;
-            parent[i] = 0;
+            rank[i] = 0;
         }
     }
 
@@ -38,19 +38,11 @@ public:
     {
         int sets = 0;
         for(int i = 0; i < sz; i++)
-            if(root[i] == i) sets++;
+            if(parent[i] == i) sets++;
         return sets;
-    }
-    
-    vector<int> get_element_with_root_x(int x)
-    {
-        vector<int> v;
-        int base = find_set(x);
-        for(int i=0;i<sz;i++) if(root[i]==base) v.push_back(i);
-        return v;
     }
 
     vector<int> parent;
-    vector<int> heigth;
+    vector<int> rank;
     int sz;
 };

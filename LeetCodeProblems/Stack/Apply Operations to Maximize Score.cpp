@@ -3,51 +3,73 @@
 #include <vector>
 using namespace std;
 
+vector<int> sieveofEratosthenes(int n)
+{
+    vector<bool> is_prime(n+1, true);
+    is_prime[0] = is_prime[1] = false;
+    for (int j = 4; j <= n; j += 2) is_prime[j] = false;
+    for (int i = 3; i * i <= n; i+=2) {
+        if (is_prime[i]) {
+            for (int j = i * i; j <= n; j += i)
+                is_prime[j] = false;
+        }
+    }
+    vector<int> res;
+    for(int i=2;i<=n;i++) if(is_prime[i]) res.push_back(i);
+    return res;
+}
+
+vector<int> trial_division_unique(int n, vector<int>& primes) {
+    vector<int> factorization;
+    for (int d : primes) {
+        if (d * d > n)
+            break;
+        if(n%d==0) factorization.push_back(d);
+        while (n % d == 0) n /= d;
+    }
+    if (n > 1)
+        factorization.push_back(n);
+    return factorization;
+}
+
+long long binpowWithModulo(long long a, long long b, long long m) {
+    a %= m;
+    long long res = 1;
+    while (b > 0) {
+        if (b & 1)
+            res = res * a % m;
+        a = a * a % m;
+        b >>= 1;
+    }
+    return res;
+}
+
 class Solution {
 public:
     int maximumScore(vector<int>& nums, int k) {
-        map<int,long long> m;
-        long long res = 1;
         sz = nums.size();
-        vector<int> pn = computePrime(nums);
-        mod = 1e9+7;
-        vector<int> l = computeLeft(pn);
-        vector<int> r = computeRight(pn);
+        vector<int> v1 = nums;
+        vector<int> primes = sieveofEratosthenes(1e5);
+        for(auto&e : nums) e = trial_division_unique(e,primes).size();
+        vector<int> l = computeLeft(nums);
+        vector<int> r = computeRight(nums);
+        map<int,long long> m;
         for(int i=0;i<sz;i++)
         {
-            long long val=(long long)(r[i]-i+1)*(long long)(i-l[i]+1);
-            m[nums[i]] = m[nums[i]]+val;
+            m[v1[i]]+=((long long)(i-l[i]+1)*(long long)(r[i]-i+1));
         }
-        auto it = m.rbegin();
-        for(int i=0;k>0;)
+        int mod = 1e9+7;
+        long long res = 1;
+        for(auto it = m.rbegin();it!=m.rend();it++)
         {
-            long long n = min((long long)k,it->second);
-            res = (res*fast_power(it->first,n))%mod;
-            k-=n;
-            it++;
+            int val = min((long long)k,it->second);
+            k-=val;
+            res = (res*binpowWithModulo(it->first,val,mod))%mod;
+            if(k==0) break;
         }
         return res;
     }
 private:
-    vector<int> computePrime(vector<int>& nums)
-    {
-        vector<int> pn(sz,0);
-        for(int i=0;i<sz;i++) pn[i]=computePrimeF(nums[i]);
-        return pn;
-    }
-    int computePrimeF(int v)
-    {
-        int res = 0;
-        int f = 2;
-        while(f*f<=v)
-        {
-            if(v%f==0) res++;
-            while(v%f==0) v/=f;
-            f++;
-        }
-        if(v>1) res++;
-        return res;
-    }
     vector<int> computeLeft(vector<int>& pn)
     {
         vector<int> v(sz,0);
@@ -74,18 +96,6 @@ private:
         }
         return v;
     }
-    long long fast_power(long long base, long long power) {
-        long long result = 1;
-        while(power > 0) {
 
-            if(power % 2 == 1) { // Can also use (power & 1) to make code even faster
-                result = (result*base) % mod;
-            }
-            base = (base * base) % mod;
-            power = power / 2; // Can also use power >>= 1; to make code even faster
-        }
-        return result;
-    }
     int sz;
-    int mod;
 };

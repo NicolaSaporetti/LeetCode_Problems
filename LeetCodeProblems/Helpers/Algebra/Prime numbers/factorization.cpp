@@ -16,7 +16,7 @@ vector<int> sieveofEratosthenes(int n)
 }
 
 vector<int> trial_division(int n) {
-    vector<int> primes = primes(n);
+    vector<int> primes = sieveofEratosthenes(n);
     vector<int> factorization;
     for (int d : primes) {
         if (d * d > n)

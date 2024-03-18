@@ -1,64 +1,63 @@
 #include <vector>
 #include <map>
-#include <set>
 using namespace std;
 
 class Solution {
 public:
     long long findMaximumElegance(vector<vector<int>>& items, int k) {
-        sort(begin(items),end(items));
-        set<int> s;
-        val = 0;
-        sets = 0;
-        for(int i=items.size()-1;i>=0;i--)
+        map<long long,vector<int>> m;
+        map<long long,long long> cat;
+        map<long long,vector<int>> taken;
+        for(auto e : items) m[e[0]].push_back(e[1]);
+        auto it = m.rbegin();
+        long long prof = 0;
+        while(k>0)
         {
-            if(k>0 && s.find(items[i][1])==s.end())
+            int t = min(k,(int)it->second.size());
+            k-=t;
+            for(int i=0;i<t;i++)
             {
-                chosen.push_back(items[i][0]);
-                val+=items[i][0];
-                k--;
-                s.insert(items[i][1]);
+                taken[it->first].push_back(it->second.back());
+                cat[it->second.back()]++;
+                it->second.pop_back();
+                prof+=it->first;
             }
-            else left[items[i][0]]++;
+            if(it->second.empty()) m.erase(next(it++).base());
         }
-        val+=(s.size()*s.size());
-        sets=s.size();
-        return computeRemaining(k);
-    }
-private:
-    long long computeRemaining(int k)
-    {
-        auto it = left.rbegin();
-        int pos = chosen.size()-1;
-        while(it!=left.rend())
+        long long res = prof+(long long)cat.size()*(long long)cat.size(); 
+        auto it2 = m.rbegin();
+        int idx = 0;
+        for(auto it = taken.begin();it!=taken.end();it++)
         {
-            for(int i=0;i<it->second;i++)
+            for(int i=0;i<it->second.size();i++)
             {
-                if(k>0)
+                if(cat[it->second[i]]>1)
                 {
-                    val+=(long long)it->first;
-                    k--;
-                }
-                else
-                {
-                    long long setdif = (sets>1)? sets*sets-(sets-1)*(sets-1) : 0;
-                    long long dif = it->first-chosen[pos]-setdif;
-                    if(dif>0)
+                    while(it2!=m.rend())
                     {
-                        val+=dif;
-                        sets--;
-                        pos--;
+                        bool found = false;
+                        for(;idx<it2->second.size() && !found;idx++)
+                        {
+                            if(cat.count(it2->second[idx])==0)
+                            {
+                                prof-=it->first;
+                                prof+=it2->first;
+                                cat[it->second[i]]--;
+                                cat[it2->second[idx]]=1;
+                                res = max(res,prof+(long long)cat.size()*(long long)cat.size());
+                                found = true;
+                            }
+                        }
+                        if(!found)
+                        {
+                            it2++;
+                            idx=0;
+                        }
+                        else break;
                     }
-                    else return val;
                 }
             }
-            it++;
         }
-        return val;
+        return res;
     }
-    
-    vector<long long> chosen;
-    map<long long,int> left;
-    long long val;
-    long long sets;
 };

@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "sieveofEratosthenes.cpp"
-#include "DisjoinSet.cpp"
+#include "DisjoinSetUnion.cpp"
 using namespace std;
 
 vector<int> trial_division(int n, vector<int>& primes) {
@@ -30,16 +30,16 @@ public:
             vector<int> comp = trial_division(nums[i],pr);
             for(auto c : comp) m[c].insert(i);
         }
-        DisjoinSet ds(nums.size());
+        DisjoinSetUnion ds(nums.size());
         for(auto [k,v] : m)
         {
             auto it = v.begin();
             int first = *it;
             it++;
-            for(;it!=v.end();it++) ds.connect_fast(first,*it);
+            for(;it!=v.end();it++) ds.connect(first,*it);
         }
         unordered_map<int,int> m1;
-        for(int i=0;i<nums.size();i++) m1[ds.find_root(i)]++;
+        for(int i=0;i<nums.size();i++) m1[ds.find_set(i)]++;
         int r = -1;
         for(auto [k,v]: m1) r = max(r,v);
         return r;

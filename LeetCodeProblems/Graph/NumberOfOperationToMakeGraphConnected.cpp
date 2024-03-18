@@ -1,12 +1,12 @@
 #include <vector>
-#include "DisjoinSet.cpp"
+#include "DisjoinSetUnion.cpp"
 using namespace std;
 
 class Solution {
 public:
     int makeConnected(int n, vector<vector<int>>& connections) {
         int cableAvailable = 0;
-        DisjoinSet dset(n);
+        DisjoinSetUnion dset(n);
         for(int i=0;i<connections.size();i++)
         {
             if(dset.are_connect(connections[i][0],connections[i][1])) cableAvailable++;

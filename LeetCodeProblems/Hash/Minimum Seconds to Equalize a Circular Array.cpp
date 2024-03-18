@@ -1,26 +1,26 @@
 #include <vector>
-#include <map>
+#include <unordered_map>
 using namespace std;
 
 class Solution {
 public:
     int minimumSeconds(vector<int>& nums) {
-        map<int,vector<int>> m;
-        int res = INT_MAX;
-        int osz = nums.size();
-        for(int i=0;i<nums.size();i++) m[nums[i]].push_back(i);
-        for(auto& [k,v] : m)
+        unordered_map<int,vector<int>> m;
+        int n = nums.size();
+        int r = INT_MAX;
+        for(int i=0;i<n;i++) m[nums[i]].push_back(i);
+        for(auto [k,v] : m)
         {
-            int d = 0;
-            int sz = v.size();
-            if(sz==1) d = osz/2;
-            else
+            int t = 0;
+            for(int i=0;i<v.size();i++)
             {
-                for(int i=0;i<sz-1;i++) d = max(d,(v[i+1]-v[i])/2);
-                d = max(d,(v[0]+osz-v.back())/2);
+                int i1 = v[i];
+                int i2 = v[(i+1)%v.size()];
+                if(i1<i2) t = max((i2-i1)/2,t);
+                else t = max((n-i1+i2)/2,t);
             }
-            res = min(res,d);
+            r = min(r,t);
         }
-        return res;
+        return r;
     }
 };

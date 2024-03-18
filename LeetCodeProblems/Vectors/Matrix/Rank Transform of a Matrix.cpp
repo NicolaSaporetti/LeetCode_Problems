@@ -1,7 +1,7 @@
 #include <vector>
 #include <unordered_map>
 #include <queue>
-#include "DisjoinSet.cpp"
+#include "DisjoinSetUnion.cpp"
 using namespace std;
 
 class Solution {
@@ -42,7 +42,7 @@ public:
 private:
     vector<int> computeUniqueSets(vector<vector<int>>& matrix)
     {
-        DisjoinSet ds(rz*cz);
+        DisjoinSetUnion ds(rz*cz);
         vector<int> res;
         for(int i=0;i<rz;i++)
         {
@@ -50,7 +50,7 @@ private:
             for(int j=0;j<cz;j++) r.push_back({matrix[i][j],j});
             sort(begin(r),end(r));
             for(int j=1;j<cz;j++)
-                if(r[j].first==r[j-1].first) ds.connect_fast(i*cz+r[j-1].second,i*cz+r[j].second);
+                if(r[j].first==r[j-1].first) ds.connect(i*cz+r[j-1].second,i*cz+r[j].second);
         }
         for(int i=0;i<cz;i++)
         {
@@ -58,10 +58,10 @@ private:
             for(int j=0;j<rz;j++) c.push_back({matrix[j][i],j});
             sort(begin(c),end(c));
             for(int j=1;j<rz;j++)
-                if(c[j].first==c[j-1].first) ds.connect_fast(c[j-1].second*cz+i,c[j].second*cz+i);
+                if(c[j].first==c[j-1].first) ds.connect(c[j-1].second*cz+i,c[j].second*cz+i);
         }
         for(int i=0;i<rz;i++)
-            for(int j=0;j<cz;j++) res.push_back(ds.find_root(i*cz+j));
+            for(int j=0;j<cz;j++) res.push_back(ds.find_set(i*cz+j));
         return res;
     }
     void computeGraphs(vector<vector<int>>& matrix, vector<int>& v1)

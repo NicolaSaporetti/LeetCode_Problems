@@ -1,12 +1,12 @@
 #include <vector>
 #include <map>
-#include "DisjoinSet.cpp"
+#include "DisjoinSetUnion.cpp"
 using namespace std;
 
 class Solution {
 public:
     vector<bool> distanceLimitedPathsExist(int n, vector<vector<int>>& edgeList, vector<vector<int>>& queries) {
-        DisjoinSet d(n);
+        DisjoinSetUnion d(n);
         vector<bool> r(queries.size());
         map<int,vector<int>> e;
         map<int,vector<int>> q;
@@ -19,7 +19,7 @@ public:
             {
                 for(auto& el : it->second)
                 {
-                    d.connect_fast(edgeList[el][0],edgeList[el][1]);
+                    d.connect(edgeList[el][0],edgeList[el][1]);
                 }
                 it++;
             }

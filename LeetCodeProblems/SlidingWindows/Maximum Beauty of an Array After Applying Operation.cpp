@@ -6,14 +6,14 @@ public:
     int maximumBeauty(vector<int>& nums, int k) {
         sort(begin(nums),end(nums));
         int sz = nums.size();
+        int p1=0;
+        int p2=0;
         int res = 0;
-        int mne = *min_element(begin(nums),end(nums));
-        int mxe = *max_element(begin(nums),end(nums));
-        for(int i=mne;i<=mxe;i++)
+        while(p1<sz)
         {
-            int l = lower_bound(begin(nums),end(nums),i-k)-begin(nums);
-            int u = upper_bound(begin(nums),end(nums),i+k)-begin(nums);
-            res = max(res, u-l);
+            while(nums[p1]>nums[p2]+2*k) p2++;
+            res = max(res, p1-p2+1);
+            p1++;
         }
         return res;
     }

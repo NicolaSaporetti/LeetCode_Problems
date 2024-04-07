@@ -7,7 +7,7 @@ public:
         root = new Node();
     }
     void insert(vector<int>& word) {
-        Node* temp = root;
+        Trie* temp = this;
         for(int i=0;i<word.size();i++)
         {
             if(temp->children[word[i]]==nullptr)
@@ -21,7 +21,7 @@ public:
     }
     
     bool startsWith(vector<int>& word) {
-        Node* temp = root;
+        Trie* temp = this;
         for(int i=0;i<word.size();i++)
         {
             if(temp->children[word[i]]==nullptr) return false;
@@ -31,7 +31,7 @@ public:
     }
 
     int search(vector<int>& word) {
-        Node* temp = root;
+        Trie* temp = this;
         int res = 0;
         for(int i=0;i<word.size();i++)
         {
@@ -43,7 +43,7 @@ public:
     }
     
     void erase(vector<int>& word) {
-        Node* temp = root;
+        Trie* temp = this;
         for(int i=0;i<word.size();i++)
         {
             temp->children[word[i]]->freq--;
@@ -55,6 +55,8 @@ public:
         }
     }
     
-private:    
-    Node* root;
+private:
+    unordered_map<int,Trie*> children;
+    int freq;
+    bool wordFinished;
 };

@@ -4,14 +4,14 @@ using namespace std;
 class Solution {
 public:
     long long maxArrayValue(vector<int>& nums) {
-        vector<long long> v;
-        for(auto& e : nums) v.push_back(e);
-        int sz = nums.size();
-        long long res = 0;
-        for(int i=sz-1;i>=1;i--)
+        long long left = 0;
+        long long res = nums.back();
+        for(int i=nums.size()-2;i>=0;i--)
         {
-            if(v[i]>=v[i-1]) v[i-1]+=v[i];
+            if(nums[i]<=nums[i+1]+left) left+=(long long)nums[i+1];
+            else left = 0;
+            res = max(res,nums[i]+left);
         }
-        return v[0];
+        return res;
     }
-};
+};   

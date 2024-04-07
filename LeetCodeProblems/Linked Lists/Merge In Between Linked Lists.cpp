@@ -12,12 +12,6 @@ public:
         t1->next =list2;
         while(list2->next!=nullptr) list2=list2->next;
         list2->next=t->next;
-        auto t2= head;
-        while(t2!=nullptr)
-        {
-            cout<<t2->val<<" ";
-            t2=t2->next;
-        }
         return head;
     }
 };

@@ -4,34 +4,40 @@ using namespace std;
 class Solution {
 public:
     int sumImbalanceNumbers(vector<int>& nums) {
-        int res = 0;
         int sz = nums.size();
+        int r = 0;
         for(int i=0;i<sz;i++)
         {
-            map<int,int> m;
-            for(int j=i;j<sz;j++)
+            int minv = nums[i]-1;
+            int maxv = nums[i]-1;
+            vector<bool> v(sz);
+            v[nums[i]-1]=true;
+            int inbal = 0;
+            for(int j=i+1;j<sz;j++)
             {
-                if(m.count(nums[j])==0)
+                int val = nums[j]-1;
+                if(!v[val])
                 {
-                    m[nums[j]]=nums[j];
-                    auto it = m.find(nums[j]);
-                    if(next(it)!=m.end() && next(it)->first==nums[j]+1)
+                    if(val<minv)
                     {
-                        m[nums[j]]=next(it)->second;
-                        m.erase(next(it));
+                        if(!v[val+1]) inbal++;
                     }
-                    if(it!=m.begin())
+                    else if(val>maxv) 
                     {
-                        if(prev(it)->second+1>=nums[j]) 
-                        {
-                            prev(it)->second = max(prev(it)->second,m[nums[j]]);
-                            m.erase(nums[j]);
-                        }
+                        if(!v[val-1]) inbal++;
+                    }
+                    else
+                    {
+                        if(!v[val+1] && !v[val-1]) inbal++;
+                        else if(v[val+1] && v[val-1]) inbal--;
                     }
                 }
-                res+=m.size()-1;
+                r+=inbal;
+                v[val]=true;
+                minv = min(minv,val);
+                maxv = max(maxv,val);
             }
         }
-        return res;
+        return r;
     }
 };

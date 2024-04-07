@@ -19,12 +19,13 @@ public:
 private:
     bool solve(vector<vector<char>>& board, int currentLetter, int row, int col)
     {
-        bool result = false;
         if(board[row][col]==word[currentLetter])
         {
             visited[row][col] = true;
-            if(currentLetter < word.size()-1)
+            if(word.size()-1==currentLetter) return true;
+            else
             {
+                bool result = false;
                 for(int i=0;i<4 && !result;i++)
                 {
                     int dx = row+x[i];
@@ -32,11 +33,11 @@ private:
                     if(dx<0 || dx>=rz || dy<0 || dy>=cz || visited[dx][dy]) continue;
                     result = solve(board,currentLetter+1,dx,dy);
                 }
+                visited[row][col] = false;
+                return result;
             }
-            else result = true;
-            visited[row][col] = false;
         }
-        return result;
+        else return false;
     }
     
     int rz;

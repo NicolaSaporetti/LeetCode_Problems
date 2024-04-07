@@ -19,7 +19,6 @@ private:
             if(node->val != first->val) result = false;
             first = first->next;
         }
-        else return;
     }
     
     ListNode* first;

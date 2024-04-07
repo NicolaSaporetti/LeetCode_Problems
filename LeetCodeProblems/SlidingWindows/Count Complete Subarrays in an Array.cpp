@@ -1,21 +1,29 @@
 #include <vector>
-#include <set>
+#include <unordered_set>
+#include <unordered_map>
 using namespace std;
 
 class Solution {
 public:
     int countCompleteSubarrays(vector<int>& nums) {
-        set<int> o;
-        for(auto& e : nums) o.insert(e);
-        int res = 0;
         int sz = nums.size();
+        int res = 0;
+        int distinct = 0;
+        unordered_set<int> s0;
+        for(auto e : nums) s0.insert(e);
+        distinct = s0.size();
+        unordered_map<int,int> m;
+        int start = 0;
         for(int i=0;i<sz;i++)
         {
-            set<int> s;
-            for(int j=i;j<sz;j++)
+            m[nums[i]]++;
+            if(m.size()==distinct)
             {
-                s.insert(nums[j]);
-                if(s.size()==o.size()) res++;
+                while(m[nums[start]]>1)
+                {
+                    m[nums[start++]]--;
+                }
+                res+=(start+1);
             }
         }
         return res;

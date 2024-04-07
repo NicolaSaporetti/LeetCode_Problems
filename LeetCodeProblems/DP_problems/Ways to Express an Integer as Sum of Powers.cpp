@@ -3,27 +3,17 @@ using namespace std;
 
 class Solution {
 public:
+    int dfs(int i, int n, int x) {
+        if(n==0) return 1;
+        else if (pow(i, x) > n) return 0;
+        else if(dp[i][n]!=-1) return dp[i][n];
+        else return dp[i][n] = (dfs(i + 1, n - pow(i, x), x) + dfs(i + 1, n, x))%mod;
+    }
     int numberOfWays(int n, int x) {
-        mod = 1e9+7;
         dp.assign(n+1,vector<int>(n+1,-1));
-        int maxIndex = 1;
-        while(pow(maxIndex,x)<=n) maxIndex++;
-        return solve(1,n,maxIndex,x);
+        return dfs(1, n, x);
     }
-
 private:
-    int solve(int ind ,int n ,int maxIndex , int x){
-        if(n == 0) return 1;
-        if(n < 0) return 0;
-        if(ind == maxIndex) return 0;
-        if(dp[ind][n] != -1) return dp[ind][n];
-
-        int nonpick = solve(ind+1,n,maxIndex,x)%mod;
-        int pick = solve(ind+1,n-pow(ind,x),maxIndex,x)%mod;
-
-        return dp[ind][n] = (pick + nonpick)%mod;
-    }
-
-    int mod;
     vector<vector<int>> dp;
+    int mod = 1e9+7;
 };

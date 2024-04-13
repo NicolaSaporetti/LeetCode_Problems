@@ -3,11 +3,17 @@ using namespace std;
 class Solution {
 public:
     int makeTheIntegerZero(int num1, int num2) {
-        if(num1 <= num2) return -1;  
-        for(int k=1;k<=32;k++){
-            long diff = num1 - ((long)num2 * k);
-            int min_cnt = __builtin_popcountl(diff); 
-            if(k >= min_cnt && k <= diff) return k;
+        long long lnum1 = num1;
+        for(int i=1;i<=60;i++)
+        {
+            lnum1-=(long long)num2;
+            if(lnum1<=0) return -1;
+            int bits = __builtin_popcountll(lnum1);
+            if(bits<=i)
+            {
+                if(lnum1>=i) return i;
+                else return -1;
+            }
         }
         return -1;
     }

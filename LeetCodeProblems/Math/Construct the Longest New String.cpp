@@ -1,11 +1,6 @@
 class Solution {
 public:
     int longestString(int x, int y, int z) {
-        int rep = min(x,y);
-        int res=z+rep*2;
-        x-=rep;
-        y-=rep;
-        if(x>0 || y>0) res++;
-        return res*2;
-    }
+        return 2*(2*min(x,y)+z+((x==y)? 0 : 1));
+    } 
 };

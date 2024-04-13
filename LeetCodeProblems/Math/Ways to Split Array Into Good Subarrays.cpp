@@ -4,29 +4,22 @@ using namespace std;
 class Solution {
 public:
     int numberOfGoodSubarraySplits(vector<int>& nums) {
-        int sz =nums.size();
-        long long res = 0;
+        bool one = false;
+        long long zero = 1;
+        int res = 1;
+        if(count_if(begin(nums),end(nums),[](int ele){return ele==1;})==0) return 0;
         int mod = 1e9+7;
         int i=0;
-        for(;i<sz;i++)
+        while(i<nums.size() && nums[i]!=1) i++;
+        for(;i<nums.size();i++)
         {
-            if(nums[i]==1) break;
-        }
-        if(i<sz)
-        {
-            res = 1;
-            while(i<sz)
+            if(nums[i]==1)
             {
-                int j=0;
-                for(i++;i<sz && nums[i]==0;j++,i++);
-                if(i>=sz) break;
-                else
-                {
-                    res = (res * (j+1))%mod;
-                }
+                res=(res*zero)%mod;
+                zero = 1;
             }
-            return res;
+            else zero++;
         }
-        else return 0;
+        return res;
     }
 };

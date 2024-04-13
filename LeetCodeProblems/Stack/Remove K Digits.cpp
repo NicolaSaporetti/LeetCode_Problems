@@ -1,45 +1,30 @@
-#include <stack>
 using namespace std;
 
 class Solution {
 public:
     string removeKdigits(string num, int k) {
         string res;
-        int sz = num.size();
-        int notZeroLetters = 0;
-        int start = 0;
-        for(int i=0;i<sz && notZeroLetters<=k;i++)
+        for(int i=0;i<num.size();i++)
         {
-            if(num[i]!='0') notZeroLetters++;
-            else
+            while(k>0 && !res.empty() && res.back()>num[i])
             {
-                start = i+1;
-                k-=notZeroLetters;
-                notZeroLetters = 0;
+                res.pop_back();
+                k--;
             }
+            res.push_back(num[i]);
         }
-        stack<char> st;
-        for(int i=start;i<sz;i++)
+        while(k>0 && res.size()>0)
         {
-            if(st.empty()) st.push(num[i]);
-            else
-            {
-                while(!st.empty() && st.top()>num[i] && k>0)
-                {
-                    st.pop();
-                    k--;
-                }
-                st.push(num[i]);
-            }
+            res.pop_back();
+            k--;
         }
-        while(!st.empty())
+        int n = 0;
+        for(int i=0;i<res.size();i++)
         {
-            if(k<=0) res.push_back(st.top());
-            else k--;
-            st.pop();
+            if(res[i]=='0') n++;
+            else break;
         }
-        while(!res.empty() && res.back()=='0') res.pop_back();
-        reverse(begin(res),end(res));
-        return (res.size()==0)?"0": res;
+        res = res.substr(n,res.size()-n);
+        return (res=="")? "0" : res;
     }
 };

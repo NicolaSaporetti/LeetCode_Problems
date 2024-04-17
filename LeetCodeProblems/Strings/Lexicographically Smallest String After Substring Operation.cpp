@@ -3,24 +3,14 @@ using namespace std;
 class Solution {
 public:
     string smallestString(string s) {
-        int sz = s.size();
-        int start = sz;
-        for(int i=0;i<sz;i++)
-        {
-            if(s[i]!='a')
-            {
-                start = i;
-                break;
-            }
-        }
-        if(start==sz) s[sz-1]='z';
+        int i = 0;
+        for(;i<s.size();i++) if(s[i]!='a') break;
+        if(i==s.size()) s.back()=(s.back()=='a')? 'z' : s.back()-1;
         else
         {
-            for(int i=start;i<sz;i++)
-            {
-                if(s[i]!='a') s[i]--;
-                else break;
-            }
+            int j=i;
+            for(;j<s.size();j++) if(s[j]=='a') break;
+            for(int k=i;k<j;k++) s[k]--;
         }
         return s;
     }

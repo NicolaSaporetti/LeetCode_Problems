@@ -1,58 +1,35 @@
-#include <queue>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:
     int numIslands(vector<vector<char>>& grid) {
-        row_sz = grid.size();
-        col_sz = grid[0].size();
-        row_pos.assign({1,-1,0,0});
-        col_pos.assign({0,0,1,-1});
-		return computeNumIslands(grid);
-    }
-    
-private:
-    int computeNumIslands(vector<vector<char>>& grid) {
-        int res = 0;
-        for(int i=0;i<row_sz;i++)
-        {
-            for(int j=0;j<col_sz;j++)
-            {
+        rz = grid.size();
+        cz = grid[0].size();
+        int r = 0;
+        for(int i=0;i<rz;i++)
+            for(int j=0;j<cz;j++)
                 if(grid[i][j]=='1')
                 {
-                    removeIsland(grid,i,j);
-                    res++;
+                    r++;
+                    computeIsland(i,j,grid);
                 }
-            }
-        }
-        return res;
+        return r;
     }
-    
-    void removeIsland(vector<vector<char>>& grid, int row, int col)
+private:
+    void computeIsland(int i, int j, vector<vector<char>>& grid)
     {
-        queue<pair<int,int>> pos;
-        pos.push({row,col});
-        grid[row][col]='0';
-        while(!pos.empty())
+        grid[i][j]='0';
+        for(int k=0;k<4;k++)
         {
-            pair<int,int> p = pos.front();
-            pos.pop();
-            for(int i=0;i<4;i++)
-            {
-                int temp_row = p.first+row_pos[i];
-                int temp_col = p.second+col_pos[i];
-                if(temp_row>=0 && temp_row<row_sz && temp_col>=0 && temp_col<col_sz && grid[temp_row][temp_col]=='1')
-                {
-                    grid[temp_row][temp_col]='0';
-                    pos.push({temp_row,temp_col});
-                }
-            }
+            int nx = i+dx[k];
+            int ny = j+dy[k];
+            if(nx>=0 && nx<rz && ny>=0 && ny<cz && grid[nx][ny]=='1') computeIsland(nx,ny,grid);
         }
     }
 
-    int row_sz;
-    int col_sz;
-    vector<int> row_pos;
-    vector<int> col_pos;
+    int rz;
+    int cz;
+    vector<int> dx = {0,1,0,-1};
+    vector<int> dy = {1,0,-1,0};
 };

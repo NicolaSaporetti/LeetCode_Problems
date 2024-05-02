@@ -1,36 +1,37 @@
-#include <map>
-#include <vector>
+#include <unordered_map>
+#include <unordered_set>
 using namespace std;
 
 class FrequencyTracker {
 public:
     FrequencyTracker() {
-        num.assign(1e5+1,0);
+        
     }
     
     void add(int number) {
-        int prev_freq = num[number];
-        freq[prev_freq].erase(number);
-        if(freq[prev_freq].size()==0) freq.erase(prev_freq);
-        num[number]++;
-        freq[num[number]].insert(number);
+        int freq = el[number];
+        m[freq].erase(number);
+        m[freq+1].insert(number);
+        el[number]=freq+1;
     }
     
     void deleteOne(int number) {
-        int prev_freq = num[number];
-        freq[prev_freq].erase(number);
-        if(freq[prev_freq].size()==0) freq.erase(prev_freq);
-        if(prev_freq>0)
+        if(!el.count(number)) return;
+        int freq = el[number];
+        m[freq].erase(number);
+        if(freq>1)
         {
-            num[number]--;
-            freq[num[number]].insert(number);
+            m[freq-1].insert(number);
+            el[number]=freq-1;
+            
         }
+        else el.erase(number);
     }
     
     bool hasFrequency(int frequency) {
-        return freq.count(frequency)>0;
+        return !m[frequency].empty();
     }
 private:
-    vector<int> num;
-    map<int,unordered_set<int>> freq;
+    unordered_map<int,unordered_set<int>> m;
+    unordered_map<int,int> el;
 };

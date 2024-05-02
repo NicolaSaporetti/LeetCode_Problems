@@ -8,41 +8,28 @@ public:
         for(int i=1;i<=n;i++)
         {
             int t = i*i;
-            num.clear();
+            vector<int> num;
             while(t>0)
             {
                 num.push_back(t%10);
                 t/=10;
             }
-            reverse(begin(num),end(num));
-            if(decompose(0,i))
-            {
-                res+=(i*i);
-            }
+            if(decompose(num.size()-1,0,i,num)) res+=(i*i);
         }
         return res;
     }
 private:
-    bool decompose(int pos, int left)
+    bool decompose(int pos, int tot, int left, vector<int>& num)
     {
         if(left<0) return false;
-        if(pos>=num.size())
-        {
-            return (left==0);
-        }
+        if(pos<0) return (left==0 && tot==0);
         else
         {
-            int t = 0;
-            bool res = false;
-            for(int i=pos;i<num.size() && !res;i++)
-            {
-                t*=10;
-                t+=num[i];
-                res |=decompose(i+1,left-t);
-            }
-            return res;
+            tot = (tot*10+num[pos]);
+            return decompose(pos-1,tot,left,num) | decompose(pos-1,0,left-tot,num);
         }
     }
         
     vector<int> num;
+    int val;
 };

@@ -5,35 +5,33 @@ class Solution {
 public:
     int minimizeMax(vector<int>& nums, int p) {
         sort(begin(nums),end(nums));
-        int mindiff = 0;
-        int maxdiff = INT_MAX;
-        int result = INT_MAX;
-        while(mindiff<=maxdiff)
+        int minv = 0;
+        int maxv = nums.back()-nums[0];
+        int r = maxv;
+        while(minv<=maxv)
         {
-            int mid = mindiff+(maxdiff-mindiff)/2;
-            if(p<=formePairs(nums,mid))
+            int avg = (maxv+minv)/2;
+            if(canCompute(avg, nums, p))
             {
-                maxdiff= mid-1;
-                result = mid;
+                r = avg;
+                maxv = avg-1;
             }
-            else mindiff = mid+1;
+            else minv = avg+1;
         }
-        return result;
+        return r;
     }
 private:
-    int formePairs(vector<int>& nums, int mid)
+    bool canCompute(int avg, vector<int>& nums, int p)
     {
-        int pos = 0;
-        int pairs = 0;
-        while(pos+1<nums.size())
+        int n = 0;
+        for(int i=0;i<nums.size()-1;i++)
         {
-            if(nums[pos+1]-nums[pos]<=mid)
+            if(nums[i+1]-nums[i]<=avg)
             {
-                pairs++;
-                pos+=2;
+                n++;
+                i++;
             }
-            else pos++;
         }
-        return pairs;
+        return n>=p;
     }
 };

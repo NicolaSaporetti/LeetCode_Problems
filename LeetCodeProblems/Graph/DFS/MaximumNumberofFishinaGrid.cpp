@@ -1,53 +1,38 @@
-#include <queue>
 #include <vector>
 using namespace std;
 
 class Solution {
 public:
     int findMaxFish(vector<vector<int>>& grid) {
-        row_sz = grid.size();
-        col_sz = grid[0].size();
-        row_pos.assign({1,-1,0,0});
-        col_pos.assign({0,0,1,-1});
-		return computeMaxFishInPond(grid);
-    }
-    
-private:
-    int computeMaxFishInPond(vector<vector<int>>& grid) {
-        int res = 0;
-        for(int i=0;i<row_sz;i++)
-            for(int j=0;j<col_sz;j++)
-                if(grid[i][j]>0) res=max(res,computeFishInPond(grid,i,j));
-        return res;
-    }
-    
-    int computeFishInPond(vector<vector<int>>& grid, int row, int col)
-    {
-        queue<pair<int,int>> pos;
-        pos.push({row,col});
-        int tot=grid[row][col];
-        grid[row][col]=0;
-        while(!pos.empty())
+        int maxArea = 0;
+        rz = grid.size();
+        cz = grid[0].size();
+        for(int i=0;i<rz;i++)
         {
-            pair<int,int> p = pos.front();
-            pos.pop();
-            for(int i=0;i<4;i++)
+            for(int j=0;j<cz;j++)
             {
-                int temp_row = p.first+row_pos[i];
-                int temp_col = p.second+col_pos[i];
-                if(temp_row>=0 && temp_row<row_sz && temp_col>=0 && temp_col<col_sz && grid[temp_row][temp_col]>0)
+                area = 0;
+                if(grid[i][j]>0)
                 {
-                    tot+=grid[temp_row][temp_col];
-                    grid[temp_row][temp_col]=0;
-                    pos.push({temp_row,temp_col});
+                    addFishes(i,j,grid);
+                    maxArea = max(maxArea, area);
                 }
             }
         }
-        return tot;
+        return maxArea;
+    }
+    private:
+
+    void addFishes(int row, int col, vector<vector<int>>& grid) {
+        area+=grid[row][col];
+        grid[row][col]=0;
+        if(row+1<rz && grid[row+1][col]>0) addFishes(row+1,col,grid);
+        if(row>0 && grid[row-1][col]>0) addFishes(row-1,col,grid);
+        if(col+1<cz && grid[row][col+1]>0) addFishes(row,col+1,grid);
+        if(col>0 && grid[row][col-1]>0) addFishes(row,col-1,grid);
     }
 
-    int row_sz;
-    int col_sz;
-    vector<int> row_pos;
-    vector<int> col_pos;
+    int rz;
+    int cz;
+    int area;
 };

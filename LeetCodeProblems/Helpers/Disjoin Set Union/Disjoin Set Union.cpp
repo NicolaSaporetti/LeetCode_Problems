@@ -34,14 +34,19 @@ public:
         return (find_set(x) == find_set(y));
     }
 
-    int get_sets()
+    int get_set_num()
     {
         int sets = 0;
         for(int i = 0; i < sz; i++)
             if(parent[i] == i) sets++;
         return sets;
     }
-
+    map<int,vector<int>> get_sets()
+    {
+        map<int,vector<int>> r;
+        for(int i = 0; i < sz; i++) r[find_set(i)].push_back(i);
+        return r;
+    }
     vector<int> parent;
     vector<int> rank;
     int sz;

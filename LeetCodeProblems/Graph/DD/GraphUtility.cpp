@@ -26,7 +26,7 @@ vector<vector<int>> buildDirectGraphToLeafs(vector<vector<int>>& edges, int sz)
 
 vector<int> buildDirectGraphToRoot(vector<vector<int>>& graphRootToLeaf, int sz)
 {
-    vector<int> res(sz);
+    vector<int> res(sz,-1);
     for(int i=0;i<sz;i++)
         for(int j=0;j<graphRootToLeaf[i].size();j++) res[graphRootToLeaf[i][j]]=i;
     return res;

@@ -20,24 +20,23 @@ vector<int> trial_division(int n, vector<int>& primes) {
     return factorization;
 }
 
-
 class Solution {
 public:
     bool canTraverseAllPairs(vector<int>& nums) {
         unordered_map<int,unordered_set<int>> m;
-        vector<int> pr = primes(1e5);
+        vector<int> pr = sieveofEratosthenes(sqrt(1e5));
         for(int i=0;i<nums.size();i++)
         {
             vector<int> comp = trial_division(nums[i],pr);
             for(auto c : comp) m[c].insert(i);
         }
-        DisjoinSetUnion ds(nums.size());
+        DisjoinSet ds(nums.size());
         for(auto [k,v] : m)
         {
             auto it = v.begin();
             int first = *it;
             it++;
-            for(;it!=v.end();it++) ds.connect(first,*it);
+            for(;it!=v.end();it++) ds.connect_fast(first,*it);
         }
         return (ds.get_sets()==1);
     }

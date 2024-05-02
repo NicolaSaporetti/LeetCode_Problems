@@ -1,58 +1,52 @@
 #include <vector>
-#include <set>
 #include <queue>
 using namespace std;
 
 class Solution {
 public:
     int openLock(vector<string>& deadends, string target) {
-        visited.assign(10000,false);
-        for(int i=0;i<deadends.size();i++) blockedCombinations.insert(deadends[i]);
-        return computeMinSteps(target);
-    }
-
-private:
-    int computeMinSteps(string target)
-    {
-        addElem("0000");
-        int distance = 0;
-        while(!paths.empty())
+        vector<bool> vis(10000);
+        for(auto e : deadends) vis[convertToInt(e)]=true;
+        queue<string> q;
+        if(!vis[0])q.push("0000");
+        vis[0]=true;
+        int r = 0;
+        while(!q.empty())
         {
-            int num = paths.size();
-            for(int i=0;i<num;i++)
+            int n=q.size();
+            for(int i=0;i<n;i++)
             {
-                string elem = paths.front();
-                paths.pop();
-                if(!target.compare(elem)) return distance;
-                for(int i=0;i<4;i++) computeNext(i,elem);
+                string el = q.front();
+                q.pop();
+                if(el==target) return r;
+                for(int j=0;j<4;j++)
+                {
+                    char v = el[j];
+                    el[j]=((10+(el[j]-'0')-1)%10)+'0';
+                    int eln = convertToInt(el);
+                    if(!vis[eln])
+                    {
+                        q.push(el);
+                        vis[eln]=true;
+                    }
+                    el[j]=v;
+                    el[j]=((10+(el[j]-'0')+1)%10)+'0';
+                    eln = convertToInt(el);
+                    if(!vis[convertToInt(el)])
+                    {
+                        q.push(el);
+                        vis[eln]=true;
+                    }
+                    el[j]=v;
+                }
             }
-            distance ++;
+            r++;
         }
         return -1;
     }
-    
-    void addElem(string elem)
+private:
+    int convertToInt(string& s)
     {
-        if(blockedCombinations.find(elem)==blockedCombinations.end() && !visited[stoi(elem)])
-        {
-            paths.push(elem);
-            visited[stoi(elem)] = true;
-        }
+        return (s[0]-'0')*1000+(s[1]-'0')*100+(s[2]-'0')*10+s[3]-'0';
     }
-
-    void computeNext(int digit, string elem)
-    {
-        string temp = elem;
-        (temp[digit]!='0')? temp[digit]-- : temp[digit] ='9';
-        addElem(temp);
-        
-        temp = elem;
-        (temp[digit]!='9')? temp[digit]++ : temp[digit] ='0';
-        addElem(temp);
-        temp = elem;
-    }
-    
-    queue<string> paths;
-    vector<bool> visited;
-    set<string> blockedCombinations;
 };

@@ -1,35 +1,25 @@
 #include <vector>
-#include <map>
-#include "..\DD\FenwickTreeOneBasedIndexing.cpp"
+#include "FenwickTree.cpp"
 using namespace std;
 
 class Solution {
 public:
     long long countOperationsToEmptyArray(vector<int>& nums) {
+        vector<pair<int,int>> v;
         int sz = nums.size();
-        long long res = 0;
-        map<int,int> m;
-        for(int i=0;i<sz;i++) m[nums[i]]=i+1;
-        FenwickTreeOneBasedIndexing ft(sz);
-        auto it = m.begin();
+        for(int i=0;i<sz;i++) v.push_back({nums[i],i});
+        sort(begin(v),end(v));
+        FenwickTree ft(sz);
         int pos = 0;
+        long long r = sz;
         for(int i=0;i<sz;i++)
         {
-            int newPos = it->second;
-            if(newPos>=pos)
-            {
-                long long dist = -ft.sum(newPos)+ft.sum(pos)+newPos-pos;
-                res+=dist;
-            }
-            else
-            {
-                long long dist = sz+newPos-pos-ft.sum(sz)+ft.sum(pos)-ft.sum(newPos);
-                res+=dist;
-            }
-            pos=newPos;
-            ft.add(it->second,1);
-            it++;
+            int np = v[i].second;
+            if(np>=pos) r+=np-pos-ft.sum(pos,np);
+            else r+=sz-pos+np-ft.sum(pos,sz)-ft.sum(np);
+            pos = np;
+            ft.add(pos,1);
         }
-        return res;
+        return r;
     }
 };

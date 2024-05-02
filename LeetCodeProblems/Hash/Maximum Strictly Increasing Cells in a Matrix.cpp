@@ -5,8 +5,8 @@ using namespace std;
 class Solution {
 public:
     int maxIncreasingCells(vector<vector<int>>& mat) {
-        rz = mat.size();
-        cz = mat[0].size();
+        int rz = mat.size();
+        int cz = mat[0].size();
         map<int,vector<pair<int,int>>> m;
         vector<int> r(rz,0);
         vector<int> c(cz,0);
@@ -31,7 +31,4 @@ public:
         for(auto& e : c) res = max(res,e);
         return res;
     }
-private:
-    int rz;
-    int cz;
 };

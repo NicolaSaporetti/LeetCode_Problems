@@ -4,25 +4,21 @@ using namespace std;
 class Solution {
 public:
     long long maxStrength(vector<int>& nums) {
-        if(nums.size()==1) return nums[0];
-        long long res = 1;
         sort(begin(nums),end(nums));
-        int neg = count_if(begin(nums),end(nums),[](int el){return el<0;});
-        int pos = count_if(begin(nums),end(nums),[](int el){return el>0;});
-        if(nums.size()-pos-neg==nums.size()) return 0;
-        if(pos==0)
+        int sz = nums.size();
+        long long r = 1;
+        vector<long long> ve;
+        for(auto e : nums)
         {
-            if(neg==1) return nums[nums.size()-1];
+            if(e>0) r*=(long long)e;
+            else if(e<0) ve.push_back(e);
         }
-        for(int i=0;i<neg/2;i++)
+        if(r==1 && ve.size()<=1) return *max_element(begin(nums),end(nums));
+        for(int i=0;i<ve.size()/2;i++)
         {
-            res*=(long long)nums[i*2];
-            res*=(long long)nums[i*2+1];
+            r*=ve[i*2];
+            r*=ve[i*2+1];
         }
-        for(int i=neg;i<nums.size();i++)
-        {
-            if(nums[i]!=0) res*=(long long)nums[i];
-        }
-        return res;
+        return r;
     }
 };

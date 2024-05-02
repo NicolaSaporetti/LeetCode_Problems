@@ -5,27 +5,23 @@ using namespace std;
 class Solution {
 public:
     vector<long long> distance(vector<int>& nums) {
-        unordered_map<int,vector<long long>> m;
-        long long sz = nums.size();
-        vector<long long> result(sz,0);
-        unordered_map<long long,long long> order;
-        for(int i=0;i<sz;i++)
+        unordered_map<int,vector<pair<long long,long long>>> m;
+        vector<long long> r(nums.size());
+        for(long long i=0;i<nums.size();i++)
         {
-            if(m.count(nums[i])==0) m[nums[i]].push_back(i);
-            else m[nums[i]].push_back(m[nums[i]].back()+(long long)(i));
+            
+            if(m.count(nums[i])>0) m[nums[i]].push_back({m[nums[i]].back().first+i,i});
+            else m[nums[i]].push_back({i,i});
         }
-        for(long long i=0;i<sz;i++)
-        {
-            if(m[nums[i]].size()==1) result[i]=0;
-            else
+        for(auto& [k,v] : m)
+            for(int i=0;i<v.size();i++)
             {
-                long long pos = order[nums[i]];
-                long long totToSub = i*(m[nums[i]].size()-pos-1);
-                long long totToAdd = i*(pos+1);
-                result[i]=totToAdd-m[nums[i]][pos]+(m[nums[i]].back()-m[nums[i]][pos])-totToSub;
-                order[nums[i]]++;
+                long long el = v[i].second;
+                long long va = v[i].first;
+                long long res1 = (i+1)*el-va;
+                long long res2 = v.back().first-va-(v.size()-1-i)*el;
+                r[el]=res1+res2;
             }
-        }
-        return result;
+        return r;
     }
 };

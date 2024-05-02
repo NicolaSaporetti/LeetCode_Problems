@@ -4,59 +4,71 @@ using namespace std;
 
 class Solution {
 public:
-    vector<vector<int>> modifiedGraphEdges(int n, vector<vector<int>>& edges, int src, int dst, int target) {
-        adj.resize(n);
-        for (auto& e: edges) {
-            adj[e[0]].emplace_back(e[1], &e);
-            adj[e[1]].emplace_back(e[0], &e);
+    vector<vector<int>> modifiedGraphEdges(int n, vector<vector<int>>& edges, int source, int destination, int target) {
+        g.resize(n);
+        vector<vector<vector<int>>> adj(n);
+        sz = n;
+        for(int i=0;i<edges.size();i++)
+        {
+            g[edges[i][0]].push_back({edges[i][1],edges[i][2],i});
+            g[edges[i][1]].push_back({edges[i][0],edges[i][2],i});
         }
-        vector<int> ds = computeShortestPathFromSource(n,src,dst,target);
-        return ds[dst] == target ? edges : vector<vector<int>>{};
+        bool r =computeShortestPathFromDest(source,destination,target,computeShortestPathFromSource(source,destination), edges);
+        vector<vector<int>> empty;
+        return (r)? edges : empty;
     }
-
 private:
-    vector<int> computeShortestPathFromSource(int n, int src, int dst, int target)
+    vector<int> computeShortestPathFromSource(int src, int dst)
     {
-        vector<int> dd = computeShortestPathFromDest(n,src,dst);
-        vector<int> ds(n, INT_MAX);
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-        pq.emplace(0, src);
-        ds[src] = 0;
+        vector<int> dd(sz,-1);
+        priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> pq;
+        pq.push({0, src});
         while (!pq.empty()) {
-            auto [dist, node] = pq.top();
+            auto el = pq.top();
+            int cost = el[0];
+            int node = el[1];
             pq.pop();
-            for (auto& [v, e]: adj[node]) {
-                if (e->at(2) == -1) e->at(2) = max(1, target - ds[node] - dd[v]);
-                if (ds[v] > ds[node] + e->at(2)) {
-                    ds[v] = ds[node] + e->at(2);
-                    pq.push({ds[v], v});
-                }
-            }
-        }
-        return ds;
-    }
-
-    vector<int> computeShortestPathFromDest(int n, int src, int dst)
-    {
-        vector<int> dd(n, INT_MAX);
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
-        pq.emplace(0, dst);
-        dd[dst] = 0;
-        while (!pq.empty()) {
-            auto [dist, node] = pq.top();
-            pq.pop();
-            for (auto [v, e]: adj[node]) {
-                int cost = e->at(2);
-                if (cost == -1) cost = 1;
-                if (dd[v] > dd[node] + cost)
-                {
-                    dd[v] = dd[node] + cost;
-                    pq.push({dd[v], v});
-                }
+            if(dd[node]!=-1) continue;
+            dd[node]=cost;
+            for (auto e : g[node]) {
+                int n = e[0];
+                if(dd[n]!=-1) continue;
+                int c = (e[1]==-1)? 1 : e[1];
+                if(c==-1) pq.push({cost+1,n});
+                else pq.push({cost+c,n});
             }
         }
         return dd;
     }
-
-    vector<vector<pair<int, vector<int>*>>> adj;
+    bool computeShortestPathFromDest(int src, int dst, int target, vector<int> dd, vector<vector<int>>& edges)
+    {
+        vector<int> dm(sz,-1);
+        priority_queue<vector<int>> pq;
+        pq.push({target, dst});
+        while (!pq.empty()) {
+            auto el = pq.top();
+            int cost = el[0];
+            int node = el[1];
+            if(cost<0) break;
+            pq.pop();
+            if(dm[node]!=-1) continue;
+            dm[node]=cost;
+            for (auto e : g[node]) {
+                int n = e[0];
+                int c = e[1];
+                int edge = e[2];
+                if(dm[n]!=-1) continue;
+                if(c==-1)
+                {
+                    c = max(1,cost-dd[n]);
+                    edges[edge][2]=c;
+                }
+                pq.push({cost-c,n});
+            }
+        }
+        for(auto& e : edges) if(e[2]==-1) e[2]=1e9;
+        return (dm[src]==0);
+    }
+    vector<vector<vector<int>>> g;
+    int sz;    
 };

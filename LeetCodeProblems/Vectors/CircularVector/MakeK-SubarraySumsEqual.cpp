@@ -4,29 +4,18 @@ using namespace std;
 class Solution {
 public:
     long long makeSubKSumEqual(vector<int>& arr, int k) {
-        long long sz = arr.size();
-        long long res = 0;
+        int sz = arr.size();
+        long long r = 0;
+        k=__gcd(sz,k);
         for(int i=0;i<k;i++)
         {
             vector<int> v;
-            for(int j=i;arr[j]!=0;j=(j+k)%sz)
-            {
-                v.push_back(arr[j]);
-                arr[j]=0;
-            }
-            if(!v.empty()) res+=computeDist(v);
+            for(int j=i;j<sz;j+=k) v.push_back(arr[j]);
+            sort(begin(v),end(v));
+            int sz2 = v.size();
+            int median = (v[(sz2-1)/2]+v[sz2/2])/2;
+            for(int i=0;i<sz2;i++) r+=(long long)abs(v[i]-median);
         }
-        return res;
-    }
-    
-private:
-    long long computeDist(vector<int>& v)
-    {
-        sort(begin(v),end(v));
-        long long res = 0;
-        int sz = v.size();
-        long long mid = v[sz/2];
-        for(auto& e : v) res+=abs(e-mid);
-        return res;
+        return r;
     }
 };

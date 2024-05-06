@@ -1,32 +1,20 @@
 #include <vector>
-#include <unordered_set>
+#include <map>
 using namespace std;
 
 class Solution {
 public:
     vector<vector<int>> findMatrix(vector<int>& nums) {
-        vector<unordered_set<int>> v;
-        for(auto& e : nums)
+        map<int,int> m;
+        for(auto e : nums) m[e]++;
+        map<int,vector<int>> m2;
+        for(auto [k,v] : m) m2[v].push_back(k);
+        vector<vector<int>> r(m2.rbegin()->first);
+        for(auto [k,v] : m2)
         {
-            bool found = false;
-            for(int i=0;i<v.size() && !found;i++)
-            {
-                if(v[i].find(e)==v[i].end())
-                {
-                    v[i].insert(e);
-                    found = true;
-                }
-            }
-            if(!found)
-            {
-                v.push_back({e});
-            }
+            for(int i=0;i<k;i++)
+                for(auto e : v) r[i].push_back(e); 
         }
-        vector<vector<int>> res(v.size());
-        for(int i=0;i<v.size();i++)
-        {
-            for(auto& el : v[i]) res[i].push_back(el);
-        }
-        return res;
+        return r;
     }
 };

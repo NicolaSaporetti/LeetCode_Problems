@@ -4,49 +4,34 @@ using namespace std;
 class Solution {
 public:
     int beautifulSubsets(vector<int>& nums, int k) {
-        res = 0;
         sz = nums.size();
-        m.assign(sz,vector<bool>(sz,false));
-        for(int i=0;i<sz;i++)
-        {
-            for(int j=i+1;j<sz;j++)
-            {
-                if(abs(nums[i]-nums[j])==k)
-                {
-                    m[i][j]=true;
-                    m[j][i]=true;
-                }
-            }
-        }
-        traverse(0);
-        return res;
+        sort(begin(nums),end(nums));
+        compute(0,nums,k);
+        return r;
     }
 private:
-    void traverse(int start)
+    void compute(int s, vector<int>& nums, int k)
     {
-        for(int i=start;i<sz;i++)
+        for(int i=s;i<sz;i++)
         {
-            bool isForbidden = false;
-            for(int j=0;j<v.size();j++)
-            {
-                if(m[v[j]][i])
+            bool isOk = true;
+            for(auto e : v)
+                if(e+k==nums[i])
                 {
-                    isForbidden=true;
+                    isOk = false;
                     break;
                 }
-            }
-            if(!isForbidden)
+            if(isOk)
             {
-                res++;
-                v.push_back(i);
-                traverse(i+1);
+                v.push_back(nums[i]);
+                r++;
+                compute(i+1,nums,k);
                 v.pop_back();
             }
         }
     }
-    
-    int res;
-    vector<int> v;
+
     int sz;
-    vector<vector<bool>> m;
-};
+    vector<int> v;
+    int r = 0;
+}; 

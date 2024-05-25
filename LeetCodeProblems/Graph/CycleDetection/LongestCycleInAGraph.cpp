@@ -4,47 +4,48 @@ using namespace std;
 
 class Solution {
 public:
-    int longestCycle(vector<int>& edges) {
-        unordered_set<int> s = removeElementNotInCycle(edges);
-        int res = -1;
-        while(!s.empty())
+    int findShortestCycle(int n, vector<vector<int>>& edges) {
+        v.resize(n);
+        for(auto e : edges)
         {
-            int first = *s.begin();
-            s.erase(first);
-            int num = 1;
-            int el = first;
-            do
-            {
-                el = edges[el];
-                s.erase(el);
-                num++;
-            } while(edges[el]!=first);
-            res = max(res,num);
+            v[e[0]].insert(e[1]);
+            v[e[1]].insert(e[0]);
         }
-        return res;
+        int r = INT_MAX;
+        for(int i=0;i<n;i++) r = min(r,bfs(i,n));
+        return (r==INT_MAX)? -1 : r;
     }
 private:
-    unordered_set<int> removeElementNotInCycle(vector<int>& edges)
+    int bfs(int node,int n)
     {
-        unordered_set<int> s;
-        int res = 0;
-        int sz = edges.size();
-        vector<int> v(sz,0);
-        for(auto e : edges) if(e!=-1) v[e]++;
+        int r = INT_MAX;
+        vector<int> c(n,-1);
+        vector<int> p(n,-1);
+        int cost = 1;
         queue<int> q;
-        for(int i=0;i<sz;i++) if(v[i]==0) q.push(i);
-        while(!q.empty())
+        c[node]=0;
+        q.push(node);
+        while(!q.empty() && r==INT_MAX)
         {
-            int el = q.front();
-            q.pop();
-            if(edges[el]!=-1)
+            int num = q.size();
+            for(int j=0;j<num;j++)
             {
-                v[edges[el]]--;
-                if(!v[edges[el]]) q.push(edges[el]);
+                int el = q.front();
+                q.pop();
+                for(auto e : v[el])
+                {
+                    if(c[e]==-1)
+                    {
+                        q.push(e);
+                        c[e]=cost;
+                        p[e]=el;
+                    }
+                    else if(p[el]!=e) r = min(r,c[e]+c[el]+1);
+                }
             }
+            cost++;
         }
-        for(int i=0;i<sz;i++)
-            if(v[i]!=0) s.insert(i);
-        return s;
+        return r;
     }
+    vector<set<int>> v;
 };

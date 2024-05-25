@@ -5,7 +5,7 @@ public:
     Trie() : freq(0), wordFinished(false);
     {
     }
-    void insert(string& word) {
+    void insert(vector<int>& word) {
         Trie* temp = this;
         for(int i=0;i<word.size();i++)
         {
@@ -19,7 +19,7 @@ public:
         temp->wordFinished=true;
     }
     
-    bool startsWith(string& word) {
+    bool startsWith(vector<int>& word) {
         Trie* temp = this;
         for(int i=0;i<word.size();i++)
         {
@@ -29,7 +29,7 @@ public:
         return temp->wordFinished;
     }
 
-    int search(string& word) {
+    int search(vector<int>& word) {
         Trie* temp = this;
         int res = 0;
         for(int i=0;i<word.size();i++)
@@ -41,7 +41,7 @@ public:
         return res;
     }
     
-    void erase(string& word) {
+    void erase(vector<int>& word) {
         Trie* temp = this;
         for(int i=0;i<word.size();i++)
         {
@@ -54,7 +54,7 @@ public:
         }
     }
     
-    unordered_map<char,Trie*> children;
+    unordered_map<int,Trie*> children;
     int freq;
     bool wordFinished;
 };

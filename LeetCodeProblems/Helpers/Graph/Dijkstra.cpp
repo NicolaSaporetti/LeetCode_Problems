@@ -2,7 +2,7 @@
 #include <priority_queue>
 using namespace std;
 
-vector<int> dijkstra(int src,, int n, vector<vector<int>>& edges)
+vector<int> dijkstra(int src, int n, vector<vector<int>>& edges)
 {
     vector<int> dist(n,-1);
     vector<vector<vector<int>>> g(n);
